@@ -1,8 +1,7 @@
-<h1>Forgot your password?</h1>
-
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-
-<%= form_with url: passwords_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.submit "Email reset instructions" %>
-<% end %>
+<div class="bg-white px-6 py-24 sm:py-32 lg:px-8">
+  <div class="mx-auto max-w-2xl text-center">
+    <p class="text-base/7 font-semibold text-indigo-600">Forgot your password?</p>
+    <h2 class="mt-2 text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">Contact Application Admin</h2>
+    <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">To reset your password, please contact your application or team administrator.</p>
+  </div>
+</div>
