@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token, only: [ :new ]
 
-  resource :dashboard, only: :show
+  resource :dashboard, only: :show, controller: :dashboard
   resources :users, only: [] do
     scope module: "users" do
       resource :profile, only: [ :edit, :update ]
