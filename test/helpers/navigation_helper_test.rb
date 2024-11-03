@@ -2,7 +2,6 @@ require "test_helper"
 
 class NavigationHelperTest < ActionView::TestCase
   test "nav_link_to includes active classes when on current page" do
-    # Simulate the current page
     def current_page?(path)
       true
     end
@@ -12,7 +11,6 @@ class NavigationHelperTest < ActionView::TestCase
   end
 
   test "nav_link_to includes default classes when not on current page" do
-    # Simulate not being on the current page
     def current_page?(path)
       false
     end
@@ -22,7 +20,6 @@ class NavigationHelperTest < ActionView::TestCase
   end
 
   test "nav_link_to includes additional classes" do
-    # Simulate not being on the current page
     def current_page?(path)
       false
     end
@@ -32,7 +29,6 @@ class NavigationHelperTest < ActionView::TestCase
   end
 
   test "nav_link_to renders block content" do
-    # Simulate the current page
     def current_page?(path)
       true
     end
