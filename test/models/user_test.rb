@@ -7,10 +7,23 @@ class UserTest < ActiveSupport::TestCase
     assert_not users(:edu).update(email_address: nil)
   end
 
+  test "unique email_address" do
+    existing_user = users(:edu)
+    assert_not User.create(email_address: existing_user.email_address, first_name: "Franco", last_name: "Plum", password: "password").valid?
+  end
+
   test "normalizes email_address" do
     user = users(:edu)
     user.update!(email_address: "EDU@PLUM.com.ar")
     assert_equal "edu@plum.com.ar", user.email_address
+  end
+
+  test "scope active" do
+    User.create!(first_name: "Inactive", last_name: "User", email_address: "inactive@plum.com.ar", password: "password", inactive_at: Time.current)
+
+    active_user = users(:edu)
+
+    assert_equal User.active.ids, [ active_user.id ]
   end
 
   test "#current?" do
@@ -31,5 +44,13 @@ class UserTest < ActiveSupport::TestCase
   test "#name" do
     user = User.new(first_name: "edu", last_name: "depetris")
     assert_equal "Edu Depetris", user.name
+  end
+
+  test "#deactivate" do
+    user = users(:edu)
+    assert user.active?
+
+    user.deactivate
+    assert_not user.active?
   end
 end
