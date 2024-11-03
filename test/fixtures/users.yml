@@ -5,3 +5,11 @@ edu:
   last_name: Depetris
   email_address: edu@plum.com.ar
   password_digest: <%= password_digest %>
+  role: :administrator
+
+franco:
+  first_name: Franco
+  last_name: Colapinto
+  email_address: fcolapinto@plum.com.ar
+  password_digest: <%= password_digest %>
+  role: :member

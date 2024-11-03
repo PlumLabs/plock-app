@@ -6,7 +6,7 @@
     </div>
 
     <%= turbo_frame_tag @user, :profile, class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2" do %>
-      <%= form_with url: user_profile_path(Current.user), model: @user, method: :put do |form| %>
+      <%= form_with url: user_profile_path(@user), model: @user, method: :put do |form| %>
         <% if @user.errors.present? %>
           <div class="rounded-md bg-red-50 p-4">
             <div class="flex">
@@ -82,7 +82,7 @@
 
 
       <%= turbo_frame_tag @user, :password, class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2" do %>
-        <%= form_with url: user_profile_path(Current.user), model: @user, method: :put do |form| %>
+        <%= form_with url: user_profile_path(@user), model: @user, method: :put do |form| %>
           <% if @user.errors.present? %>
             <div class="rounded-md bg-red-50 p-4">
               <div class="flex">
@@ -144,6 +144,34 @@
       <% end %>
   </div>
 
+  <% if Current.user.can_administrate? %>
+    <%= turbo_frame_tag @user, :deactivate, class: "grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3" do %>
+      <div class="px-4 sm:px-0">
+        <% if @user.active? %>
+          <h2 class="text-base/7 font-semibold text-gray-900">Deactivate User Account</h2>
+          <p class="mt-1 text-sm/6 text-gray-600">The user will no longer be able to log in.</p>
+        <% else %>
+          <h2 class="text-base/7 font-semibold text-gray-900">Reactivate User Account</h2>
+          <p class="mt-1 text-sm/6 text-gray-600">The user will be able to log in.</p>
+        <% end %>
+      </div>
+
+      <div class="flex items-start md:col-span-2">
+        <% if @user.active? %>
+          <%= button_to user_profile_path(@user), method: :delete, class: "rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400" do %>
+            <span>Yes, Deactivate the account</span>
+          <% end %>
+        <% else %>
+          <%= form_with url: user_profile_path(@user), model: @user, method: :put do |form| %>
+            <%= form.hidden_field :inactive_at, value: nil %>
+            <%= form.submit "Reactivate the account", class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600" %>
+            <p class="mt-1 text-sm/6 text-gray-600">Deactivate at: <%= @user.inactive_at %></p>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
   <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
     <div class="px-4 sm:px-0">
       <h2 class="text-base/7 font-semibold text-gray-900">Log out session</h2>
@@ -152,11 +180,11 @@
 
     <div class="flex items-start md:col-span-2">
       <% if @user.current? %>
-        <%= button_to session_path, method: :delete, class: "rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400" do %>
+        <%= button_to session_path, method: :delete, class: "rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 shadow-sm hover:bg-red-100" do %>
           <span>Sign out</span>
         <% end %>
       <% else %>
-        <p class="text-gray-500">Your session doesn't belong to <%= Current.user.email_address %></p>
+        <p class="text-gray-500">Your session doesn't belong to <%= @user.email_address %></p>
       <% end %>
     </div>
   </div>
