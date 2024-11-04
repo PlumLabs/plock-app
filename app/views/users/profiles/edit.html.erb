@@ -227,7 +227,9 @@
       </div>
 
       <div class="flex items-start md:col-span-2">
-        <% if @user.active? %>
+        <% if @user.current? %>
+          <p class="text-gray-500">Administrators cannot Deactivate/Reactivate their own account.</p>
+        <% elsif @user.active? %>
           <%= button_to(
             user_profile_path(@user),
             method: :delete,
