@@ -26,9 +26,17 @@ class Users::ProfilesController < ApplicationController
 
     def user_params
       if Current.user.can_administrate?
-        params.require(:user).permit(:first_name, :last_name, :email_address, :password, :password_confirmation, :inactive_at, :role)
+        admin_user_params
       else
-        params.require(:user).permit(:first_name, :last_name, :password, :password_confirmation)
+        regular_user_params
       end
+    end
+
+    def admin_user_params
+      params.require(:user).permit(:first_name, :last_name, :email_address, :password, :password_confirmation, :inactive_at, :role)
+    end
+
+    def regular_user_params
+      params.require(:user).permit(:first_name, :last_name, :password, :password_confirmation)
     end
 end
