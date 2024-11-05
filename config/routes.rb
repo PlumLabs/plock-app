@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token, only: [ :new ]
 
   resource :dashboard, only: :show, controller: :dashboard
-  resources :users, only: [ :index, :new, :create ] do
+  resources :users, only: [ :index, :new, :create, :destroy ] do
     scope module: "users" do
       resource :profile, only: [ :edit, :update, :destroy ]
     end

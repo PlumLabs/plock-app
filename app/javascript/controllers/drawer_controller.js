@@ -6,8 +6,6 @@ export default class extends Controller {
   static targets = [ "panel", "backdrop", "closeButton", "container" ]
 
   close() {
-    console.log("Drawer close")
-
     Promise.all([
       leave(this.panelTarget),
       leave(this.backdropTarget),
