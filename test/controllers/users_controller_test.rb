@@ -8,6 +8,20 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "search by user" do
+    sign_in users(:edu)
+    get users_url
+
+    assert_match /Franco/, @response.body
+    assert_match /Edu/, @response.body
+
+    get users_url, params: { q: { first_name_or_last_name_or_email_cont: "Edu" } }
+
+    assert_response :success
+    assert_no_match /Franco/, @response.body
+    assert_match /Edu/, @response.body
+  end
+
   test "members are not allow to see all users" do
     users(:edu).update!(role: :member)
     sign_in users(:edu)
