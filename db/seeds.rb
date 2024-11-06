@@ -28,3 +28,11 @@ end
 User.last(3).each do |user|
   user.update!(inactive_at: Time.current)
 end
+
+# Clients
+[ "Plum", "Google", "David Perez" ].each do |name|
+  Client.find_or_create_by!(name: name) do |client|
+    client.email = "client-#{name.downcase.gsub(" ", "-")}@plum.com.ar"
+    client.note = "The client wants the report to be delivered on the first day of the month."
+  end
+end

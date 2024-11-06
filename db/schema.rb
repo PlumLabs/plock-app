@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_01_175842) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_05_182309) do
+  create_table "clients", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_clients_on_name"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
