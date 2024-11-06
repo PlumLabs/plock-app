@@ -101,4 +101,19 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :forbidden
   end
+
+  test "search by client" do
+    Client.create!(name: "Google")
+
+    get clients_url
+
+    assert_match /Google/, @response.body
+    assert_match /Plum/, @response.body
+
+    get clients_url, params: { q: { name_or_email_cont: "google" } }
+
+    assert_response :success
+    assert_no_match /Plum/, @response.body
+    assert_match /Google/, @response.body
+  end
 end

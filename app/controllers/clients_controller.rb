@@ -3,7 +3,11 @@ class ClientsController < ApplicationController
   before_action :set_client, only: %i[ show edit update destroy ]
 
   def index
-    @clients = Client.all
+    @clients = if query = search_query[:name_or_email_cont]
+      Client.where("name LIKE :q OR email LIKE :q", q: "%#{query}%")
+    else
+      Client.all
+    end
   end
 
   def show
@@ -56,5 +60,11 @@ class ClientsController < ApplicationController
 
     def client_params
       params.expect(client: [ :name, :email, :note ])
+    end
+
+    def search_query
+      return {} if params[:q].nil?
+
+      params.expect(q: [ :name_or_email_cont ])
     end
 end
