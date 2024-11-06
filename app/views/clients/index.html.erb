@@ -36,16 +36,17 @@
             <div role="table" class="w-full">
 
               <!-- Header Row -->
-              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-3 font-bold py-2 w-full">
+              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-4 font-bold py-2 w-full">
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Name</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Email</div>
+                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Note</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:text-right">Actions</div>
               </div>
 
               <!-- Data Rows -->
               <ul role="rowgroup" class="space-y-2">
                 <% @clients.each do |client| %>
-                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 items-start bg-white p-2 rounded shadow" data-test-id=<%= client.id %>>
+                  <li role="row" class="grid grid-cols-1 sm:grid-cols-4 items-start bg-white p-2 rounded shadow" data-test-id=<%= client.id %>>
                     <div role="cell">
                       <span class="sm:hidden font-bold">Name: </span>
                       <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= client.name %></span>
@@ -53,6 +54,15 @@
                     <div role="cell">
                       <span class="sm:hidden font-bold">Email: </span>
                       <span class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= client.email %></span>
+                    </div>
+                    <div role="cell">
+                      <span class="sm:hidden font-bold">Note: </span>
+                      <span
+                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                        title="<%= client.note %>"
+                      >
+                        <%= truncate(client.note, length: 55) %>
+                      </span>
                     </div>
                     <div role="cell" class="flex space-x-2 sm:justify-end">
                       <span class="sm:hidden font-bold">Actions: </span>
