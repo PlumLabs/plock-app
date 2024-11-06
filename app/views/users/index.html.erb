@@ -34,15 +34,15 @@
 
           <%= turbo_frame_tag "users" do %>
             <!-- Table Container -->
-            <div role="table">
+            <div role="table" class="w-full">
 
               <!-- Header Row -->
-              <div role="row" class="grid grid-cols-1 sm:grid-cols-5 font-bold py-2">
+              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-5 font-bold py-2 w-full">
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Name</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Email</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Role</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Status</div>
-                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Actions</div>
+                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:text-right">Actions</div>
               </div>
 
               <!-- Data Rows -->
@@ -72,7 +72,8 @@
                       <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactive</span>
                     <% end %>
                   </div>
-                  <div role="cell" class="flex space-x-2">
+                  <div role="cell" class="flex space-x-2 sm:justify-end">
+                    <span class="sm:hidden font-bold">Actions: </span>
                     <%= link_to "Edit", edit_user_profile_path(user), class: "text-indigo-600 hover:text-indigo-900", data: { turbo_frame: "_top" } %>
                   </div>
                   </li>
@@ -167,4 +168,3 @@
     </div>
   <% end %>
 <% end %>
-
