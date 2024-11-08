@@ -82,3 +82,7 @@
 <% if flash[:notice] == "created" %>
   <%= render "alerts/success", title: "Successfully created!" %>
 <% end %>
+
+<% if flash[:notice] == "updated" %>
+  <%= render "alerts/success", title: "Successfully updated!" %>
+<% end %>

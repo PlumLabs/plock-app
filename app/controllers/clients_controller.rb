@@ -10,9 +10,6 @@ class ClientsController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def new
     @client = Client.new
   end
@@ -25,7 +22,7 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to @client, notice: "created" }
+        format.html { redirect_to clients_path, notice: "created" }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -35,11 +32,9 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       if @client.update(client_params)
-        format.html { redirect_to @client, notice: "Client was successfully updated." }
-        format.json { render :show, status: :ok, location: @client }
+        format.html { redirect_to clients_path, notice: "updated" }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @client.errors, status: :unprocessable_entity }
       end
     end
   end
