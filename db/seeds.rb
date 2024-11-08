@@ -21,7 +21,7 @@ end
 
 # Inactive Users
 User.last(3).each do |user|
-  user.update!(inactive_at: Time.current)
+  user.update!(disabled_at: Time.current)
 end
 
 50.times do

@@ -40,11 +40,10 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-    @client.destroy!
+    @client.update!(disabled_at: Time.zone.now)
 
     respond_to do |format|
-      format.html { redirect_to clients_path, status: :see_other, notice: "Client was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to clients_path, status: :see_other, notice: "archive" }
     end
   end
 

@@ -20,7 +20,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "scope active" do
     User.all.excluding(users(:edu)).destroy_all
-    User.create!(first_name: "Inactive", last_name: "User", email_address: "inactive@plum.com.ar", password: "password", inactive_at: Time.current)
+    User.create!(first_name: "Inactive", last_name: "User", email_address: "inactive@plum.com.ar", password: "password", disabled_at: Time.current)
 
     active_user = users(:edu)
 

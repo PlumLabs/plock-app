@@ -33,7 +33,7 @@ class Users::ProfilesController < ApplicationController
     end
 
     def admin_user_params
-      params.require(:user).permit(:first_name, :last_name, :email_address, :password, :password_confirmation, :inactive_at, :role)
+      params.require(:user).permit(:first_name, :last_name, :email_address, :password, :password_confirmation, :disabled_at, :role)
     end
 
     def regular_user_params

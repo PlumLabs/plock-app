@@ -15,6 +15,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_05_182309) do
     t.string "name"
     t.string "email"
     t.text "note"
+    t.datetime "disabled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_clients_on_name"
@@ -37,7 +38,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_05_182309) do
     t.string "first_name"
     t.string "last_name"
     t.string "role", default: "member"
-    t.datetime "inactive_at"
+    t.datetime "disabled_at"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 

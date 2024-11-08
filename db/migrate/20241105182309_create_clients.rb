@@ -4,6 +4,7 @@ class CreateClients < ActiveRecord::Migration[8.0]
       t.string :name, index: true
       t.string :email
       t.text :note
+      t.datetime :disabled_at
 
       t.timestamps
     end
