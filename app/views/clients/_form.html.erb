@@ -1,8 +1,6 @@
 <%= form_with(model: client) do |form| %>
   <div class="space-y-12">
     <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base/7 font-semibold text-gray-900">Client Information</h2>
-
       <% if client.errors.present? %>
         <div class="rounded-md bg-red-50 p-4">
           <div class="flex">

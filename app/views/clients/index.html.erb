@@ -1,7 +1,6 @@
 <% content_for :title, "Clients" %>
 
-<div class="px-4 sm:px-6 lg:px-8">
-
+<div class="">
   <div class="mb-4 flex items-center">
     <div class="flex-auto">
       <h1 class="text-base font-semibold text-gray-900">Clients</h1>
@@ -71,7 +70,11 @@
                     </div>
                     <div role="cell" class="flex space-x-2 sm:justify-end">
                       <span class="sm:hidden font-bold">Actions: </span>
-                      <%= link_to "Edit", edit_client_path(client), class: "text-indigo-600 hover:text-indigo-900", data: { turbo_frame: "_top" } %>
+                      <%= link_to edit_client_path(client), class: "hover:text-indigo-600 pr-4", data: { turbo_frame: "_top" } do %>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                        </svg>
+                      <% end %>
                     </div>
                   </li>
                 <% end %>

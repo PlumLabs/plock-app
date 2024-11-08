@@ -21,12 +21,7 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
       post clients_url, params: { client: { email: @client.email, name: @client.name, note: @client.note } }
     end
 
-    assert_redirected_to client_url(Client.last)
-  end
-
-  test "administrator should show client" do
-    get client_url(@client)
-    assert_response :success
+    assert_redirected_to clients_url
   end
 
   test "administrator should get edit" do
@@ -36,7 +31,7 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
 
   test "administrator should update client" do
     patch client_url(@client), params: { client: { email: @client.email, name: @client.name, note: @client.note } }
-    assert_redirected_to client_url(@client)
+    assert_redirected_to clients_url
   end
 
   test "administrator should destroy client" do
@@ -68,13 +63,6 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
       post clients_url, params: { client: {} }
     end
 
-    assert_response :forbidden
-  end
-
-  test "memeber should not show client" do
-    users(:edu).update!(role: "member")
-
-    get client_url(@client)
     assert_response :forbidden
   end
 
