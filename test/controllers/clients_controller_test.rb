@@ -35,7 +35,7 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "administrator should destroy client" do
-    assert_difference("Client.count", -1) do
+    assert_difference("Client.active.count", -1) do
       delete client_url(@client)
     end
 

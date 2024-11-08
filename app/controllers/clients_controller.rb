@@ -40,10 +40,10 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-    @client.update!(disabled_at: Time.zone.now)
+    @client.disable!
 
     respond_to do |format|
-      format.html { redirect_to clients_path, status: :see_other, notice: "archive" }
+      format.html { redirect_to clients_path, status: :see_other, notice: "archived" }
     end
   end
 
