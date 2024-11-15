@@ -13,7 +13,7 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "Password", with: "123456"
     select "Member", from: "Role"
 
-    click_on "Create"
+    click_on "Create User"
 
     assert_text "Successfully created!"
     assert_text "Anakin Skywalker"
