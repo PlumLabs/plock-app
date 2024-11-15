@@ -3,11 +3,7 @@ class ClientsController < ApplicationController
   before_action :set_client, only: %i[ edit update destroy ]
 
   def index
-    @clients = if query = search_query[:name_or_email_cont]
-      Client.where("name LIKE :q OR email LIKE :q", q: "%#{query}%")
-    else
-      Client.all
-    end
+    @clients = filter_clients(Client.all).then { search_clients(_1) }
   end
 
   def new
@@ -56,9 +52,28 @@ class ClientsController < ApplicationController
       params.expect(client: [ :name, :email, :note ])
     end
 
-    def search_query
+    def query_params
       return {} if params[:q].nil?
 
-      params.expect(q: [ :name_or_email_cont ])
+      params.expect(q: [ :name_or_email_cont, :status_eq ])
+    end
+
+    def filter_clients(scope)
+      return scope if query_params.dig(:status_eq).blank?
+
+      case query_params.dig(:status_eq)
+      when "active"
+        scope.active
+      when "archive"
+        scope.active.invert_where
+      else
+        scope
+      end
+    end
+
+    def search_clients(scope)
+      return scope if query_params.dig(:name_or_email_cont).blank?
+
+      scope.where("name LIKE :q OR email LIKE :q", q: "%#{query_params.dig(:name_or_email_cont)}%")
     end
 end
