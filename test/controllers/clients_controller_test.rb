@@ -104,4 +104,20 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match /Plum/, @response.body
     assert_match /Google/, @response.body
   end
+
+  test "filter by status" do
+    Client.create!(name: "Google", disabled_at: Time.zone.now)
+    Client.create!(name: "Apple", disabled_at: Time.zone.now)
+
+    get clients_url, params: { q: { status_eq: "archive" } }
+
+    assert_match /Google/, @response.body
+    assert_match /Apple/, @response.body
+
+    get clients_url, params: { q: { status_eq: "archive", name_or_email_cont: "google" } }
+
+    assert_response :success
+    assert_no_match /Apple/, @response.body
+    assert_match /Google/, @response.body
+  end
 end
