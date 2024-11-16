@@ -53,4 +53,23 @@ class ClientsTest < ApplicationSystemTestCase
     assert_text "Successfully archived!"
     assert clients(:plum).reload.disabled_at?
   end
+
+  test "Administrator activate a client" do
+    sign_in users(:edu).email_address
+    clients(:plum).disable!
+
+    visit clients_url
+
+    assert_text "Plum"
+    assert clients(:plum).disabled_at?
+
+    within "li[data-test-id='#{clients(:plum).id}']" do
+      page.accept_confirm do
+        click_on "Activate"
+      end
+    end
+
+    assert_text "Successfully updated!"
+    assert_not clients(:plum).reload.disabled_at?
+  end
 end

@@ -49,7 +49,7 @@ class ClientsController < ApplicationController
     end
 
     def client_params
-      params.expect(client: [ :name, :email, :note ])
+      params.expect(client: [ :name, :email, :note, :disabled_at ])
     end
 
     def query_params
