@@ -52,3 +52,10 @@ Project.where(client: nil).limit(5).update_all(client_id: Client.all.sample.id)
 Project.last(5).each do |project|
   project.update!(disabled_at: Time.current)
 end
+
+# Project Assignments
+Project.all.limit(45).each do |project|
+  project.users << User.all.sample(rand(1..8))
+  project.save!
+  project.project_assignments.sample.update!(role: "manager")
+end

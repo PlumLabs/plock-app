@@ -9,6 +9,8 @@ class User < ApplicationRecord
   validates :email_address, uniqueness: true
 
   has_many :sessions, dependent: :destroy
+  has_many :project_assignments, dependent: :destroy
+  has_many :projects, through: :project_assignments
 
   scope :active, -> { where(disabled_at: nil) }
 
