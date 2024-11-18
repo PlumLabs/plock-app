@@ -66,17 +66,18 @@
             <div role="table" class="w-full">
 
               <!-- Header Row -->
-              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr_auto] font-bold py-2 w-full">
+              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 font-bold py-2 w-full">
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Name</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Email</div>
-                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:hidden lg:block">Note</div>
+                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm sm:text-center font-semibold text-gray-900 sm:pl-6 sm:hidden xl:block">Status</div>
+                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:hidden xl:block">Note</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:text-right"></div>
               </div>
 
               <!-- Data Rows -->
               <ul role="rowgroup" class="space-y-2">
                 <% @clients.each do |client| %>
-                  <li role="row" class="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr_auto] items-start bg-white p-2 rounded shadow" data-test-id=<%= client.id %>>
+                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 items-start bg-white p-2 rounded shadow" data-test-id=<%= client.id %>>
                     <div role="cell">
                       <span class="sm:hidden font-bold">Name: </span>
                       <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= client.name %></span>
@@ -87,7 +88,20 @@
                       <span class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= client.email %></span>
                     </div>
 
-                    <div role="cell" class="sm:hidden lg:block">
+                    <div role="cell" class="sm:hidden xl:block sm:text-center">
+                      <span class="sm:hidden font-bold">Status: </span>
+                      <span
+                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                      >
+                        <% if client.disabled_at? %>
+                          <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactive</span>
+                        <% else %>
+                          <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
+                        <% end %>
+                      </span>
+                    </div>
+
+                    <div role="cell" class="sm:hidden xl:block">
                       <span class="sm:hidden font-bold">Note: </span>
                       <span
                         class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
