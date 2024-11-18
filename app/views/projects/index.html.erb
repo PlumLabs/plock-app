@@ -1,12 +1,12 @@
-<% content_for :title, "Clients" %>
+<% content_for :title, "Projects" %>
 
 <div class="">
   <div class="mb-4 flex items-center">
     <div class="flex-auto">
-      <h1 class="text-base font-semibold text-gray-900">Clients</h1>
+      <h1 class="text-base font-semibold text-gray-900">Projects</h1>
     </div>
     <div class="mt-4 ml-16 mt-0 flex-none">
-      <%= link_to new_client_path, class: "inline-flex rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", title: "Add client" do %>
+      <%= link_to new_project_path, class: "inline-flex rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", title: "Add project" do %>
         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
           <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
         </svg>
@@ -18,19 +18,19 @@
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white ">
-          <%= turbo_frame_tag "clients" do %>
+          <%= turbo_frame_tag "projects" do %>
             <div class="px-4 pt-5 pb-2.5 sm:px-6">
               <span class="isolate inline-flex">
-                <%= filter_link_to "All", :clients_path, { status_eq: "" }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
-                <%= filter_link_to "Active", :clients_path, { status_eq: :active }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
-                <%= filter_link_to "Archive", :clients_path, { status_eq: :archive }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
+                <%= filter_link_to "All", :projects_path, { status_eq: "" }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
+                <%= filter_link_to "Active", :projects_path, { status_eq: :active }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
+                <%= filter_link_to "Archive", :projects_path, { status_eq: :archive }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
               </span>
             </div>
 
             <div class="px-4 pb-5 pt-2.5 sm:px-6">
               <%= form_with(
                     scope: :q,
-                    url: clients_path,
+                    url: projects_path,
                     method: :get,
                     data: {
                       controller: "auto-submit",
@@ -39,53 +39,93 @@
                     },
                     class: "relative rounded-md shadow-sm") do |form|
               %>
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-                  </svg>
-                </div>
 
-                <% params.fetch(:q, {}).to_unsafe_h.except(:name_or_email_cont).each do |key, value| %>
+                <% params.fetch(:q, {}).to_unsafe_h.except(:name_or_clients_name_cont, :client_id).each do |key, value| %>
                   <%= form.hidden_field key, value: value %>
                 <% end %>
 
-                <%= form.search_field(
-                      :name_or_email_cont,
-                      value: params.dig(:q, :name_or_email_cont),
-                      data: {
-                        action: "input->auto-submit#submit",
-                        turbo_permanent: true
-                      },
-                      class: "block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
-                      placeholder: "Search Clients"
-                ) %>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+                  <div class="relative sm:flex-1">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                      <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                    <%= form.search_field(
+                          :name_or_clients_name_cont,
+                          value: params.dig(:q, :name_or_clients_name_cont),
+                          data: {
+                            action: "input->auto-submit#submit",
+                            turbo_permanent: true
+                          },
+                          class: "block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
+                          placeholder: "Search Projects")
+                    %>
+                  </div>
+
+                  <div class="flex flex-row items-center space-x-2 w-full sm:w-auto mt-2 sm:mt-0">
+                    <div>
+                      <%= form.collection_select(
+                            :client_id,
+                            Client.order(:name),
+                            :id,
+                            :name,
+                            {
+                              selected: params.dig(:q, :client_id),
+                              prompt: "All",
+                              include_blank: true
+                            },
+                            {
+                              data: {
+                                action: "change->auto-submit#submit",
+                              },
+                              class: "block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
+                            })
+                      %>
+                    </div>
+
+                    <div>
+                      <%= link_to(
+                            "Reset",
+                            projects_path,
+                            data: {
+                              turbo_action: "advance"
+                            },
+                            class: "rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50")
+                      %>
+                    </div>
+                  </div>
+
+                </div>
+
               <% end %>
+
+
             </div>
 
             <!-- Table Container -->
             <div role="table" class="w-full">
 
               <!-- Header Row -->
-              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 font-bold py-2 w-full">
+              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 font-bold py-2 w-full">
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Name</div>
-                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Email</div>
+                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Client</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm sm:text-center font-semibold text-gray-900 sm:pl-6 sm:hidden xl:block">Status</div>
-                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:hidden xl:block">Note</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:text-right"></div>
               </div>
 
               <!-- Data Rows -->
               <ul role="rowgroup" class="space-y-2">
-                <% @clients.each do |client| %>
-                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 items-start bg-white p-2 rounded shadow" data-test-id=<%= client.id %>>
+                <% @projects.each do |project| %>
+                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 items-start bg-white p-2 rounded shadow" data-test-id=<%= project.id %>>
                     <div role="cell">
                       <span class="sm:hidden font-bold">Name: </span>
-                      <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= client.name %></span>
+                      <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= project.name %></span>
                     </div>
 
                     <div role="cell">
                       <span class="sm:hidden font-bold">Email: </span>
-                      <span class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= client.email %></span>
+                      <span class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.client&.name %></span>
                     </div>
 
                     <div role="cell" class="sm:hidden xl:block sm:text-center">
@@ -93,7 +133,7 @@
                       <span
                         class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                       >
-                        <% if client.disabled_at? %>
+                        <% if project.disabled_at? %>
                           <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactive</span>
                         <% else %>
                           <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
@@ -101,34 +141,24 @@
                       </span>
                     </div>
 
-                    <div role="cell" class="sm:hidden xl:block">
-                      <span class="sm:hidden font-bold">Note: </span>
-                      <span
-                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                        title="<%= client.note %>"
-                      >
-                        <%= truncate(client.note, length: 55) %>
-                      </span>
-                    </div>
-
                     <div role="cell" class="flex space-x-2 sm:justify-end">
                       <span class="sm:hidden font-bold">Actions: </span>
-                      <%= link_to edit_client_path(client),
+                      <%= link_to edit_project_path(project),
                                   class: "hover:text-indigo-600 pr-4",
                                   data: { turbo_frame: "_top" }, title: "Edit" do %>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke="currentColor" aria-hidden="true" data-slot="icon">
                           <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
                       <% end %>
-                      <% if client.disabled_at? %>
-                        <%= button_to client_path(client),
+                      <% if project.disabled_at? %>
+                        <%= button_to project_path(project),
                                       method: :patch,
-                                      params: { client: { disabled_at: nil } },
+                                      params: { project: { disabled_at: nil } },
                                       class: "hover:text-indigo-600 pr-4",
                                       data: {
                                         turbo_frame: "_top",
                                         turbo_method: :patch,
-                                        turbo_confirm: "Are you sure you want to activate this client?"
+                                        turbo_confirm: "Are you sure you want to activate this project?"
                                       },
                                       title: "Activate" do %>
                           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -143,7 +173,7 @@
                           </svg>
                         <% end %>
                       <% else %>
-                        <%= link_to client_path(client),
+                        <%= link_to project_path(project),
                                     method: :delete,
                                     class: "hover:text-red-600 pr-4",
                                     data: {
