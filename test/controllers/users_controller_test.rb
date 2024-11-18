@@ -45,4 +45,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     delete user_url(users(:franco))
     assert_response :forbidden
   end
+
+  test "filter by status" do
+    users(:franco).update!(disabled_at: Time.zone.now)
+
+    sign_in users(:edu)
+
+    get users_url, params: { q: { status_eq: "archive" } }
+
+    assert_match /Franco/, @response.body
+
+    get users_url, params: { q: { status_eq: "active", first_name_or_last_name_or_email_cont: "edu" } }
+
+    assert_no_match /Franco/, @response.body
+    assert_match /Eduardo/, @response.body
+  end
 end

@@ -1,80 +1,115 @@
 <% content_for :title, "Users" %>
 
-<div class="px-4 sm:px-6 lg:px-8">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
+<div class="">
+  <div class="mb-4 flex items-center">
+    <div class="flex-auto">
       <h1 class="text-base font-semibold text-gray-900">Users</h1>
     </div>
-    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-      <%= link_to "Add user", new_user_path, class: "block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+    <div class="mt-4 ml-16 mt-0 flex-none">
+      <%= link_to new_user_path, class: "inline-flex rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", title: "Add user" do %>
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+        </svg>
+      <% end %>
     </div>
   </div>
-  <div class="mt-8 flow-root">
+
+  <div class="mt-4 flow-root">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
-
-
-          <div class="px-4 py-5 sm:px-6">
-            <%= form_with url: users_path, method: :get, data: { controller: "auto-submit", auto_submit_debounce_value: 300, turbo_frame: "users", turbo_action: "advance" }, class: "relative mt-2 rounded-md shadow-sm" do |form| %>
-              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                  <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <%= form.search_field(
-                "q[first_name_or_last_name_or_email_cont]",
-                data: { action: "input->auto-submit#submit" },
-                class: "block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
-                placeholder: "Search Users"
-              ) %>
-            <% end %>
-          </div>
-
-
           <%= turbo_frame_tag "users" do %>
+
+            <div class="px-4 pt-5 pb-2.5 sm:px-6">
+              <span class="isolate inline-flex">
+                <%= filter_link_to "All", :users_path, { status_eq: "" }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
+                <%= filter_link_to "Active", :users_path, { status_eq: :active }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
+                <%= filter_link_to "Archive", :users_path, { status_eq: :archive }, data: { turbo_action: "advance" }, class: "relative inline-flex items-center px-3 py-2 text-sm text-gray-900 focus:z-10 hover:text-indigo-600" %>
+              </span>
+            </div>
+
+            <div class="px-4 pb-5 pt-2.5 sm:px-6">
+              <%= form_with(
+                    scope: :q,
+                    url: users_path,
+                    method: :get,
+                    data: {
+                      controller: "auto-submit",
+                      auto_submit_debounce_value: 300,
+                      turbo_action: "advance"
+                    },
+                    class: "relative mt-2 rounded-md shadow-sm") do |form|
+              %>
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+
+                <% params.fetch(:q, {}).to_unsafe_h.except(:first_name_or_last_name_or_email_cont).each do |key, value| %>
+                  <%= form.hidden_field key, value: value %>
+                <% end %>
+
+                <%= form.search_field(
+                      :first_name_or_last_name_or_email_cont,
+                      value: params.dig(:q, :first_name_or_last_name_or_email_cont),
+                      data: {
+                        action: "input->auto-submit#submit",
+                        turbo_permanent: true
+                      },
+                      class: "block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
+                      placeholder: "Search Users")
+                %>
+              <% end %>
+            </div>
+
             <!-- Table Container -->
-            <div role="table">
+            <div role="table" class="w-full">
 
               <!-- Header Row -->
-              <div role="row" class="grid grid-cols-1 sm:grid-cols-5 font-bold py-2">
+              <div role="row" class="hidden sm:grid grid-cols-1 sm:grid-cols-5 font-bold py-2 w-full">
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Name</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Email</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Role</div>
                 <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Status</div>
-                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6">Actions</div>
+                <div role="columnheader" class="pl-4 pr-3 py-3.5 text-sm text-left font-semibold text-gray-900 sm:pl-6 sm:text-right"></div>
               </div>
 
               <!-- Data Rows -->
               <ul role="rowgroup" class="space-y-2">
                 <% @users.each do |user| %>
                   <li role="row" class="grid grid-cols-1 sm:grid-cols-5 items-start bg-white p-2 rounded shadow" data-test-id=<%= user.id %> >
-                  <div role="cell">
-                    <span class="sm:hidden font-bold">Name: </span>
-                    <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= user.name %></span>
-                  </div>
-                  <div role="cell">
-                    <span class="sm:hidden font-bold">Email: </span>
-                    <span class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= user.email_address %></span>
-                  </div>
-                  <div role="cell">
-                    <span class="sm:hidden font-bold">Role: </span>
-                    <% color_klass = user.administrator? ? "bg-indigo-50 text-indigo-700 ring-indigo-700/10" : "bg-gray-50 text-gray-600 ring-gray-500/10" %>
-                    <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <%= color_klass %>">
-                      <%= user.role.capitalize %>
-                    </span>
-                  </div>
-                  <div role="cell">
-                    <span class="sm:hidden font-bold">Status: </span>
-                    <% if user.active? %>
-                      <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
-                    <% else %>
-                      <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactive</span>
-                    <% end %>
-                  </div>
-                  <div role="cell" class="flex space-x-2">
-                    <%= link_to "Edit", edit_user_profile_path(user), class: "text-indigo-600 hover:text-indigo-900", data: { turbo_frame: "_top" } %>
-                  </div>
+                    <div role="cell">
+                      <span class="sm:hidden font-bold">Name: </span>
+                      <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= user.name %></span>
+                    </div>
+                    <div role="cell">
+                      <span class="sm:hidden font-bold">Email: </span>
+                      <span class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= user.email_address %></span>
+                    </div>
+                    <div role="cell">
+                      <span class="sm:hidden font-bold">Role: </span>
+                      <% color_klass = user.administrator? ? "bg-indigo-50 text-indigo-700 ring-indigo-700/10" : "bg-gray-50 text-gray-600 ring-gray-500/10" %>
+                      <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset <%= color_klass %>">
+                        <%= user.role.capitalize %>
+                      </span>
+                    </div>
+                    <div role="cell">
+                      <span class="sm:hidden font-bold">Status: </span>
+                      <% if user.active? %>
+                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
+                      <% else %>
+                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactive</span>
+                      <% end %>
+                    </div>
+                    <div role="cell" class="flex space-x-2 sm:justify-end">
+                      <span class="sm:hidden font-bold">Actions: </span>
+                      <%= link_to edit_user_profile_path(user), class: "hover:text-indigo-600 pr-4", data: { turbo_frame: "_top" }, title: "Edit" do %>
+                          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                          </svg>
+                        <% end %>
+                    </div>
                   </li>
                 <% end %>
               </ul>
@@ -87,84 +122,9 @@
 </div>
 
 <% if flash[:notice] == "created" %>
-  <% content_for :alert do %>
-    <div
-      data-controller="alert"
-      data-transition-enter="transform ease-out duration-300 transition"
-      data-transition-enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-      data-transition-enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-      data-transition-leave="transition ease-in duration-100"
-      data-transition-leave-start="opacity-100"
-      data-transition-leave-end="opacity-0"
-      data-alert-dismiss-after-value="5000"
-      class="hidden pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-    >
-      <div class="p-4">
-        <div class="flex items-start">
-          <div class="flex-shrink-0">
-            <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-          </div>
-          <div class="ml-3 w-0 flex-1 pt-0.5">
-            <p class="text-sm font-medium text-gray-900">Successfully created!</p>
-          </div>
-          <div class="ml-4 flex flex-shrink-0">
-            <button
-              data-action="click->alert#close"
-              type="button"
-              class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span class="sr-only">Close</span>
-              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <%= render "alerts/success", title: "Successfully created!" %>
 <% end %>
 
 <% if flash[:notice] == "destroyed" %>
-  <% content_for :alert do %>
-    <div
-      data-controller="alert"
-      data-transition-enter="transform ease-out duration-300 transition"
-      data-transition-enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-      data-transition-enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-      data-transition-leave="transition ease-in duration-100"
-      data-transition-leave-start="opacity-100"
-      data-transition-leave-end="opacity-0"
-      data-alert-dismiss-after-value="5000"
-      class="hidden pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-    >
-      <div class="p-4">
-        <div class="flex items-start">
-          <div class="flex-shrink-0">
-            <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-          </div>
-          <div class="ml-3 w-0 flex-1 pt-0.5">
-            <p class="text-sm font-medium text-gray-900">Successfully deleted!</p>
-          </div>
-          <div class="ml-4 flex flex-shrink-0">
-            <button
-              data-action="click->alert#close"
-              type="button"
-              class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span class="sr-only">Close</span>
-              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <%= render "alerts/success", title: "Successfully deleted!" %>
 <% end %>
-

@@ -19,4 +19,5 @@ Rails.application.routes.draw do
       resource :profile, only: [ :edit, :update, :destroy ]
     end
   end
+  resources :clients, except: [ :show ]
 end

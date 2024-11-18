@@ -10,20 +10,20 @@ class User < ApplicationRecord
 
   has_many :sessions, dependent: :destroy
 
-  scope :active, -> { where(inactive_at: nil) }
+  scope :active, -> { where(disabled_at: nil) }
 
   def can_administrate?
     administrator?
   end
 
   def active?
-    inactive_at.nil?
+    disabled_at.nil?
   end
 
   def deactivate
     transaction do
       sessions.delete_all
-      update!(inactive_at: Time.current, password: SecureRandom.hex(16))
+      update!(disabled_at: Time.current, password: SecureRandom.hex(16))
     end
   end
 
