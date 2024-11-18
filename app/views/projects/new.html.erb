@@ -1,7 +1,13 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New project</h1>
+<div class="">
+  <div class="mb-4 flex items-center">
+    <div class="flex-auto">
+      <h1 class="text-base font-semibold text-gray-900">New Project</h1>
+    </div>
+  </div>
 
-  <%= render "form", project: @project %>
-
-  <%= link_to "Back to projects", projects_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <div class="overflow-hidden rounded-lg bg-white shadow">
+    <div class="px-4 py-5 sm:p-6">
+      <%= render "form", project: @project %>
+    </div>
+  </div>
 </div>

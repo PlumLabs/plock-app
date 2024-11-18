@@ -14,24 +14,23 @@ class ProjectsTest < ApplicationSystemTestCase
     assert_text "HR assistant"
   end
 
-  # test "Administrator edits a client" do
-  #   sign_in users(:edu).email_address
+  test "Administrator edits a project" do
+    sign_in users(:edu).email_address
 
-  #   visit projects_url
+    visit projects_url
 
-  #   assert_text "Plum"
-  #   assert_no_text "Plum Software"
+    assert_text "www site"
+    assert_no_text "www New site"
 
-  #   within "li[data-test-id='#{projects(:one).id}']" do
-  #     click_on "Edit"
-  #   end
+    within "li[data-test-id='#{projects(:one).id}']" do
+      click_on "Edit"
+    end
 
-  #   fill_in "Name", with: "Plum Software"
-  #   click_on "Update Client"
+    fill_in "Name", with: "www New site"
+    click_on "Update Project"
 
-  #   assert_text "Successfully updated!"
-  #   assert_text "Plum Software"
-  # end
+    assert_text "www New site"
+  end
 
   test "Administrator archive a project" do
     sign_in users(:edu).email_address
