@@ -6,6 +6,7 @@ User.find_or_create_by!(email_address: "edu@plum.com.ar") do |user|
   user.role = "administrator"
 end
 
+# Users
 60.times do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
@@ -19,15 +20,35 @@ end
   end
 end
 
-# Inactive Users
 User.last(3).each do |user|
   user.update!(disabled_at: Time.current)
 end
 
+# Clients
 50.times do
   name = Faker::Company.unique.name
   Client.find_or_create_by!(name: name) do |client|
     client.email = Faker::Internet.unique.email(name: name, domain: "plum.com.ar")
     client.note = "The client wants the report to be delivered on the #{Faker::Date.forward(days: 30).strftime('%A, %B %d')}."
   end
+end
+
+Client.last(5).each do |client|
+  client.update!(disabled_at: Time.current)
+end
+
+# Projects
+50.times do
+  Project.find_or_create_by!(name: Faker::App.unique.name)
+end
+
+Project.all.each_with_index do |project, index|
+  next if index.even?
+  project.update!(client: Client.all.sample)
+end
+
+Project.where(client: nil).limit(5).update_all(client_id: Client.all.sample.id)
+
+Project.last(5).each do |project|
+  project.update!(disabled_at: Time.current)
 end

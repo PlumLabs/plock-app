@@ -20,4 +20,5 @@ Rails.application.routes.draw do
     end
   end
   resources :clients, except: [ :show ]
+  resources :projects
 end
