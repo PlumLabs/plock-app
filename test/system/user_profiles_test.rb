@@ -18,9 +18,9 @@ class UserProfilesTest < ApplicationSystemTestCase
       click_on "Yes, Deactivate the account"
     end
 
-    assert_not users(:franco).reload.active?
     assert_text "Deactivate at:"
     assert_text "Reactivate User Account"
+    assert_not users(:franco).reload.active?
   end
 
   test "Administrator reactivating an user" do
