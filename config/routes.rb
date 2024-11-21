@@ -20,5 +20,7 @@ Rails.application.routes.draw do
     end
   end
   resources :clients, except: [ :show ]
-  resources :projects
+  resources :projects do
+    resources :project_assignments, except: [ :index, :show ]
+  end
 end

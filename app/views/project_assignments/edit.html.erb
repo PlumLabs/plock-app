@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "upsert_member" do %>
+  <%= render layout: "drawers/simple", locals: { title: "Update membership" } do %>
+    <div class="divide-y divide-gray-200 overflow-hidden ">
+      <div class="px-4 py-5 sm:px-6">
+        <%= render "form", project: @project, project_assignment: @project_assignment %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
