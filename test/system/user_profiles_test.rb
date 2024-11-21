@@ -67,7 +67,6 @@ class UserProfilesTest < ApplicationSystemTestCase
     end
 
     assert_text "Successfully uploaded"
-
     assert users(:franco).reload.administrator?
   end
 end
