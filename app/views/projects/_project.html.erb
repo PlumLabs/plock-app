@@ -1,12 +1,34 @@
 <div id="<%= dom_id project %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= project.name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Client:</strong>
-    <%= project.client_id %>
-  </p>
-
+    <div class="mt-6 border-gray-100">
+    <dl class="divide-y divide-gray-100">
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Name</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"><%= project.name %></dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Client</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+          <% if project.client %>
+            <%= project.client.name %>
+          <% else %>
+            <%= link_to "Assign client", edit_project_path(project), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+          <% end %>
+        </dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Client email address</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+          <% if project.client %>
+            <%= project.client.email %>
+          <% else %>
+            <%= link_to "Assign client", edit_project_path(project), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+          <% end %>
+        </dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Created at</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"><%= time_ago_in_words(project.created_at) %> ago</dd>
+      </div>
+    </dl>
+  </div>
 </div>

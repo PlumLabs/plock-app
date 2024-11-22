@@ -31,7 +31,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to projects_path, notice: "updated" }
+        format.html { redirect_to @project, notice: "updated" }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
 
   private
     def set_project
-      @project = Project.find(params.expect(:id))
+      @project = Project.includes(project_assignments: :user).find(params.expect(:id))
     end
 
     def project_params

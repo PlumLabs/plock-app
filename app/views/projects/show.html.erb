@@ -6,10 +6,9 @@
       <h1 class="text-base font-semibold text-gray-900"><%= @project.name %></h1>
     </div>
     <div class="mt-4 ml-16 mt-0 flex-none">
-      <%= link_to edit_project_path(@project), class: "inline-flex rounded-full bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", title: "Edit project" do %>
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-          <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
-          <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+      <%= link_to edit_project_path(@project), class: "inline-flex rounded-full bg-white p-2 text-gray-900 ring-1 ring-inset ring-gray-300 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600", title: "Edit project" do %>
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true" data-slot="icon" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
         </svg>
       <% end %>
     </div>
@@ -19,13 +18,13 @@
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg bg-white">
-
           <span
             data-controller="tabs"
             data-tabs-active-tab-class="text-gray-900"
             data-tabs-active-tab-line-class="bg-indigo-500"
             data-tabs-inactive-tab-class="text-gray-500 hover:text-gray-700"
           >
+            <%# Tabs %>
             <div>
               <div class="sm:hidden">
                 <label for="tabs" class="sr-only">Select a tab</label>
@@ -55,9 +54,11 @@
                 </nav>
               </div>
             </div>
+            <%# End tabs %>
 
+            <%# panels %>
             <div class="hidden py-4 px-4 border-l border-b border-r" data-tabs-target="panel">
-              Tab panel 1
+              <%= render "membership", project: @project %>
             </div>
 
             <div class="hidden py-4 px-4 border-l border-b border-r" data-tabs-target="panel">
@@ -75,10 +76,8 @@
   </div>
 </div>
 
-<% if flash[:notice] == "created" %>
-  <%= render "alerts/success", title: "Successfully created!" %>
+<% if ["destroyed", "created", "updated"].include?(flash[:notice])  %>
+  <%= render "alerts/success", title: "Successfully #{flash[:notice]}!" %>
 <% end %>
 
-<% if flash[:notice] == "destroyed" %>
-  <%= render "alerts/success", title: "Successfully deleted!" %>
-<% end %>
+<%= turbo_frame_tag "upsert_member" %>

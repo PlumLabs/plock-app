@@ -31,7 +31,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "administrator should update project" do
     patch project_url(@project), params: { project: { name: "New name" } }
-    assert_redirected_to projects_url
+    assert_redirected_to @project
   end
 
   test "administrator should destroy project" do
