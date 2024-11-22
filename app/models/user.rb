@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :project_assignments, dependent: :destroy
   has_many :projects, through: :project_assignments
+  has_many :time_entries
 
   scope :active, -> { where(disabled_at: nil) }
 
