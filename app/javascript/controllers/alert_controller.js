@@ -16,8 +16,8 @@ export default class extends Controller {
     // Auto dismiss if defined
     if (this.hasDismissAfterValue) {
       setTimeout(() => {
-        this.close()
-    }, this.dismissAfterValue)
+          this.close()
+      }, this.dismissAfterValue)
     }
   }
 

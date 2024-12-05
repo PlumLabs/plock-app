@@ -2,5 +2,5 @@ one:
   user: franco
   project: one
   date: 2024-11-22
-  hours: 3.25
+  duration_minutes: 195
   description: Landing page hero section

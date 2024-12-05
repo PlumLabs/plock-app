@@ -23,4 +23,8 @@ Rails.application.routes.draw do
   resources :projects do
     resources :project_assignments, except: [ :index, :show ]
   end
+  resource :tracker, only: [ :show ]
+  namespace :tracker do
+    resources :time_entries, except: [ :index ]
+  end
 end

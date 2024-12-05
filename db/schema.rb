@@ -54,7 +54,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_22_113453) do
     t.integer "user_id", null: false
     t.integer "project_id"
     t.date "date", null: false
-    t.decimal "hours", precision: 5, scale: 2, null: false
+    t.integer "duration_minutes", default: 0, null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
