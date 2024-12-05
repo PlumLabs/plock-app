@@ -25,6 +25,6 @@ Rails.application.routes.draw do
   end
   resource :tracker, only: [ :show ]
   namespace :tracker do
-    resources :time_entries, except: [ :index ]
+    resources :time_entries, only: [ :create, :update, :destroy ]
   end
 end
