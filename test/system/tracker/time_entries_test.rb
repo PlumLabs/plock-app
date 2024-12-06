@@ -1,7 +1,6 @@
 require "application_system_test_case"
 
 class Tracker::TimeEntriesTest < ApplicationSystemTestCase
-
   test "tracking a new time" do
     sign_in users(:franco).email_address
     visit tracker_url
@@ -29,7 +28,7 @@ class Tracker::TimeEntriesTest < ApplicationSystemTestCase
 
     assert_text "Successfully Updated!"
     assert time_entry.reload.description, "GPT-5 upgrade"
-    assert time_entry.reload.duration, "01:12" 
+    assert time_entry.reload.duration, "01:12"
   end
 
   test "removing a time entry" do
