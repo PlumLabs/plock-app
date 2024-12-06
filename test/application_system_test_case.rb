@@ -6,5 +6,5 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   Capybara.enable_aria_label = true
 
-  driven_by :selenium, using: :headless_chrome, screen_size: WINDOW_SIZE
+  driven_by :selenium, using: :headless_chrome
 end
