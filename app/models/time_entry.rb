@@ -1,0 +1,40 @@
+class TimeEntry < ApplicationRecord
+  belongs_to :user
+  belongs_to :project, optional: true
+
+  validates :date, :duration_minutes, :description, presence: true
+  validates :duration_minutes, numericality: { greater_than: 0 }
+  validate :ensure_project_belongs_to_user
+
+  normalizes :duration, with: -> { _1.gsub(/[^0-9:]/, "") }
+
+  def duration
+    hours = duration_minutes / 60
+    minutes = duration_minutes % 60
+    format("%02d:%02d", hours, minutes)
+  end
+
+  def duration=(duration)
+    hours, minutes = duration.split(":").map(&:to_i)
+    self.duration_minutes = hours * 60 + minutes
+  end
+
+  def duration_mobile
+    hours = duration_minutes / 60
+    minutes = duration_minutes % 60
+    Time.zone.local(2000, 1, 1, hours, minutes, 0)
+  end
+
+  def duration_mobile=(time)
+    time_duration = Time.new(*time.values)
+    self.duration_minutes = time_duration.hour * 60 + time_duration.min
+  end
+
+  private
+
+    def ensure_project_belongs_to_user
+      return if project.nil? || project.users.include?(user)
+
+      errors.add(:project, "must belong to the user")
+    end
+end

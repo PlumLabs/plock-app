@@ -1,0 +1,131 @@
+<% frame_id = time_entry.new_record? ? "add-time" : dom_id(time_entry) %>
+
+<%= turbo_frame_tag frame_id do %>
+  <%= form_with(model: [:tracker, time_entry]) do |form| %>
+    <% duration_error_class = time_entry.errors[:duration_minutes].any? ? "outline outline-1 -outline-offset-1 outline-red-300" : "" %>
+
+    <%= form.hidden_field :user_id %>
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+
+      <div class="flex-1">
+        <%= form.text_field :description,
+              required: true,
+              aria: { label: "Description" },
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
+              placeholder: "What are you working on?",
+              autofocus: time_entry.new_record?
+        %>
+      </div>
+
+      <div class="mt-2 sm:mt-0">
+        <%= form.collection_select :project_id,
+              time_entry.user.projects,
+              :id,
+              :name,
+              {
+                prompt: "Project",
+                include_blank: true
+              },
+              {
+                class: "w-full md:w-32 xl:w-64 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
+              }
+        %>
+      </div>
+
+      <div class="mt-2 sm:mt-0">
+        <%= form.date_field :date,
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+        %>
+      </div>
+
+      <div class="mt-2 sm:mt-0 hidden sm:block">
+        <div data-controller="input-duration">
+          <%= form.text_field :duration,
+                data: {
+                  input_duration_target: "input",
+                },
+                aria: { label: "Duration" },
+                placeholder: "hh:mm",
+                required: true,
+                class: "w-full sm:w-16 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6 #{duration_error_class}"
+          %>
+        </div>
+      </div>
+
+      <div class="flex flex-row items-center block sm:hidden mt-2 sm:mt-0">
+        <%= form.time_select :duration_mobile,
+              {},
+              {
+                class: "w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm #{duration_error_class}",
+                aria: { label: "Duration Mobile" }
+              }
+        %>
+      </div>
+
+      <% if time_entry.new_record? %>
+        <div class="mt-2 sm:mt-0">
+          <%= form.button type: :submit,
+                class: "hidden sm:block w-full sm:w-auto inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                title: "Add time",
+                data: {
+                  turbo_frame: "time-entries",
+                } do %>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            <span class="block sm:hidden">Add Entry</span>
+          <% end %>
+
+          <%= form.button type: :submit,
+                value: "mobile",
+                class: "block sm:hidden w-full sm:w-auto inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                title: "Add time",
+                data: {
+                  turbo_frame: "time-entries",
+                } do %>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            <span class="block sm:hidden">Add Entry</span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% unless time_entry.new_record? %>
+        <%= form.button "Update", type: :submit,
+              class: "hidden sm:block mt-2 sm:mt-0 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
+              title: "Update time"
+        %>
+        <%= form.button "Update", type: :submit,
+              value: "mobile",
+              class: "block sm:hidden mt-2 sm:mt-0 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
+              title: "Update time"
+        %>
+
+        <%= link_to tracker_time_entry_path(time_entry),
+                    method: :delete,
+                    class: "mt-2 sm:mt-0 hover:text-red-600",
+                    data: {
+                      turbo_frame: "time-entries",
+                      turbo_method: :delete,
+                      turbo_confirm: "Do you want to archive?"
+                    },
+                    title: "Delete" do %>
+          <svg class="h-6 w-6 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21a47.872 47.872 0 0 0 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a47.872 47.872 0 0 0-3.478-.397m-12 .562a47.872 47.872 0 0 1 1.022-.165m0 0a47.872 47.872 0 0 1 3.478-.397m7.5 0V4.75c0-1.18-.91-2.164-2.09-2.201a49.848 49.848 0 0 0-3.32 0C9.91 2.586 9 3.571 9 4.75v.916m7.5 0a47.872 47.872 0 0 0-7.5 0" />
+          </svg>
+          <span class="block sm:hidden text-center text-red-600 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Delete</span>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if time_entry.errors[:duration_minutes].any? %>
+    <%= render "alerts/error", title: time_entry.errors[:duration_minutes].join, position_class: "fixed bottom-4 right-4" %>
+  <% end %>
+
+  <% if local_assigns[:updated] %>
+    <%= render "alerts/success", title: "Successfully Updated!", position_class: "fixed top-4 right-4" %>
+  <% end %>
+<% end %>

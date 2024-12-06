@@ -55,7 +55,31 @@ end
 
 # Project Assignments
 Project.all.limit(45).each do |project|
-  project.users << User.all.sample(rand(1..8))
+  project.users << User.excluding(project.users).all.sample(rand(1..8))
   project.save!
   project.project_assignments.sample.update!(role: "manager")
+end
+
+# Time Entries
+Project.active.all.each do |project|
+  project.users.each do |user|
+    (3.months.ago.to_date..Date.today).each do |date|
+      next if date.on_weekend?
+      [ 120, 180, 180 ].each do |duration|
+        TimeEntry.find_or_create_by(user: user, project: project, date: date) do |time_entry|
+          time_entry.duration_minutes = duration
+          time_entry.description = Faker::Lorem.sentence(word_count: rand(4..14))
+        end
+      end
+    end
+  end
+end
+
+User.all.sample(10).each do |user|
+  TimeEntry.create!(
+    user: user,
+    duration_minutes: rand(120..240),
+    description: Faker::Lorem.sentence(word_count: rand(4..14)),
+    date: Faker::Date.between(from: 3.months.ago, to: Date.today)
+  )
 end

@@ -121,10 +121,8 @@
   </div>
 </div>
 
-<% if flash[:notice] == "created" %>
-  <%= render "alerts/success", title: "Successfully created!" %>
-<% end %>
-
-<% if flash[:notice] == "destroyed" %>
-  <%= render "alerts/success", title: "Successfully deleted!" %>
+<% if ["created", "destroyed"].include?(flash[:notice])  %>
+  <% content_for :alert do %>
+    <%= render "alerts/success", title: "Successfully #{flash[:notice]}!" %>
+  <% end %>
 <% end %>

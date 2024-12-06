@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_18_181307) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_22_113453) do
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -50,6 +50,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_18_181307) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "time_entries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "project_id"
+    t.date "date", null: false
+    t.integer "duration_minutes", default: 0, null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_time_entries_on_project_id"
+    t.index ["user_id"], name: "index_time_entries_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "password_digest", null: false
@@ -66,4 +78,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_18_181307) do
   add_foreign_key "project_assignments", "users"
   add_foreign_key "projects", "clients"
   add_foreign_key "sessions", "users"
+  add_foreign_key "time_entries", "projects"
+  add_foreign_key "time_entries", "users"
 end

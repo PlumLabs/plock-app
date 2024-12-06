@@ -34,7 +34,7 @@ class UsersTest < ApplicationSystemTestCase
       click_on "Yes, Delete user account"
     end
 
-    assert_text "Successfully deleted"
+    assert_text "Successfully destroyed!"
     assert_no_text "Franco Colapinto"
   end
 end

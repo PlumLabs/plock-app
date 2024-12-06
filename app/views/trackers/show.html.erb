@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "time-entries" do %>
+  <div class="divide-y divide-gray-200 overflow-y-auto h-screen rounded-lg bg-white shadow">
+    <div class="lg:sticky lg:top-0 z-20 bg-white px-4 py-5 sm:px-6">
+      <%= render "tracker/time_entries/form", time_entry: @time_entry %>
+    </div>
+
+    <div class="px-4 py-5 sm:p-6">
+      <nav class="h-full overflow-y-auto" aria-label="Directory">
+        <% @time_entries_grouped_by_week.each do |date, time_entries| %>
+          <div class="relative">
+
+            <div class="relative">
+              <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                <div class="w-full border-t border-indigo-300"></div>
+              </div>
+              <div class="relative flex justify-start">
+                <span class="bg-white pr-2 text-sm text-indigo-600"><%= date.beginning_of_week.to_fs(:long) %> - <%= date.end_of_week.to_fs(:long) %></span>
+              </div>
+            </div>
+
+            <ul role="list" class="divide-y divide-gray-100">
+              <% time_entries.each do |time_entry| %>
+                <li class="gap-x-4 px-3 py-5">
+                  <%= render "tracker/time_entries/form", time_entry: time_entry %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+
+  <% if ["created", "destroyed"].include?(flash[:notice])  %>
+    <%= render "alerts/success", title: "Successfully #{flash[:notice]}!", position_class: "fixed top-4 right-4" %>
+  <% end %>
+<% end %>

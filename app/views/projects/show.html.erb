@@ -77,7 +77,9 @@
 </div>
 
 <% if ["destroyed", "created", "updated"].include?(flash[:notice])  %>
-  <%= render "alerts/success", title: "Successfully #{flash[:notice]}!" %>
+  <% content_for :alert do %>
+    <%= render "alerts/success", title: "Successfully #{flash[:notice]}!" %>
+  <% end %>
 <% end %>
 
 <%= turbo_frame_tag "upsert_member" %>
