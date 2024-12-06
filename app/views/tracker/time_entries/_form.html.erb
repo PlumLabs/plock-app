@@ -57,7 +57,8 @@
         <%= form.time_select :duration_mobile,
               {},
               {
-                class: "w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm #{duration_error_class}"
+                class: "w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm #{duration_error_class}",
+                aria: { label: "Duration Mobile" }
               }
         %>
       </div>
@@ -68,7 +69,7 @@
                 class: "hidden sm:block w-full sm:w-auto inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
                 title: "Add time",
                 data: {
-                  turbo_frame: "time_entries",
+                  turbo_frame: "time-entries",
                 } do %>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
@@ -81,7 +82,7 @@
                 class: "block sm:hidden w-full sm:w-auto inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
                 title: "Add time",
                 data: {
-                  turbo_frame: "time_entries",
+                  turbo_frame: "time-entries",
                 } do %>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
@@ -106,7 +107,7 @@
                     method: :delete,
                     class: "mt-2 sm:mt-0 hover:text-red-600",
                     data: {
-                      turbo_frame: "time_entries",
+                      turbo_frame: "time-entries",
                       turbo_method: :delete,
                       turbo_confirm: "Do you want to archive?"
                     },
