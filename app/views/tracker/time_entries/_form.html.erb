@@ -1,4 +1,4 @@
-<% frame_id = time_entry.new_record? ? :add_time : dom_id(time_entry) %>
+<% frame_id = time_entry.new_record? ? "add-time" : dom_id(time_entry) %>
 
 <%= turbo_frame_tag frame_id do %>
   <%= form_with(model: [:tracker, time_entry]) do |form| %>
@@ -11,6 +11,7 @@
       <div class="flex-1">
         <%= form.text_field :description,
               required: true,
+              aria: { label: "Description" },
               class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
               placeholder: "What are you working on?",
               autofocus: time_entry.new_record?
@@ -44,6 +45,7 @@
                 data: {
                   input_duration_target: "input",
                 },
+                aria: { label: "Duration" },
                 placeholder: "hh:mm",
                 required: true,
                 class: "w-full sm:w-16 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6 #{duration_error_class}"

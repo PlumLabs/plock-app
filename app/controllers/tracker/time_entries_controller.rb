@@ -1,5 +1,5 @@
 class Tracker::TimeEntriesController < ApplicationController
-  before_action :set_time_entry, only: %i[ show edit update destroy ]
+  before_action :set_time_entry, only: %i[ update destroy ]
   before_action :ensure_user, unless: -> { Current.user.can_administrate? }, only: %i[ create update destroy ]
 
   def create
