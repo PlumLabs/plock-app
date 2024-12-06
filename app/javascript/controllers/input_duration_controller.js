@@ -4,40 +4,34 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["input", "icon"]
 
-  // order
-  // 'input' event is triggered whenever the value of the input changes.
-  // •	Fires after the input’s value has changed.
-
-  // 'keydown' event is triggered when a key is pressed down on the keyboard while the input is focused.
-  // 	•	Fires before the input’s value has changed.
-  // •	You can detect which key is being pressed using event.key or event.code.
-
-// 
-
   connect() {
-    // this.inputTarget.addEventListener('input', this.sanitizeInput.bind(this))
-    this.inputTarget.addEventListener('click', this.handleClick.bind(this))
-    this.inputTarget.addEventListener('keydown', this.handleKeydown.bind(this))
-    this.inputTarget.addEventListener('focus', this.handleFocus.bind(this))
+    this.boundHandleClick = this.handleClick.bind(this)
+    this.boundHandleKeydown = this.handleKeydown.bind(this)
+    this.boundHandleFocus = this.handleFocus.bind(this)
+
+    this.inputTarget.addEventListener('click', this.boundHandleClick)
+    this.inputTarget.addEventListener('keydown', this.boundHandleKeydown)
+    this.inputTarget.addEventListener('focus', this.boundHandleFocus)
   }
 
-  // 'keydown' event is triggered when a key is pressed down on the keyboard while the input is focused.
-  // 	•	Fires before the input’s value has changed.
-  // •	You can detect which key is being pressed using event.key or event.code.
+  disconnect() {
+    this.inputTarget.removeEventListener('click', this.boundHandleClick)
+    this.inputTarget.removeEventListener('keydown', this.boundHandleKeydown)
+    this.inputTarget.removeEventListener('focus', this.boundHandleFocus)
+  }
 
-  
   handleClick(event) {
     event.preventDefault()
-    
+
     const isCaretAtHours = this.inputTarget.selectionStart <= 2
-    
+
     if (isCaretAtHours) {
       this.#moveCaretToHours()
     } else {
       this.#moveCaretToMinutes()
     }
   }
-  
+
   handleFocus(event) {
     event.preventDefault()
     this.#moveCaretToHours()
@@ -50,15 +44,15 @@ export default class extends Controller {
     if (!isNavigationKey && !isNumericKey) {
       event.preventDefault()
 
-      return 
+      return
     }
-    
-    
+
+
     if (isNavigationKey) {
       this.handleNavigationKey(event)
       return
     }
-    
+
     if (isNumericKey) {
       this.handleNumericKey(event)
       return
@@ -89,7 +83,7 @@ export default class extends Controller {
       this.#moveCaretToHours()
     } else {
       newMinutes = Number(String(minutes) + String(key))
-      
+
       if (newMinutes > 59) {
         newMinutes = Number(key)
       }
@@ -99,7 +93,6 @@ export default class extends Controller {
     }
   }
 
-  // we didn't change the value yet.
   handleNavigationKey(event) {
     const input = this.inputTarget
     const value = input.value || "00:00"
@@ -132,7 +125,7 @@ export default class extends Controller {
           newHours = this.#decreaseHours(hours)
         } else {
           newMinutes = this.#decreaseMinutes(minutes)
-        }        
+        }
 
         input.value = this.#buildValue(newHours, newMinutes)
         isCaretAtHours ? this.#moveCaretToHours() : this.#moveCaretToMinutes()
@@ -149,7 +142,7 @@ export default class extends Controller {
 
         isCaretAtMinutes && this.#moveCaretToHours()
         break
-      
+
       case "Tab":
         if (isCaretAtHours) {
           event.preventDefault()
@@ -157,7 +150,7 @@ export default class extends Controller {
         }
 
         break
-      
+
       case "Backspace":
         event.preventDefault()
         break
@@ -183,7 +176,7 @@ export default class extends Controller {
     if (hours >= 23) {
       return hours
     }
-    
+
     return hours + 1
   }
 
@@ -191,7 +184,7 @@ export default class extends Controller {
     if (minutes >= 59) {
       return 0
     }
-    
+
     return minutes + 1
   }
 
@@ -208,6 +201,6 @@ export default class extends Controller {
       return 59
     }
 
-    return minutes - 1  
+    return minutes - 1
   }
 }
