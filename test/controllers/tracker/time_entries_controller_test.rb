@@ -2,18 +2,15 @@ require "test_helper"
 
 class Tracker::TimeEntriesControllerTest < ActionDispatch::IntegrationTest
   test "logged out users cannot manipulate time entries" do
-    get new_tracker_time_entry_url
-    assert_redirected_to new_session_url
-
     post tracker_time_entries_url, params: {
       time_entry: { date: "2021-05-01", description: "Worked on the project", duration: "03:34", user_id: users(:franco).id }
     }
     assert_redirected_to new_session_url
 
-    get edit_tracker_time_entry_url(time_entries(:one))
+    patch tracker_time_entry_url(time_entries(:one)), params: { time_entry: {} }
     assert_redirected_to new_session_url
 
-    patch tracker_time_entry_url(time_entries(:one)), params: { time_entry: {} }
+    delete tracker_time_entry_url(time_entries(:one))
     assert_redirected_to new_session_url
   end
 
