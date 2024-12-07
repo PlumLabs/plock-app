@@ -1,34 +1,39 @@
 <%= turbo_frame_tag "time-entries" do %>
-  <div class="divide-y divide-gray-200 overflow-y-auto h-screen rounded-lg bg-white shadow">
-    <div class="lg:sticky lg:top-0 z-20 bg-white px-4 py-5 sm:px-6">
+  <div class="overflow-y-auto h-screen rounded-lg">
+    <div class="lg:sticky lg:top-0 z-20 bg-indigo-50 px-4 py-5 sm:px-6 rounded-lg shadow">
       <%= render "tracker/time_entries/form", time_entry: @time_entry %>
     </div>
 
-    <div class="px-4 py-5 sm:p-6">
-      <nav class="h-full overflow-y-auto" aria-label="Directory">
-        <% @time_entries_grouped_by_week.each do |date, time_entries| %>
+    <nav class="h-full overflow-y-auto space-y-3 pt-3">
+      <% @time_entries_grouped_by_week.each do |date, time_entries| %>
+        <div class="relative overflow-hidden rounded-md bg-white px-6 py-4 shadow">
+
           <div class="relative">
-
-            <div class="relative">
-              <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                <div class="w-full border-t border-indigo-300"></div>
-              </div>
-              <div class="relative flex justify-start">
-                <span class="bg-white pr-2 text-sm text-indigo-600"><%= date.beginning_of_week.to_fs(:long) %> - <%= date.end_of_week.to_fs(:long) %></span>
-              </div>
+            <div class="absolute inset-0 flex items-center" aria-hidden="true">
+              <div class="w-full border-t border-indigo-600"></div>
             </div>
-
-            <ul role="list" class="divide-y divide-gray-100">
-              <% time_entries.each do |time_entry| %>
-                <li class="gap-x-4 px-3 py-5">
-                  <%= render "tracker/time_entries/form", time_entry: time_entry %>
-                </li>
-              <% end %>
-            </ul>
+            <div class="relative flex items-center justify-between">
+              <div class="flex flex-col sm:flex-row">
+                <span class="bg-white text-sm text-indigo-600"><%= date.beginning_of_week.to_fs(:long) %></span>
+                <span class="bg-white text-sm text-indigo-600 hidden sm:block">&nbsp;-&nbsp;</span>
+                <span class="bg-white pr-2 text-sm text-indigo-600"><%= date.end_of_week.to_fs(:long) %></span>
+              </div>
+              <span class="bg-white pl-2 text-sm text-indigo-600">
+                Total: <%= minutes_to_hours time_entries.sum(&:duration_minutes) %>
+              </span>
+            </div>
           </div>
-        <% end %>
-      </nav>
-    </div>
+
+          <ul role="list" class="divide-y divide-gray-100">
+            <% time_entries.each do |time_entry| %>
+              <li class="gap-x-4 px-3 py-5">
+                <%= render "tracker/time_entries/form", time_entry: time_entry %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </nav>
   </div>
 
   <% if ["created", "destroyed"].include?(flash[:notice])  %>
