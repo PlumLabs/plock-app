@@ -36,7 +36,7 @@
     </nav>
   </div>
 
-  <% if ["created", "destroyed"].include?(flash[:notice])  %>
+  <% if ["created", "destroyed", "updated"].include?(flash[:notice])  %>
     <%= render "alerts/success", title: "Successfully #{flash[:notice]}!", position_class: "fixed top-4 right-4" %>
   <% end %>
 <% end %>

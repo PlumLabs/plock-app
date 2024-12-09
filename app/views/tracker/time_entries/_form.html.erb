@@ -99,12 +99,18 @@
       <% unless time_entry.new_record? %>
         <%= form.button "Update", type: :submit,
               class: "hidden sm:block mt-2 sm:mt-0 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50",
-              title: "Update time"
+              title: "Update time",
+              data: {
+                turbo_frame: "time-entries",
+              }
         %>
         <%= form.button "Update", type: :submit,
               value: "mobile",
               class: "block sm:hidden mt-2 sm:mt-0 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
-              title: "Update time"
+              title: "Update time",
+              data: {
+                turbo_frame: "time-entries",
+              }
         %>
 
         <%= link_to tracker_time_entry_path(time_entry),

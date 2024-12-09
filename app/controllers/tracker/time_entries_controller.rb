@@ -17,9 +17,10 @@ class Tracker::TimeEntriesController < ApplicationController
   def update
     respond_to do |format|
       if @time_entry.update(time_entry_params)
-        format.html { render partial: "form", locals: { time_entry: @time_entry, updated: true } }
+        # format.html { render partial: "form", locals: { time_entry: @time_entry, updated: true } }
+        format.html { redirect_to tracker_path, notice: "updated" }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render partial: "form", locals: { time_entry: @time_entry }, status: :unprocessable_entity }
       end
     end
   end
