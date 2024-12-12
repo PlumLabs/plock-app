@@ -5,7 +5,7 @@ class Tracker::MobileTimeEntriesTest < MobileSystemTestCase
     sign_in users(:franco).email_address
     visit tracker_url
 
-    within("#add-time") do
+    within("#new_time_entry") do
       fill_in "Description", with: "Adding test for time tracking"
       select "01", from: "time_entry[duration_mobile(4i)]"
       select "25", from: "time_entry[duration_mobile(5i)]"
@@ -28,7 +28,7 @@ class Tracker::MobileTimeEntriesTest < MobileSystemTestCase
       click_on "Update"
     end
 
-    assert_text "Successfully Updated!"
+    assert_text "Successfully updated!"
     assert time_entry.reload.description, "GPT-5 upgrade"
     assert time_entry.reload.duration, "08:25"
   end
