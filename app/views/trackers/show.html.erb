@@ -1,3 +1,5 @@
+<% content_for :title, "Tracker" %>
+
 <div class="overflow-y-auto h-screen rounded-lg">
   <div class="lg:sticky lg:top-0 z-20 bg-indigo-50 px-4 py-5 sm:px-6 rounded-lg shadow">
     <%= render "tracker/time_entries/form", time_entry: @time_entry %>
