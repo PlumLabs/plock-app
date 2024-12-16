@@ -5,7 +5,7 @@ class Tracker::TimeEntriesTest < ApplicationSystemTestCase
     sign_in users(:franco).email_address
     visit tracker_url
 
-    within("#add-time") do
+    within("#new_time_entry") do
       fill_in "Description", with: "Adding test for time tracking"
       fill_in "Duration", with: "00:35"
       click_on "Add time"
@@ -26,7 +26,7 @@ class Tracker::TimeEntriesTest < ApplicationSystemTestCase
       click_on "Update"
     end
 
-    assert_text "Successfully Updated!"
+    assert_text "Successfully updated!"
     assert time_entry.reload.description, "GPT-5 upgrade"
     assert time_entry.reload.duration, "01:12"
   end
