@@ -14,6 +14,7 @@ class ProjectAssignmentsController < ApplicationController
     respond_to do |format|
       if @project_assignment.save
         format.html { redirect_to @project, notice: "created" }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
       end
