@@ -13,18 +13,26 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token, only: [ :new ]
 
-  resource :dashboard, only: :show, controller: :dashboard
   resources :users, only: [ :index, :new, :create, :destroy ] do
     scope module: "users" do
       resource :profile, only: [ :edit, :update, :destroy ]
     end
   end
+
+  resource :dashboard, only: :show, controller: :dashboard
+
   resources :clients, except: [ :show ]
+
   resources :projects do
     resources :project_assignments, except: [ :index, :show ]
   end
+
   resource :tracker, only: [ :show ]
   namespace :tracker do
     resources :time_entries, only: [ :create, :update, :destroy ]
+  end
+
+  namespace :reports do
+    resource :detailed, only: [ :show ]
   end
 end
