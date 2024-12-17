@@ -1,5 +1,5 @@
 <%= turbo_stream.remove @project_assignment.user %>
 <%= turbo_stream.replace dom_id(@project, :members), partial: "projects/membership", locals: { project: @project } %>
 <%= turbo_stream.append "alert-area" do %>
-  <%= render "alerts/success", title: "Successfully created!" %>
+  <%= render "alerts/success", title: "Successfully created!", position_class: "fixed" %>
 <% end %>
