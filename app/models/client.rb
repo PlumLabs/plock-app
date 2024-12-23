@@ -1,6 +1,8 @@
 class Client < ApplicationRecord
   validates :name, presence: true
 
+  has_many :projects, dependent: :destroy
+
   scope :active, -> { where(disabled_at: nil) }
 
   def disable!

@@ -1,10 +1,8 @@
 class Reports::DetailedsController < ApplicationController
-  # GET /reports/detaileds/new
   def show
-    # @reports_detailed = Reports::Detailed.new
+    @filters = Report::DetailedFilter.new(report_detailed_params.merge(current_user: Current.user))
   end
 
-  # POST /reports/detaileds or /reports/detaileds.json
   def create
     # @reports_detailed = Reports::Detailed.new(reports_detailed_params)
 
@@ -20,13 +18,9 @@ class Reports::DetailedsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reports_detailed
-      # @reports_detailed = Reports::Detailed.find(params.expect(:id))
-    end
+    def report_detailed_params
+      return {} unless params.key?(:report)
 
-    # Only allow a list of trusted parameters through.
-    def reports_detailed_params
-      # params.expect(reports_detailed: [ :name, :description ])
+      params.expect(report: [ :start_date, :end_date, project_ids: [], client_ids: [], user_ids: [] ])
     end
 end
