@@ -1,4 +1,6 @@
 class Reports::DetailedsController < ApplicationController
+  before_action :ensure_can_manage_projects, unless: -> { Current.user.can_administrate? }
+
   def show
     @filters = Report::DetailedFilter.new(report_detailed_params.merge(current_user: Current.user))
   end
