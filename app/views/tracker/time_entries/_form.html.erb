@@ -34,6 +34,14 @@
         %>
       </div>
 
+      <% if local_assigns[:with_user] %>
+        <div class="mt-2 sm:mt-0">
+          <p class="w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6">
+            <%= time_entry.user.name %>
+          </p>
+        </div>
+      <% end %>
+
       <div class="mt-2 sm:mt-0">
         <%= form.date_field :date,
               class: "block w-full py-1.5 sm:text-sm/6 #{input_classes}"

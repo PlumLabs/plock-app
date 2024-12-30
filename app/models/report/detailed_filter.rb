@@ -2,11 +2,17 @@ class Report::DetailedFilter
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :start_date, :date, default: -> { Date.today.beginning_of_month.prev_year }
+  attribute :start_date, :date, default: -> { Date.today.beginning_of_month }
   attribute :end_date, :date, default: -> { Date.today.end_of_month }
   attribute :user_ids, array: true, default: []
   attribute :project_ids, array: true, default: []
   attribute :client_ids, array: true, default: []
+
+  alias_attribute :mobile_user_ids, :user_ids
+  alias_attribute :mobile_project_ids, :project_ids
+  alias_attribute :mobile_client_ids, :client_ids
+
+  attr_reader :current_user
 
   def initialize(attributes = {})
     @current_user = attributes.delete(:current_user)
@@ -34,7 +40,11 @@ class Report::DetailedFilter
   end
 
   def results
-    order_entries.then { filter_entries(_1) }
+    order_entries.includes(:project, :user).then { filter_entries(_1) }
+  end
+
+  def total_minutes
+    results.sum(:duration_minutes)
   end
 
   private

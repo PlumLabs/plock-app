@@ -23,6 +23,10 @@ class Reports::DetailedsController < ApplicationController
     def report_detailed_params
       return {} unless params.key?(:report)
 
-      params.expect(report: [ :start_date, :end_date, project_ids: [], client_ids: [], user_ids: [] ])
+      if params[:button] == "mobile"
+        params.expect(report: [ :start_date, :end_date, mobile_project_ids: [], mobile_client_ids: [], mobile_user_ids: [] ])
+      else
+        params.expect(report: [ :start_date, :end_date, project_ids: [], client_ids: [], user_ids: [] ])
+      end
     end
 end
