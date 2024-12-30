@@ -1,6 +1,6 @@
-require "application_system_test_case"
+require "mobile_system_test_case"
 
-class Reports::DetailedsTest < ApplicationSystemTestCase
+class Reports::MobileDetailedsTest < MobileSystemTestCase
   setup do
     # Admin and manager users
     @admin_user = users(:edu)
@@ -47,11 +47,7 @@ class Reports::DetailedsTest < ApplicationSystemTestCase
   test "filter by client" do
     visit reports_detailed_url
 
-    within('[data-test-id="clients-filter"]') do
-      click_on "Clients"
-      check @client_plum.name
-    end
-
+    select @client_plum.name, from: "report[mobile_client_ids][]"
     click_on "Apply Filters"
 
     within('[data-test-id="entries"]') do
@@ -67,11 +63,7 @@ class Reports::DetailedsTest < ApplicationSystemTestCase
   test "filter by project" do
     visit reports_detailed_url
 
-    within('[data-test-id="projects-filter"]') do
-      click_on "Projects"
-      check @project_openia_gpt5.name
-    end
-
+    select @project_openia_gpt5.name, from: "report[mobile_project_ids][]"
     click_on "Apply Filters"
 
     within('[data-test-id="entries"]') do
@@ -87,11 +79,7 @@ class Reports::DetailedsTest < ApplicationSystemTestCase
   test "filter by user" do
     visit reports_detailed_url
 
-    within('[data-test-id="users-filter"]') do
-      click_on "Users"
-      check "Linus Plum"
-    end
-
+    select "Linus Plum", from: "report[mobile_user_ids][]"
     click_on "Apply Filters"
 
     within('[data-test-id="entries"]') do

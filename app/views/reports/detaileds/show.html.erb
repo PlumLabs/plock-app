@@ -19,7 +19,7 @@
             <%= form.collection_select :mobile_client_ids, @filters.clients, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
           </div>
 
-          <div class="mt-2 sm:mt-0 hidden sm:block grow">
+          <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="clients-filter">
             <div class="relative" data-controller="dropdown">
               <button
                 type="button"
@@ -65,7 +65,7 @@
             <%= form.collection_select :mobile_project_ids, @filters.projects, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
           </div>
 
-          <div class="mt-2 sm:mt-0 hidden sm:block grow">
+          <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="projects-filter">
             <div class="relative" data-controller="dropdown">
               <button
                 type="button"
@@ -111,7 +111,7 @@
             <%= form.collection_select :mobile_user_ids, @filters.users, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
           </div>
 
-          <div class="mt-2 sm:mt-0 hidden sm:block grow">
+          <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="users-filter">
             <div class="relative" data-controller="dropdown">
               <button
                 type="button"
@@ -174,7 +174,7 @@
     </div>
   </div>
 
-  <nav class="h-full overflow-y-auto space-y-3 pt-3">
+  <nav class="h-full overflow-y-auto space-y-3 pt-3" data-test-id="entries">
     <div class="relative overflow-hidden rounded-md bg-white px-6 py-4 shadow">
       <div class="relative">
         <div class="absolute inset-0 flex items-center" aria-hidden="true">
