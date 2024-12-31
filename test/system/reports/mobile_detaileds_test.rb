@@ -99,8 +99,8 @@ class Reports::MobileDetailedsTest < MobileSystemTestCase
     start_date = Date.today - 1.year
     end_date = start_date + 1.day
 
-    fill_in "report[start_date]", with: start_date.strftime("%d/%m/%Y")
-    fill_in "report[end_date]", with: end_date.strftime("%d/%m/%Y")
+    fill_in "report[start_date]", with: start_date
+    fill_in "report[end_date]", with: end_date
 
     click_on "Apply Filters"
 
