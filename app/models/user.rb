@@ -1,9 +1,9 @@
 class User < ApplicationRecord
+  include Role
+
   has_secure_password
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
-
-  enum :role, { member: "member", administrator: "administrator" }
 
   validates :first_name, :last_name, :email_address, presence: true
   validates :email_address, uniqueness: true
@@ -14,10 +14,6 @@ class User < ApplicationRecord
   has_many :time_entries, dependent: :destroy
 
   scope :active, -> { where(disabled_at: nil) }
-
-  def can_administrate?
-    administrator?
-  end
 
   def active?
     disabled_at.nil?

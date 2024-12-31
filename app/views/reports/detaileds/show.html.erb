@@ -1,0 +1,141 @@
+<% content_for :title, "Reports" %>
+
+<div class="overflow-y-auto h-screen rounded-lg">
+  <div class="lg:sticky lg:top-0 z-20 bg-white px-4 py-5 sm:px-6 rounded-lg shadow">
+    <div class="flex flex-col sm:flex-row">
+      <%= form_with(model: @filters, scope: :report, url: reports_detailed_path, method: :get, class: "w-full group") do |form| %>
+        <% input_classes = "text-gray-900 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600" %>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+          <div class="mt-2 sm:mt-0">
+            <%= form.date_field :start_date, class: "block w-full py-1.5 sm:text-sm/6 #{input_classes}" %>
+          </div>
+
+          <div class="mt-2 sm:mt-0">
+            <%= form.date_field :end_date, class: "block w-full py-1.5 sm:text-sm/6 #{input_classes}" %>
+          </div>
+
+          <div class="mt-2 sm:mt-0 sm:hidden">
+            <%= form.collection_select :mobile_client_ids, @filters.clients, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
+          </div>
+
+          <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="clients-filter">
+            <%= render layout: "dropdowns/select", locals: { placeholder: "Clients" } do %>
+              <%= form.collection_checkboxes :client_ids, @filters.clients, :id, :name, include_blank: true, checked: @filters.client_ids do |checkbox| %>
+                <li class="relative cursor-default select-none group" role="option">
+                  <%= checkbox.label class: "flex items-center py-2 px-4 text-gray-900 hover:bg-indigo-600 hover:text-white hover:outline-none w-full" do %>
+                    <%= checkbox.check_box class: "rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto mr-2" %>
+                    <span class="font-normal"><%= checkbox.text %></span>
+                  <% end %>
+                </li>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="mt-2 sm:mt-0 sm:hidden">
+            <%= form.collection_select :mobile_project_ids, @filters.projects, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
+          </div>
+
+          <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="projects-filter">
+            <%= render layout: "dropdowns/select", locals: { placeholder: "Projects" } do %>
+              <%= form.collection_checkboxes :project_ids, @filters.projects, :id, :name, include_blank: true, checked: @filters.project_ids do |checkbox| %>
+                <li class="relative cursor-default select-none group" role="option">
+                  <%= checkbox.label class: "flex items-center py-2 px-4 text-gray-900 hover:bg-indigo-600 hover:text-white hover:outline-none w-full" do %>
+                    <%= checkbox.check_box class: "rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto mr-2" %>
+                    <span class="font-normal"><%= checkbox.text %></span>
+                  <% end %>
+                </li>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="mt-2 sm:mt-0 sm:hidden">
+            <%= form.collection_select :mobile_user_ids, @filters.users, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
+          </div>
+
+          <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="users-filter">
+            <%= render layout: "dropdowns/select", locals: { placeholder: "Users" } do %>
+              <%= form.collection_checkboxes :user_ids, @filters.users, :id, :name, checked: @filters.user_ids do |checkbox| %>
+                <li class="relative cursor-default select-none group" role="option">
+                  <%= checkbox.label class: "flex items-center py-2 px-4 text-gray-900 hover:bg-indigo-600 hover:text-white hover:outline-none w-full" do %>
+                    <%= checkbox.check_box class: "rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto mr-2" %>
+                    <span class="font-normal"><%= checkbox.text %></span>
+                  <% end %>
+                </li>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="mt-2 sm:mt-0">
+            <%= link_to "Reset", reports_detailed_path, class: "sm:text-sm/6 rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+          </div>
+
+          <div class="mt-2 sm:mt-0">
+            <%= form.button type: :submit,
+                class: "hidden sm:inline-flex sm:text-sm/6 rounded-md items-center bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                title: "Filter" do %>
+                <span class="group-aria-busy:hidden">Apply Filters</span>
+                <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="hidden group-aria-busy:block">Applying</span>
+            <% end %>
+
+            <%= form.button type: :submit,
+                value: "mobile",
+                class: "inline-flex sm:hidden sm:text-sm/6 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                title: "Filter" do %>
+                <span class="group-aria-busy:hidden">Apply Filters</span>
+                <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="hidden group-aria-busy:block">Applying</span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <nav class="h-full overflow-y-auto space-y-3 pt-3" data-test-id="entries">
+    <div class="relative overflow-hidden rounded-md bg-white px-6 py-4 shadow">
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+          <div class="w-full border-t border-indigo-600"></div>
+        </div>
+        <div class="relative flex items-center justify-between">
+          <div class="flex flex-col sm:flex-row">
+            <span class="bg-white text-sm text-indigo-600">
+              Total: <span class="font-semibold"><%= minutes_to_hours @filters.total_minutes %></span>
+            </span>
+            <span class="bg-white text-sm text-indigo-600 hidden sm:block"></span>
+            <span class="bg-white pr-2 text-sm text-indigo-600"></span>
+          </div>
+          <span class="bg-white pl-2">
+            <button type="button" class="rounded-full bg-white p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" title="Download PDF Report">
+              <span class="text-indigo-600">
+                <svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true" data-slot="icon" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                </svg>
+              </span>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <ul role="list" class="divide-y divide-gray-100">
+          <% @filters.results.each do |time_entry| %>
+          <li class="gap-x-4 px-3 py-5">
+              <%= render "tracker/time_entries/form", time_entry: time_entry, with_user: true %>
+          </li>
+          <% end %>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<% if ["created", "destroyed", "updated"].include?(flash[:notice])  %>
+  <%= render "alerts/success", title: "Successfully #{flash[:notice]}!", position_class: "fixed top-4 right-4" %>
+<% end %>

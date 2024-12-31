@@ -11,4 +11,15 @@ class User::RoleTest < ActiveSupport::TestCase
     assert_not User.new(role: :member).can_administrate?
     assert_not User.new.can_administrate?
   end
+
+  test "can_manage_projects?" do
+    user = User.create!(first_name: "Master", last_name: "Yoda", email_address: "user@example.com", password: "secret123456")
+    assert_not user.can_manage_projects?
+
+    projects(:one).project_assignments.create!(user: user, role: :member)
+    assert_not user.reload.can_manage_projects?
+
+    projects(:two).project_assignments.create!(user: user, role: :manager)
+    assert user.reload.can_manage_projects?
+  end
 end
