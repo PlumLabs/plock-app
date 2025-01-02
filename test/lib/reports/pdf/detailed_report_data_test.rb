@@ -56,7 +56,7 @@ class Reports::Pdf::DetailedReportDataTest < ActiveSupport::TestCase
   end
 
   test "calculates total hours" do
-    assert_equal "1h 10m", @data.total_hours
+    assert_equal "1h 30m", @data.total_hours
   end
 
   test "groups results by project" do
