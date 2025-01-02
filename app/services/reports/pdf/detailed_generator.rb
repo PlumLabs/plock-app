@@ -48,26 +48,26 @@ class Reports::Pdf::DetailedGenerator
 
     def add_tables(pdf)
       data.grouped_by_project_results.each do |group_result|
-        group_metadata = {
+        group_data = {
           project_name: group_result[:project_name],
           total_group_duration: group_result[:group_duration]
         }
 
         table_data = group_result[:results].map do |entry|
-          [ entry.date.strftime("%d/%m/%Y"), entry.user.name, entry.description, entry.duration ]
+          [ entry.date.strftime("%d/%m/%Y"), sanitize_text(entry.user.name), sanitize_text(entry.description), entry.duration ]
         end
 
-        add_table(pdf, table_data, group_metadata)
+        add_table(pdf, table_data, group_data)
       end
     end
 
-    def add_table(pdf, table_data, group_metadata)
-      metadata = [
-        { content: "Project: #{group_metadata[:project_name] || 'N/A'}", colspan: 3, text_color: "7D7D7D", font_style: :bold },
-        { content: group_metadata[:total_group_duration].to_s, colspan: 1, text_color: "7D7D7D", font_style: :bold }
+    def add_table(pdf, table_data, group_data)
+      table_group_data = [
+        { content: "Project: #{group_data[:project_name] || 'N/A'}", colspan: 3, text_color: "7D7D7D", font_style: :bold },
+        { content: group_data[:total_group_duration], colspan: 1, text_color: "7D7D7D", font_style: :bold }
       ]
 
-      entries = [ metadata ] + [ TABLE_COLUMNS ] + table_data
+      entries = [ table_group_data ] + [ TABLE_COLUMNS ] + table_data
 
       pdf.table(entries, header: true, column_widths: TABLE_COLUMNS_WIDTH, cell_style: TABLE_CELL_STYLE) do |t|
         t.row(1).style(font_style: :bold) # header
@@ -82,5 +82,9 @@ class Reports::Pdf::DetailedGenerator
 
     def date_range
       [ data.start_date, data.end_date ].compact.map { |date| date.strftime("%d/%m/%Y") }.join(" - ")
+    end
+
+    def sanitize_text(text)
+      text.encode("Windows-1252", invalid: :replace, undef: :replace, replace: "?")
     end
 end
