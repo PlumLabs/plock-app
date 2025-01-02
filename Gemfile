@@ -63,3 +63,4 @@ gem "tailwindcss-rails", "~> 3.0"
 
 # Pdf
 gem "prawn"
+gem "prawn-table"
