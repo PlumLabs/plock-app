@@ -38,14 +38,14 @@ class Reports::Pdf::DetailedGenerator
     table_data = @data.results.map do |entry|
       [ entry.date, entry.user.name, entry.description, entry.duration ]
     end
-    
+
     add_table(pdf, table_data)
   end
 
   def add_table(pdf, table_data)
-    metadata = [ 
+    metadata = [
       { content: "Project: F40 Renewal - Client: Ferrari SA and FIAT", colspan: 3, text_color: "7D7D7D", font_style: :bold },
-      { content: "4500:30", colspan: 1, text_color: "7D7D7D", font_style: :bold},
+      { content: "4500:30", colspan: 1, text_color: "7D7D7D", font_style: :bold }
     ]
 
     columns =  [ "Date", "Team Member", "Task", "Hours" ]
@@ -58,7 +58,7 @@ class Reports::Pdf::DetailedGenerator
     ]
 
     cell_style = {
-      borders: [:bottom],
+      borders: [ :bottom ],
       border_width: 0.5,
       border_color: "cccccc"
     }
