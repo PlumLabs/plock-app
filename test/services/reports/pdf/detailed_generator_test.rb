@@ -58,6 +58,16 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
     assert File.exist?(@output_file), "PDF file was not generated"
   end
 
+  test "name returns a random name with date" do
+    start_date = Date.current.beginning_of_month.strftime("%d/%m/%Y")
+    end_date = Date.current.end_of_month.strftime("%d/%m/%Y")
+
+    assert @generator.name.include?(start_date)
+    assert @generator.name.include?(end_date)
+
+    assert_not_equal @generator.name, @generator.name
+  end
+
   test "the report includes a summarize and footer" do
     @generator.generate
     pdf_file = File.read(@output_file)
