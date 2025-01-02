@@ -197,6 +197,11 @@ GEM
     parser (3.3.6.0)
       ast (~> 2.4.1)
       racc
+    pdf-core (0.10.0)
+    prawn (2.5.0)
+      matrix (~> 0.4)
+      pdf-core (~> 0.10.0)
+      ttfunk (~> 1.8)
     propshaft (1.1.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -342,6 +347,8 @@ GEM
     thruster (0.1.9-x86_64-darwin)
     thruster (0.1.9-x86_64-linux)
     timeout (0.4.3)
+    ttfunk (1.8.0)
+      bigdecimal (~> 3.1)
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -391,6 +398,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  prawn
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0)

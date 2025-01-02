@@ -58,4 +58,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# UI
 gem "tailwindcss-rails", "~> 3.0"
+
+# Pdf
+gem "prawn"
