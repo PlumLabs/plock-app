@@ -1,4 +1,6 @@
 class Reports::Pdf::DetailedGenerator
+  SYSTEM_FILE_NAME = "tmp/report.pdf".freeze
+
   def initialize(filter)
     @data = Reports::Pdf::DetailedReportData.new(filter)
   end
@@ -24,7 +26,6 @@ class Reports::Pdf::DetailedGenerator
 
     attr_reader :data
 
-    SYSTEM_FILE_NAME = "tmp/report.pdf".freeze
     TABLE_COLUMNS = [ "Date", "Member", "Task", "Hours" ].freeze
     TABLE_COLUMNS_WIDTH = [ 70, 130, 270, 70 ].freeze
     TABLE_CELL_STYLE = { borders: [ :bottom ], border_width: 0.5, border_color: "cccccc" }.freeze

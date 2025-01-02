@@ -1,4 +1,6 @@
 class Reports::Pdf::DetailedReportData
+  include TimeUtil
+
   delegate_missing_to :filter
 
   attr_reader :filter
@@ -23,12 +25,4 @@ class Reports::Pdf::DetailedReportData
   def total_hours
     minutes_to_hours(filter.total_minutes)
   end
-
-  private
-
-    def minutes_to_hours(minutes)
-      hours = minutes / 60
-      minutes = minutes % 60
-      "#{hours}h #{minutes}m"
-    end
 end
