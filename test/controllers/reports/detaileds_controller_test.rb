@@ -36,4 +36,10 @@ class Reports::DetailedsControllerTest < ActionDispatch::IntegrationTest
     get reports_detailed_url
     assert_response :forbidden
   end
+
+  test "report allows pdf format" do
+    sign_in users(:edu)
+    get reports_detailed_url(format: :pdf)
+    assert_response :success
+  end
 end
