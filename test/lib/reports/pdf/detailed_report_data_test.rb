@@ -67,7 +67,7 @@ class Reports::Pdf::DetailedReportDataTest < ActiveSupport::TestCase
 
     # no project
     group = grouped_results.first
-    assert_equal nil, group[:project_name]
+    assert_nil group[:project_name]
     assert_equal "1h 10m", group[:group_duration]
     assert_equal 2, group[:results].size
 

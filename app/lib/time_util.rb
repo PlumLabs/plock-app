@@ -1,7 +1,7 @@
 module TimeUtil
-  def minutes_to_hours(minutes)
+  def minutes_to_hours(minutes, format = "%dh %dm")
     hours = minutes / 60
     min = minutes % 60
-    "#{hours}h #{min}m"
+    format(format, hours, min)
   end
 end
