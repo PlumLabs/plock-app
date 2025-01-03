@@ -1,15 +1,15 @@
 class Tracker::TimeEntriesController < ApplicationController
   before_action :set_time_entry, only: %i[ update destroy ]
-  before_action :ensure_user, unless: -> { Current.user.can_administrate? }, only: %i[ create update destroy ]
+  before_action :ensure_user, unless: :can_administrate_or_manage?, only: %i[ create update destroy ]
 
   def create
     @time_entry = TimeEntry.new(time_entry_params)
 
     respond_to do |format|
       if @time_entry.save
-        format.html { redirect_to tracker_path, notice: "created" }
+        format.html { redirect_back fallback_location: tracker_path, notice: "created" }
       else
-        format.html { render tracker_path, notice: "not_created" }
+        format.html { redirect_back fallback_location: tracker_path, notice: "not_created" }
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(@time_entry, partial: "form", locals: { time_entry: @time_entry })
         end
@@ -20,9 +20,9 @@ class Tracker::TimeEntriesController < ApplicationController
   def update
     respond_to do |format|
       if @time_entry.update(time_entry_params)
-        format.html { redirect_to tracker_path, notice: "updated" }
+        format.html { redirect_back fallback_location: tracker_path, notice: "updated" }
       else
-        format.html { render tracker_path, notice: "not_updated" }
+        format.html { redirect_back fallback_location: tracker_path, notice: "not_updated" }
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(@time_entry, partial: "form", locals: { time_entry: @time_entry }, method: :morph)
         end
@@ -34,13 +34,20 @@ class Tracker::TimeEntriesController < ApplicationController
     @time_entry.destroy!
 
     respond_to do |format|
-      format.html { redirect_to tracker_path, status: :see_other, notice: "destroyed" }
+      format.html { redirect_back fallback_location: tracker_path, status: :see_other, notice: "destroyed" }
     end
   end
 
   private
     def set_time_entry
       @time_entry = TimeEntry.find(params.expect(:id))
+    end
+
+    def can_administrate_or_manage?
+      return true if Current.user.can_administrate?
+
+      project_id = @time_entry&.project_id || time_entry_params[:project_id].to_i
+      Current.user.can_manage_project?(project_id)
     end
 
     def ensure_user

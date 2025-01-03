@@ -1,6 +1,6 @@
 <div id="<%= dom_id(time_entry) %>" class="flex flex-col sm:flex-row">
   <%= form_with(model: [:tracker, time_entry], class: "group w-full") do |form| %>
-    <%= form.hidden_field :user_id %>
+    <%= form.hidden_field :user_id if local_assigns[:user_collection].blank? %>
 
     <% duration_error_class = time_entry.errors[:duration_minutes].any? ? "outline outline-1 -outline-offset-1 outline-red-300" : "" %>
     <% edit_input_classes = "text-gray-900 rounded-md border-0 shadow-sm sm:shadow-none	hover:shadow-sm ring-1 sm:ring-0 hover:ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600" %>
@@ -21,7 +21,7 @@
 
       <div class="mt-2 sm:mt-0">
         <%= form.collection_select :project_id,
-              time_entry.user.projects,
+              local_assigns[:project_collection] || time_entry.user.projects,
               :id,
               :name,
               {
@@ -34,11 +34,29 @@
         %>
       </div>
 
+      <%# show the user name %>
       <% if local_assigns[:with_user] %>
         <div class="mt-2 sm:mt-0">
           <p class="w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6">
             <%= time_entry.user.name %>
           </p>
+        </div>
+      <% end %>
+
+      <% if local_assigns[:user_collection].present? %>
+        <div class="mt-2 sm:mt-0">
+          <%= form.collection_select :user_id,
+                local_assigns[:user_collection],
+                :id,
+                :name,
+                {
+                  prompt: "User",
+                  include_blank: true
+                },
+                {
+                  class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}"
+                }
+          %>
         </div>
       <% end %>
 

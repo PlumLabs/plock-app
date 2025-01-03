@@ -99,7 +99,20 @@
     </div>
   </div>
 
-  <nav class="h-full overflow-y-auto space-y-3 pt-3" data-test-id="entries">
+  <details class="group my-3 px-2 shadow-sm bg-white rounded">
+    <summary class="bg-white px-2 py-1 text-xs text-indigo-600 cursor-pointer">
+      Add time for others
+    </summary>
+    <div class="mt-2 px-2 pb-4">
+      <%= render "tracker/time_entries/form",
+                 time_entry: TimeEntry.new(date: Date.current),
+                 user_collection: @filters.users,
+                 project_collection: @filters.projects
+      %>
+    </div>
+  </details>
+
+  <nav class="h-full overflow-y-auto space-y-3" data-test-id="entries">
     <div class="relative overflow-hidden rounded-md bg-white px-6 py-4 shadow">
       <div class="relative">
         <div class="absolute inset-0 flex items-center" aria-hidden="true">
