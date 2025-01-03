@@ -7,9 +7,9 @@ class Tracker::TimeEntriesController < ApplicationController
 
     respond_to do |format|
       if @time_entry.save
-        format.html { redirect_to tracker_path, notice: "created" }
+        format.html { redirect_back fallback_location: tracker_path, notice: "created" }
       else
-        format.html { render tracker_path, notice: "not_created" }
+        format.html { redirect_back fallback_location: tracker_path, notice: "not_created" }
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(@time_entry, partial: "form", locals: { time_entry: @time_entry })
         end

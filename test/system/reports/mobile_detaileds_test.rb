@@ -111,4 +111,21 @@ class Reports::MobileDetailedsTest < MobileSystemTestCase
       assert_text "Grace Plum"
     end
   end
+
+  test "add a new time entry for other user" do
+    visit reports_detailed_url
+
+    find("summary", text: "Add time for others").click
+
+    within("#new_time_entry") do
+      fill_in "Description", with: "Adding test for time tracking"
+      select "01", from: "time_entry[duration_mobile(4i)]"
+      select "25", from: "time_entry[duration_mobile(5i)]"
+      select @project_plum_www.name, from: "time_entry[project_id]"
+      select "Alan Plum", from: "time_entry[user_id]"
+      click_on "Add time"
+    end
+
+    assert_text "Successfully created!"
+  end
 end

@@ -29,14 +29,52 @@ class Tracker::TimeEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "users cannot create/update a time entry for another user" do
+  test "administrator can create time entries for another user" do
     sign_in users(:franco)
+
+    assert_difference("TimeEntry.count") do
+      post tracker_time_entries_url, params: {
+        time_entry: { date: "2021-05-01", description: "Worked on the project", duration: "03:34", user_id: users(:franco).id }
+      }
+    end
+  end
+
+  test "project manager cannot create a time entry for other user in another project" do
+    user = User.create!(first_name: "alan", last_name: "plum", email_address: "#{name}@plum.com.ar", password: "password")
+    sign_in user
 
     assert_no_difference("TimeEntry.count") do
       post tracker_time_entries_url, params: {
-        time_entry: { date: "2021-05-01", description: "Worked on the project", duration: "03:34", user_id: users(:edu).id }
+        time_entry: { date: "2021-05-01", description: "test", duration: "03:34", user_id: users(:edu).id }
       }
     end
+
+    assert_response :forbidden
+  end
+
+  test "project manager can create a time entry for other user in the project" do
+    sign_in users(:franco)
+
+    assert_difference("TimeEntry.count", 1) do
+      post tracker_time_entries_url, params: {
+        time_entry: { date: "2021-05-01", description: "test", duration: "03:34", user_id: users(:edu).id, project_id: projects(:two).id }
+      }
+    end
+  end
+
+  test "members cannot update a time entry for another user in the same project" do
+    user = User.create!(first_name: "alan", last_name: "plum", email_address: "#{name}@plum.com.ar", password: "password")
+    projects(:two).project_assignments.create!(user: user, role: :member)
+
+    time_entry = TimeEntry.create!(date: "2021-05-01", description: "test", duration: "03:34", user: users(:edu), project: projects(:two))
+
+    sign_in user
+
+    patch tracker_time_entry_url(time_entry), params: {
+      time_entry: { date: "2022-02-02", description: "test", duration: "03:34", user_id: users(:edu).id, project_id: projects(:two).id }
+    }
+
+    assert_response :forbidden
   end
 
   test "project manager can update a time entry for another user in the same project" do
@@ -52,7 +90,7 @@ class Tracker::TimeEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal time_entry.date, "2022-02-02".to_date
   end
 
-  test "admin can destroy a time entry for another users" do
+  test "administrator can destroy a time entry for another users" do
     time_entry = TimeEntry.create!(date: "2021-05-01", description: "Worked on the project", duration: "03:34", user: users(:franco))
 
     sign_in users(:edu)
@@ -87,7 +125,7 @@ class Tracker::TimeEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "memeber can desotry its own time entries" do
+  test "memeber can destroy its own time entries" do
     time_entry = TimeEntry.create!(date: "2021-05-01", description: "Worked on the project", duration: "03:34", user: users(:franco))
 
     sign_in users(:franco)
