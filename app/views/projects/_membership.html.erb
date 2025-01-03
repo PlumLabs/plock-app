@@ -29,9 +29,9 @@
               </div>
 
               <!-- Data Rows -->
-              <ul role="rowgroup" class="space-y-2">
+              <ul role="rowgroup" class="divide-y divide-gray-100">
                 <% project.project_assignments.each do |assignment| %>
-                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 items-start bg-white p-2 border-b" data-test-id=<%= assignment.id %> >
+                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 items-start bg-white p-2" data-test-id=<%= assignment.id %> >
 
                     <div role="cell">
                       <span class="sm:hidden font-bold">Name: </span>
