@@ -111,9 +111,9 @@
               </div>
 
               <!-- Data Rows -->
-              <ul role="rowgroup" class="space-y-2">
+              <ul role="rowgroup" class="divide-y divide-gray-100">
                 <% @projects.each do |project| %>
-                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 items-start bg-white p-2 rounded shadow" data-test-id=<%= project.id %>>
+                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 items-start bg-white p-2" data-test-id=<%= project.id %>>
                     <div role="cell">
                       <span class="sm:hidden font-bold">Name: </span>
                       <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 hover:text-indigo-600">
