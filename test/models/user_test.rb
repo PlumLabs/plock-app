@@ -27,6 +27,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.active.ids, [ active_user.id ]
   end
 
+  test "scope archive" do
+    assert_equal 0, User.archive.count
+
+    users(:edu).deactivate
+
+    assert_equal 1, User.archive.count
+  end
+
   test "#current?" do
     # Current user is not edu
     user = User.new(first_name: "Edu", last_name: "Plum", email_address: "saul@plum.com.ar", password: "password")

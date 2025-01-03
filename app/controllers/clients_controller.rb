@@ -65,7 +65,7 @@ class ClientsController < ApplicationController
       when "active"
         scope.active
       when "archive"
-        scope.active.invert_where
+        scope.archive
       else
         scope
       end
