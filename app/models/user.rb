@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :time_entries, dependent: :destroy
 
   scope :active, -> { where(disabled_at: nil) }
+  scope :archive, -> { where.not(disabled_at: nil) }
 
   def active?
     disabled_at.nil?

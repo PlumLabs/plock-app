@@ -19,4 +19,12 @@ class ClientTest < ActiveSupport::TestCase
 
     assert_equal 0, Client.active.count
   end
+
+  test ".archive returns only archived clients" do
+    assert_equal 0, Client.archive.count
+
+    clients(:plum).disable!
+
+    assert_equal 1, Client.archive.count
+  end
 end
