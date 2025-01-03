@@ -76,9 +76,9 @@
               </div>
 
               <!-- Data Rows -->
-              <ul role="rowgroup" class="space-y-2">
+              <ul role="rowgroup" class="divide-y divide-gray-100 space-y-2 sm:space-y-0">
                 <% @users.each do |user| %>
-                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 items-start bg-white p-2 rounded shadow" data-test-id=<%= user.id %> >
+                  <li role="row" class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 items-start bg-white p-2" data-test-id=<%= user.id %> >
                     <div role="cell">
                       <span class="sm:hidden font-bold">Name: </span>
                       <span class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= user.name %></span>

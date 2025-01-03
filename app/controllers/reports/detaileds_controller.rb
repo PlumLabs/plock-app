@@ -2,12 +2,12 @@ class Reports::DetailedsController < ApplicationController
   before_action :ensure_can_manage_projects, unless: -> { Current.user.can_administrate? }
 
   def show
-    @filters = Report::DetailedFilter.new(report_detailed_params.merge(current_user: Current.user))
+    @filter = Report::DetailedFilter.new(report_detailed_params.merge(current_user: Current.user))
 
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = Reports::Pdf::DetailedGenerator.new(@filters)
+        pdf = Reports::Pdf::DetailedGenerator.new(@filter)
         send_data pdf.generate, filename: pdf.name, type: "application/pdf", disposition: "inline"
       end
     end

@@ -3,7 +3,7 @@
 <div class="overflow-y-auto h-screen rounded-lg">
   <div class="lg:sticky lg:top-0 z-20 bg-white px-4 py-5 sm:px-6 rounded-lg shadow">
     <div class="flex flex-col sm:flex-row">
-      <%= form_with(model: @filters, scope: :report, url: reports_detailed_path, method: :get, class: "w-full group") do |form| %>
+      <%= form_with(model: @filter, scope: :report, url: reports_detailed_path, method: :get, class: "w-full group") do |form| %>
         <% input_classes = "text-gray-900 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600" %>
 
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
@@ -16,12 +16,12 @@
           </div>
 
           <div class="mt-2 sm:mt-0 sm:hidden">
-            <%= form.collection_select :mobile_client_ids, @filters.clients, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
+            <%= form.collection_select :mobile_client_ids, @filter.clients, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
           </div>
 
           <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="clients-filter">
             <%= render layout: "dropdowns/select", locals: { placeholder: "Clients" } do %>
-              <%= form.collection_checkboxes :client_ids, @filters.clients, :id, :name, include_blank: true, checked: @filters.client_ids do |checkbox| %>
+              <%= form.collection_checkboxes :client_ids, @filter.clients, :id, :name, include_blank: true, checked: @filter.client_ids do |checkbox| %>
                 <li class="relative cursor-default select-none group" role="option">
                   <%= checkbox.label class: "flex items-center py-2 px-4 text-gray-900 hover:bg-indigo-600 hover:text-white hover:outline-none w-full" do %>
                     <%= checkbox.check_box class: "rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto mr-2" %>
@@ -33,12 +33,12 @@
           </div>
 
           <div class="mt-2 sm:mt-0 sm:hidden">
-            <%= form.collection_select :mobile_project_ids, @filters.projects, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
+            <%= form.collection_select :mobile_project_ids, @filter.projects, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
           </div>
 
           <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="projects-filter">
             <%= render layout: "dropdowns/select", locals: { placeholder: "Projects" } do %>
-              <%= form.collection_checkboxes :project_ids, @filters.projects, :id, :name, include_blank: true, checked: @filters.project_ids do |checkbox| %>
+              <%= form.collection_checkboxes :project_ids, @filter.projects, :id, :name, include_blank: true, checked: @filter.project_ids do |checkbox| %>
                 <li class="relative cursor-default select-none group" role="option">
                   <%= checkbox.label class: "flex items-center py-2 px-4 text-gray-900 hover:bg-indigo-600 hover:text-white hover:outline-none w-full" do %>
                     <%= checkbox.check_box class: "rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto mr-2" %>
@@ -50,12 +50,12 @@
           </div>
 
           <div class="mt-2 sm:mt-0 sm:hidden">
-            <%= form.collection_select :mobile_user_ids, @filters.users, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
+            <%= form.collection_select :mobile_user_ids, @filter.users, :id, :name, { include_blank: true }, { multiple: true, class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}" } %>
           </div>
 
           <div class="mt-2 sm:mt-0 hidden sm:block grow" data-test-id="users-filter">
             <%= render layout: "dropdowns/select", locals: { placeholder: "Users" } do %>
-              <%= form.collection_checkboxes :user_ids, @filters.users, :id, :name, checked: @filters.user_ids do |checkbox| %>
+              <%= form.collection_checkboxes :user_ids, @filter.users, :id, :name, checked: @filter.user_ids do |checkbox| %>
                 <li class="relative cursor-default select-none group" role="option">
                   <%= checkbox.label class: "flex items-center py-2 px-4 text-gray-900 hover:bg-indigo-600 hover:text-white hover:outline-none w-full" do %>
                     <%= checkbox.check_box class: "rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto mr-2" %>
@@ -106,8 +106,8 @@
     <div class="mt-2 px-2 pb-4">
       <%= render "tracker/time_entries/form",
                  time_entry: TimeEntry.new(date: Date.current),
-                 user_collection: @filters.users,
-                 project_collection: @filters.projects
+                 user_collection: @filter.users,
+                 project_collection: @filter.projects
       %>
     </div>
   </details>
@@ -121,14 +121,14 @@
         <div class="relative flex items-center justify-between">
           <div class="flex flex-col sm:flex-row">
             <span class="bg-white text-sm text-indigo-600">
-              Total: <span class="font-semibold"><%= minutes_to_hours @filters.total_minutes %></span>
+              Total: <span class="font-semibold"><%= minutes_to_hours @filter.total_minutes %></span>
             </span>
             <span class="bg-white text-sm text-indigo-600 hidden sm:block"></span>
             <span class="bg-white pr-2 text-sm text-indigo-600"></span>
           </div>
           <span class="bg-white pl-2">
             <%= button_to reports_detailed_path(format: :pdf),
-                          params: { report: @filters.attributes },
+                          params: { report: @filter.attributes },
                           method: :get,
                           form: { target: "_blank" },
                           class: "rounded-full bg-white p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
@@ -143,8 +143,8 @@
         </div>
       </div>
 
-      <ul role="list" class="divide-y divide-gray-100">
-          <% @filters.results.each do |time_entry| %>
+      <ul role="list" class="divide-y divide-gray-100 space-y-2 sm:space-y-0">
+          <% @filter.results.each do |time_entry| %>
           <li class="gap-x-4 px-3 py-5">
               <%= render "tracker/time_entries/form", time_entry: time_entry, with_user: true %>
           </li>
