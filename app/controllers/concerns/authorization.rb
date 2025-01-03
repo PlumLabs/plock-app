@@ -11,4 +11,8 @@ module Authorization
     def ensure_can_manage_projects
       head :forbidden unless Current.user.can_manage_projects?
     end
+
+    def ensure_can_manage_project(project_id)
+      head :forbidden unless Current.user.can_manage_project?(project_id)
+    end
 end

@@ -19,4 +19,12 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert_equal 1, Project.active.count
   end
+
+  test ".archive returns only archive projects" do
+    assert_equal 0, Project.archive.count
+
+    projects(:one).disable!
+
+    assert_equal 1, Project.archive.count
+  end
 end

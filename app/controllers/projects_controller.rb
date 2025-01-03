@@ -1,9 +1,11 @@
 class ProjectsController < ApplicationController
-  before_action :ensure_can_administrate
+  before_action :ensure_can_administrate, only: %i[ new create destroy ]
+  before_action :ensure_can_manage_projects, unless: -> { Current.user.can_administrate? }, only: %i[ index ]
+  before_action -> { ensure_can_manage_project(params[:id]) unless Current.user.can_administrate? }, only: %i[ show edit update ]
   before_action :set_project, only: %i[ show edit update destroy ]
 
   def index
-    @projects = filter_projects(Project.includes(:client).all).then { search_projects(_1) }
+    @projects = filter_projects(project_scope).then { search_projects(_1) }
   end
 
   def show
@@ -61,6 +63,14 @@ class ProjectsController < ApplicationController
       params.expect(q: [ :name_or_clients_name_cont, :status_eq, :client_id ])
     end
 
+    def project_scope
+      if Current.user.can_administrate?
+        Project.includes(:client).all
+      else
+        Current.user.projects.merge(ProjectAssignment.manager).includes(:client)
+      end
+    end
+
     def filter_projects(scope)
       filter_by_status(scope).then { filter_by_client(_1) }
     end
@@ -72,7 +82,7 @@ class ProjectsController < ApplicationController
       when "active"
         scope.active
       when "archive"
-        scope.active.invert_where
+        scope.archive
       else
         scope
       end

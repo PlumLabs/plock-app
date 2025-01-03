@@ -1,5 +1,5 @@
 class ProjectAssignmentsController < ApplicationController
-  before_action :ensure_can_administrate
+  before_action -> { ensure_can_manage_project(params[:project_id]) unless Current.user.can_administrate? }
   before_action :set_project, only: %i[ new create destroy edit update ]
   before_action :set_project_assignment, only: %i[ destroy edit update ]
 

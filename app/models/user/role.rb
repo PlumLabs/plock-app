@@ -12,4 +12,8 @@ module User::Role
   def can_manage_projects?
     projects.merge(ProjectAssignment.manager).exists?
   end
+
+  def can_manage_project?(project_id)
+    projects.merge(ProjectAssignment.manager).exists?(id: project_id)
+  end
 end
