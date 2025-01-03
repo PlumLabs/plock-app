@@ -56,6 +56,12 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
+  gem "pdf-inspector"
 end
 
+# UI
 gem "tailwindcss-rails", "~> 3.0"
+
+# Pdf
+gem "prawn"
+gem "prawn-table"

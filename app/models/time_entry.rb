@@ -1,4 +1,6 @@
 class TimeEntry < ApplicationRecord
+  include TimeUtil
+
   belongs_to :user
   belongs_to :project, optional: true
 
@@ -9,9 +11,7 @@ class TimeEntry < ApplicationRecord
   normalizes :duration, with: -> { _1.gsub(/[^0-9:]/, "") }
 
   def duration
-    hours = duration_minutes / 60
-    minutes = duration_minutes % 60
-    format("%02d:%02d", hours, minutes)
+    minutes_to_hours(duration_minutes, "%02d:%02d")
   end
 
   def duration=(duration)

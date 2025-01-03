@@ -123,4 +123,19 @@ class Reports::DetailedsTest < ApplicationSystemTestCase
       assert_text "Grace Plum"
     end
   end
+
+  test "generate a pdf report" do
+    visit reports_detailed_url
+
+    initial_window_count = windows.length
+
+    click_on "Open PDF Report"
+
+    assert_equal initial_window_count + 1, windows.length
+
+    # Switch to newly opened window
+    within_window(windows.last) do
+      assert_match(/\.pdf/, current_url)
+    end
+  end
 end
