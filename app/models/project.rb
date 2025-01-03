@@ -7,6 +7,7 @@ class Project < ApplicationRecord
   has_many :time_entries
 
   scope :active, -> { where(disabled_at: nil) }
+  scope :archive, -> { where.not(disabled_at: nil) }
 
   def disable!
     update!(disabled_at: Time.zone.now)
