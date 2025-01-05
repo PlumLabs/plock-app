@@ -1,31 +1,33 @@
-<nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6" aria-label="Pagination">
-  <div class="hidden sm:block">
-    <p class="text-sm text-gray-700">
-      Showing
-      <span class="font-medium"><%= paginate_offset + 1 %></span>
-      to
-      <span class="font-medium"><%= paginate_offset + per_page %></span>
-      of
-      <span class="font-medium"><%= total_count %></span>
-      results
-    </p>
-  </div>
-  <div class="flex flex-1 justify-between sm:justify-end">
-    <% if page_no > 1 %>
-      <%= link_to(
-        "Previous",
-        url_for(controller: local_assigns[:path], params: request.query_parameters.merge(page: page_no - 1)),
-        data: { turbo_action: "advance" },
-        class: "relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
-      ) %>
-    <% end %>
-    <% if page_no < total_pages %>
-      <%= link_to(
-        "Next",
-        url_for(controller: local_assigns[:path], params: request.query_parameters.merge(page: page_no + 1)),
-        data: { turbo_action: "advance" },
-        class: "relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
-      ) %>
-    <% end %>
-  </div>
-</nav>
+<% if total_pages > 1 %>
+  <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6" aria-label="Pagination">
+    <div class="hidden sm:block">
+      <p class="text-sm text-gray-700">
+        Showing
+        <span class="font-medium"><%= paginate_offset + 1 %></span>
+        to
+        <span class="font-medium"><%= paginate_offset + per_page %></span>
+        of
+        <span class="font-medium"><%= total_count %></span>
+        results
+      </p>
+    </div>
+    <div class="flex flex-1 justify-between sm:justify-end">
+      <% if page_no > 1 %>
+        <%= link_to(
+          "Previous",
+          url_for(controller: local_assigns[:path], params: request.query_parameters.merge(page: page_no - 1)),
+          data: { turbo_action: "advance" },
+          class: "relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+        ) %>
+      <% end %>
+      <% if page_no < total_pages %>
+        <%= link_to(
+          "Next",
+          url_for(controller: local_assigns[:path], params: request.query_parameters.merge(page: page_no + 1)),
+          data: { turbo_action: "advance" },
+          class: "relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+        ) %>
+      <% end %>
+    </div>
+  </nav>
+<% end %>

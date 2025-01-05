@@ -21,13 +21,13 @@ class PaginationTest < ActiveSupport::TestCase
 
   test "default values" do
     assert_equal 1, @controller.total_count, "Default total_count should be 1"
-    assert_equal 10, @controller.per_page, "Default per_page should be 10"
+    assert_equal TestController::DEFAULT_PER_PAGE, @controller.per_page, "Default per_page should be 10"
     assert_equal 1, @controller.page_no, "Default page_no should be 1"
     assert_equal 0, @controller.paginate_offset, "Default paginate_offset should be 0"
   end
 
   test "calculated total pages" do
-    @controller.instance_variable_set(:@total_count, 25)
+    @controller.instance_variable_set(:@total_count, 250)
     assert_equal 3, @controller.total_pages, "total_pages should calculate correctly"
   end
 
