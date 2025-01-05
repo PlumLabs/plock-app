@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
 
   def index
-    @projects = filter_projects(project_scope).then { search_projects(_1) }
+    @projects = filter_projects(project_scope).then { search_projects(_1) }.then(&paginate)
   end
 
   def show

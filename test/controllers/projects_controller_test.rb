@@ -191,4 +191,27 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match /HR assistant/, @response.body
     assert_no_match /Delta/, @response.body
   end
+
+  test "projects are paginated" do
+    10.times { Project.create!(name: Faker::App.unique.name) }
+
+    sign_in @admin_user
+
+    get projects_url, params: { per_page: 5 }
+    assert_select "a", { text: /Next/ }
+    assert_select "a", { text: /Previous/, count: 0 }
+
+    # Navigate to the second page to test the presence of the "Previous" link
+    get projects_url, params: { page: 2, per_page: 5 }
+    assert_select "a", { text: /Next/ }
+    assert_select "a", { text: /Previous/ }
+  end
+
+  test "does not show pagination when no enough records" do
+    sign_in @admin_user
+
+    get projects_url
+    assert_select "a", { text: /Previous/, count: 0 }
+    assert_select "a", { text: /Next/, count: 0 }
+  end
 end

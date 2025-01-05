@@ -120,4 +120,26 @@ class ClientsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match /Apple/, @response.body
     assert_match /Google/, @response.body
   end
+
+  test "clients are paginated" do
+    10.times do
+      name = Faker::Company.unique.name
+      Client.create!(name: name, email: Faker::Internet.unique.email(name: name, domain: "plum.com.ar"), note: "test")
+    end
+
+    get clients_url, params: { per_page: 5 }
+    assert_select "a", { text: /Next/ }
+    assert_select "a", { text: /Previous/, count: 0 }
+
+    # Navigate to the second page to test the presence of the "Previous" link
+    get clients_url, params: { page: 2, per_page: 5 }
+    assert_select "a", { text: /Next/ }
+    assert_select "a", { text: /Previous/ }
+  end
+
+  test "does not show pagination when no enough records" do
+    get clients_url
+    assert_select "a", { text: /Previous/, count: 0 }
+    assert_select "a", { text: /Next/, count: 0 }
+  end
 end

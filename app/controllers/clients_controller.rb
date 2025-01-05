@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
   before_action :set_client, only: %i[ edit update destroy ]
 
   def index
-    @clients = filter_clients(Client.all).then { search_clients(_1) }
+    @clients = filter_clients(Client.all).then { search_clients(_1) }.then(&paginate)
   end
 
   def new

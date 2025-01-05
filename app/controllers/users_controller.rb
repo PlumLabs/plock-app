@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ destroy ]
 
   def index
-    @users = filter_users(User.all).then { search_users(_1) }
+    @users = filter_users(User.all).then { search_users(_1) }.then(&paginate)
   end
 
   def new
