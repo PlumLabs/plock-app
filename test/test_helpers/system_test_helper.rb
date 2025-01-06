@@ -6,6 +6,6 @@ module SystemTestHelper
     fill_in "password", with: password
 
     click_on "Sign in"
-    assert_text "Dashboard#show"
+    assert_text "Tracker" # an element from the sidebar
   end
 end
