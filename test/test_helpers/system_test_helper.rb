@@ -6,6 +6,7 @@ module SystemTestHelper
     fill_in "password", with: password
 
     click_on "Sign in"
-    assert_text "Tracker" # an element from the sidebar
+
+    assert_selector("[data-testid='app']") # Wait for the app to load
   end
 end
