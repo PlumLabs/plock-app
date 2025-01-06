@@ -1,14 +1,24 @@
 require "application_system_test_case"
 
 class SignInsTest < ApplicationSystemTestCase
-  test "Signing in" do
+  test "Signing in as an administrator" do
     visit new_session_path
 
     fill_in "Email address", with: users(:edu).email_address
     fill_in "Password", with: "password"
     click_on "Sign in"
 
-    assert_text "Dashboard#show"
+    assert_current_path reports_detailed_path
+  end
+
+  test "Signing in as a memeber" do
+    visit new_session_path
+
+    fill_in "Email address", with: users(:franco).email_address
+    fill_in "Password", with: "password"
+    click_on "Sign in"
+
+    assert_current_path tracker_path
   end
 
   test "Signing out" do
