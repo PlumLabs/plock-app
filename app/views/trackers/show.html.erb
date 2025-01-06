@@ -35,6 +35,8 @@
       </div>
     <% end %>
   </nav>
+
+  <%= render "pagination/simple", { controller: :trackers, action: :show } %>
 </div>
 
 <% if ["created", "destroyed", "updated"].include?(flash[:notice])  %>

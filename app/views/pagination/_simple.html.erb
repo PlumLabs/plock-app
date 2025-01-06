@@ -15,7 +15,11 @@
       <% if page_no > 1 %>
         <%= link_to(
           "Previous",
-          url_for(controller: local_assigns[:path], params: request.query_parameters.merge(page: page_no - 1)),
+          url_for(
+            controller: local_assigns[:controller],
+            action: local_assigns[:action] || :index,
+            params: request.query_parameters.merge(page: page_no - 1)
+          ),
           data: { turbo_action: "advance" },
           class: "relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
         ) %>
@@ -23,7 +27,11 @@
       <% if page_no < total_pages %>
         <%= link_to(
           "Next",
-          url_for(controller: local_assigns[:path], params: request.query_parameters.merge(page: page_no + 1)),
+          url_for(
+            controller: local_assigns[:controller],
+            action: local_assigns[:action] || :index,
+            params: request.query_parameters.merge(page: page_no + 1)
+          ),
           data: { turbo_action: "advance" },
           class: "relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
         ) %>
