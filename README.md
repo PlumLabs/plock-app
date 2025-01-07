@@ -20,8 +20,8 @@ bin/dev
 ## Testing
 
 ```console
-bin/test
-bin/test test:system
+bin/rails test
+bin/rails test:system
 ```
 
 ## Deploy
