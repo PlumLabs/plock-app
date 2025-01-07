@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Rails 8.x
+* Ruby 3.x
+* Tailwind 3.x
+* Sqlite
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+Install dependencies:
+```console
+bin/setup --skip-server
+```
 
-* System dependencies
+Run the app:
+```console
+bin/dev
+```
 
-* Configuration
+## Testing
 
-* Database creation
+```console
+bin/test
+bin/test test:system
+```
 
-* Database initialization
+## Deploy
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Deploy the app yourself using tools like Kamal or any other deployment service.
