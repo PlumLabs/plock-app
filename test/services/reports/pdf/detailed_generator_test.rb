@@ -59,8 +59,8 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
   end
 
   test "name returns a random name with date" do
-    start_date = Date.current.beginning_of_month.strftime("%d/%m/%Y")
-    end_date = Date.current.end_of_month.strftime("%d/%m/%Y")
+    start_date = Date.current.beginning_of_month.strftime("%d-%m-%Y")
+    end_date = Date.current.end_of_month.strftime("%d-%m-%Y")
 
     assert @generator.name.include?(start_date)
     assert @generator.name.include?(end_date)
