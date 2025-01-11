@@ -33,6 +33,11 @@ class Reports::Pdf::DetailedGenerator
 
     def add_header(pdf)
       pdf.text "Time Report", size: 18, style: :bold, align: :left
+
+      pdf.image Rails.root.join("app", "assets", "images", "report_logo.png"),
+                at: [ pdf.bounds.right - 90, pdf.cursor + 35 ],
+                width: 70
+
       pdf.move_down 10
       pdf.text date_range, size: 12, align: :left
       pdf.move_down 10
