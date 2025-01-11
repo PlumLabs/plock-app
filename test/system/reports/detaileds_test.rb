@@ -44,6 +44,43 @@ class Reports::DetailedsTest < ApplicationSystemTestCase
     sign_in @admin_user.email_address
   end
 
+  test "search on filters" do
+    [ "Twitter", "Slack", "Microsoft", "KPMG" ].each do |client_name|
+      Client.create!(name: client_name)
+    end
+
+    visit reports_detailed_url
+
+    within('[data-test-id="clients-filter"]') do
+      click_on "Clients"
+
+      assert_text "Twitter"
+      assert_text "Slack"
+      assert_text "Microsoft"
+      assert_text "KPMG"
+
+      fill_in "Search for", with: "KPMG"
+
+      assert_text "KPMG"
+      assert_no_text "Twitter"
+      assert_no_text "Slack"
+    end
+
+    within('[data-test-id="projects-filter"]') do
+      click_on "Projects"
+
+      # No many projects to allow the search
+      assert_no_text "Search for"
+    end
+
+    within('[data-test-id="users-filter"]') do
+      click_on "Users"
+
+      # No many users to allow the search
+      assert_no_text "Search for"
+    end
+  end
+
   test "filter by client" do
     visit reports_detailed_url
 
