@@ -1,15 +1,11 @@
 class Reports::Pdf::DetailedGenerator
   SYSTEM_FILE_NAME = "tmp/report.pdf".freeze
 
+  delegate :name, to: :file_name_generator
+
   def initialize(filter)
     @data = Reports::Pdf::DetailedReportData.new(filter)
-  end
-
-  def name
-    date = date_range.gsub(" - ", "-")
-    random = Random.rand(1000..9999)
-
-    "report-#{date}-#{random}.pdf"
+    @file_name_generator = Reports::FileNameGenerator.new(filter)
   end
 
   def generate
@@ -24,7 +20,7 @@ class Reports::Pdf::DetailedGenerator
 
   private
 
-    attr_reader :data
+    attr_reader :data, :file_name_generator
 
     TABLE_COLUMNS = [ "Date", "Member", "Task", "Hours" ].freeze
     TABLE_COLUMNS_WIDTH = [ 70, 130, 270, 70 ].freeze
