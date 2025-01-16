@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full bg-white">
+<html class="h-full">
   <head>
     <title><%= content_for(:title) || "Plock" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,7 +24,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-full">
+  <body class="h-full bg-white">
     <%= yield %>
   </body>
 </html>
