@@ -6,7 +6,7 @@ class TimeEntry < ApplicationRecord
 
   validates :date, :duration_minutes, :description, presence: true
   validates :duration_minutes, numericality: { greater_than: 0 }
-  validate :ensure_project_belongs_to_user
+  validate :ensure_user_is_a_project_member
 
   normalizes :duration, with: -> { _1.gsub(/[^0-9:]/, "") }
 
@@ -32,9 +32,9 @@ class TimeEntry < ApplicationRecord
 
   private
 
-    def ensure_project_belongs_to_user
+    def ensure_user_is_a_project_member
       return if project.nil? || project.users.include?(user)
 
-      errors.add(:project, "must belong to the user")
+      errors.add(:user, "must be a member of the project")
     end
 end
