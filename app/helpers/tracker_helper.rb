@@ -4,4 +4,14 @@ module TrackerHelper
     minutes = minutes % 60
     "#{hours}h #{minutes}m"
   end
+
+  def human_date_format(date)
+    if date == Date.today
+      "Today"
+    elsif date == Date.yesterday
+      "Yesterday"
+    else
+      date.to_fs(:long)
+    end
+  end
 end
