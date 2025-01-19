@@ -103,6 +103,18 @@
       </div>
 
       <% if time_entry.new_record? %>
+        <% if adding_time_for_other %>
+          <div class="mt-2 sm:mt-0">
+            <a
+              href="#"
+              onclick="location.reload(); return false;"
+              class="w-full sm:w-auto text-sm rounded-md px-3 py-2 font-semibold shadow-xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 text-center block sm:inline-block"
+            >
+               Reset
+            </a>
+          </div>
+        <% end %>
+
         <div class="mt-2 sm:mt-0">
           <%= form.button type: :submit,
                 class: "hidden sm:block w-full sm:w-auto inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
