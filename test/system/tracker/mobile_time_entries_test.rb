@@ -48,4 +48,20 @@ class Tracker::MobileTimeEntriesTest < MobileSystemTestCase
     assert_text "Successfully destroyed!"
     assert_no_selector "##{dom_id(time_entry)}"
   end
+
+  test "duplicating a time entry" do
+    time_entry = time_entries(:one)
+
+    sign_in users(:franco).email_address
+
+    visit tracker_url
+
+    assert_text "Total: 3h 15m"
+
+    within("##{dom_id(time_entry)}") do
+      click_on "Duplicate"
+    end
+
+    assert_text "Total: 6h 30m"
+  end
 end
