@@ -9,4 +9,12 @@ module SystemTestHelper
 
     assert_selector("[data-testid='app']") # Wait for the app to load
   end
+
+  def sign_out(user)
+    visit edit_user_profile_url(user)
+
+    click_on "Sign out"
+
+    assert_text "Sign in to your account"
+  end
 end

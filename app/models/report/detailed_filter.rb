@@ -64,6 +64,7 @@ class Report::DetailedFilter
       .then { filter_by_clients(_1) }
       .then { filter_by_projects(_1) }
       .then { filter_by_users(_1) }
+      .then { filter_by_role(_1) }
   end
 
   def filter_by_clients(scope)
@@ -91,5 +92,12 @@ class Report::DetailedFilter
     return scope if start_date.blank? || end_date.blank?
 
     scope.where(date: start_date..end_date)
+  end
+
+  def filter_by_role(scope)
+    return scope if current_user.can_administrate?
+
+    # previous filter joins projects, so we can use it here
+    scope.where(projects: { id: projects_where_user_is_manager.select(:id) })
   end
 end
