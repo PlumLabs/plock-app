@@ -76,14 +76,37 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
     start_date = Date.current.beginning_of_month.strftime("%d/%m/%Y")
     end_date = Date.current.end_of_month.strftime("%d/%m/%Y")
 
-    assert_includes(text_analysis.strings, "Total Hours: 1h 30m")
+    assert_includes(text_analysis.strings, "Total Hours: 0h 20m")
     assert_includes(text_analysis.strings, "#{start_date} - #{end_date}")
 
     assert_includes(text_analysis.strings, "Generated using Plock")
   end
 
-  test "the report includes grouped projects" do
+  test "the report includes manager projects" do
     @generator.generate
+    pdf_file = File.read(@output_file)
+    text_analysis = PDF::Inspector::Text.analyze(pdf_file)
+
+    array_text = text_analysis.strings
+    text = array_text.join(" ")
+
+    # Time entries without project are not included
+    assert_not_includes(array_text, "Project: N/A")
+
+    # Time entries with project
+    assert_includes(array_text, "Project: www site")
+    assert_includes(array_text, "0h 20m")
+    assert_includes(text, "02/01/2025 Alan Plum Test 00:20")
+  end
+
+  test "the report includes grouped projects when user is an admin" do
+    filter = Report::DetailedFilter.new(
+      start_date: Date.current.beginning_of_month,
+      end_date: Date.current.end_of_month,
+      current_user: users(:edu)
+    )
+    Reports::Pdf::DetailedGenerator.new(filter).generate
+
     pdf_file = File.read(@output_file)
     text_analysis = PDF::Inspector::Text.analyze(pdf_file)
 
