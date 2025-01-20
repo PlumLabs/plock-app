@@ -171,7 +171,7 @@
 
   <% unless time_entry.new_record? %>
     <%= button_to tracker_time_entry_duplicate_path(time_entry),
-      class: "group mt-2 sm:mt-0 hover:text-indigo-600 w-full",
+      class: "group mt-2 sm:mt-0 hover:text-indigo-600 w-full sm:ml-2",
       title: "Duplicate",
       form: { class: "flex sm:items-center sm:space-x-2 group" } do %>
       <svg class="h-5 w-5 hidden sm:block group-aria-busy:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
