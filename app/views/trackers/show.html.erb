@@ -6,32 +6,51 @@
   </div>
 
   <nav class="h-full overflow-y-auto space-y-3 pt-3">
-    <% @time_entries_grouped_by_week.each do |date, time_entries| %>
-      <div class="relative overflow-hidden rounded-md bg-white px-6 py-4 shadow">
-
-        <div class="relative">
+    <% @time_entries_grouped_by_week.each do |week_date, time_entries| %>
+      <div class="relative overflow-hidden py-2">
+        <div class="relative py-2 px-6">
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
-            <div class="w-full border-t border-indigo-600"></div>
+            <div class="w-full "></div>
           </div>
           <div class="relative flex items-center justify-between">
             <div class="flex flex-col sm:flex-row">
-              <span class="bg-white text-sm text-indigo-600"><%= date.beginning_of_week.to_fs(:long) %></span>
-              <span class="bg-white text-sm text-indigo-600 hidden sm:block">&nbsp;-&nbsp;</span>
-              <span class="bg-white pr-2 text-sm text-indigo-600"><%= date.end_of_week.to_fs(:long) %></span>
+              <span class="bg-gray-50 text-sm text-indigo-600"><%= week_date.beginning_of_week.to_fs(:long) %></span>
+              <span class="bg-gray-50 text-sm text-indigo-600 hidden sm:block">&nbsp;-&nbsp;</span>
+              <span class="bg-gray-50 pr-2 text-sm text-indigo-600"><%= week_date.end_of_week.to_fs(:long) %></span>
             </div>
-            <span class="bg-white pl-2 text-sm text-indigo-600">
+            <span class="bg-gray-50 pl-2 text-sm text-indigo-600">
               Total: <%= minutes_to_hours time_entries.sum(&:duration_minutes) %>
             </span>
           </div>
         </div>
 
-        <ul role="list" class="divide-y divide-gray-100">
-          <% time_entries.each do |time_entry| %>
-            <li class="gap-x-4 px-3 py-5">
-              <%= render "tracker/time_entries/form", time_entry: time_entry %>
-            </li>
+        <div class="shadow rounded-lg">
+          <% time_entries.group_by(&:date).each do |day_gruop_date, time_entries| %>
+            <div class="relative overflow-hidden rounded-md bg-white px-6 py-2 first:pt-4">
+              <div class="relative">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div class="w-full border-t text-gray-400"></div>
+                </div>
+                <div class="relative flex items-center justify-between">
+                  <div class="flex flex-col sm:flex-row">
+                    <span class="bg-white text-sm text-gray-400 font-medium"><%= human_date_format(day_gruop_date) %></span>
+                  </div>
+                  <span class="bg-white pl-2 text-sm text-gray-400 font-medium">
+                    Total: <%= minutes_to_hours time_entries.sum(&:duration_minutes) %>
+                  </span>
+                </div>
+              </div>
+
+              <ul role="list" class="divide-y divide-gray-100">
+                <% time_entries.each do |time_entry| %>
+                  <li class="gap-x-4 px-3 py-5">
+                    <%= render "tracker/time_entries/form", time_entry: time_entry %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           <% end %>
-        </ul>
+        </div>
       </div>
     <% end %>
   </nav>
