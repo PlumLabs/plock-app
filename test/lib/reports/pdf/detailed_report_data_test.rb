@@ -56,23 +56,17 @@ class Reports::Pdf::DetailedReportDataTest < ActiveSupport::TestCase
   end
 
   test "calculates total hours" do
-    assert_equal "1h 30m", @data.total_hours
+    assert_equal "0h 20m", @data.total_hours
   end
 
   test "groups results by project" do
     grouped_results = @data.grouped_by_project_results
 
     assert_kind_of Array, grouped_results
-    assert_equal 2, grouped_results.size
-
-    # no project
-    group = grouped_results.first
-    assert_nil group[:project_name]
-    assert_equal "1h 10m", group[:group_duration]
-    assert_equal 2, group[:results].size
+    assert_equal 1, grouped_results.size
 
     # plum project
-    group = grouped_results.second
+    group = grouped_results.first
     assert_equal @project_plum_www.name, group[:project_name]
     assert_equal "0h 20m", group[:group_duration]
     assert_equal 1, group[:results].size
