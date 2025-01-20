@@ -60,7 +60,7 @@ group :test do
 end
 
 # UI
-gem "tailwindcss-rails", "~> 3.0"
+gem "tailwindcss-rails", "~> 3.3"
 
 # Pdf
 gem "prawn"
