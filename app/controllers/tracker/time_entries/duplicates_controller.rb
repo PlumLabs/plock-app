@@ -21,7 +21,7 @@ class Tracker::TimeEntries::DuplicatesController < ApplicationController
     end
 
     def ensure_user
-      head :forbidden unless @time_entry.user_id == Current.user.id
+      head :forbidden unless @time_entry.user.current?
     end
 
     def can_administrate_or_manage?
