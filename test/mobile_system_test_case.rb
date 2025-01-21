@@ -16,7 +16,8 @@ class MobileSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   teardown do
-    # go back to the default window size to avoid side effects
-    current_window.resize_to(*ApplicationSystemTestCase::WINDOW_SIZE)
+    # go back to the default window size to avoid side effects when running other tests
+    default_window_size = defined?(ApplicationSystemTestCase::WINDOW_SIZE) ? ApplicationSystemTestCase::WINDOW_SIZE : WINDOW_SIZE
+    current_window.resize_to(*default_window_size)
   end
 end

@@ -170,6 +170,20 @@
   <% end %>
 
   <% unless time_entry.new_record? %>
+    <%= button_to tracker_time_entry_duplicate_path(time_entry),
+      class: "group mt-2 sm:mt-0 hover:text-indigo-600 w-full sm:ml-2",
+      title: "Duplicate",
+      form: { class: "flex sm:items-center sm:space-x-2 group" } do %>
+      <svg class="h-5 w-5 hidden sm:block group-aria-busy:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+      </svg>
+      <span class="block sm:hidden group-aria-busy:hidden text-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Duplicate</span>
+      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-indigo-600 w-full" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    <% end %>
+
     <%= button_to tracker_time_entry_path(time_entry),
       method: :delete,
       class: "group mt-2 sm:mt-0 hover:text-red-600 w-full",

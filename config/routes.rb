@@ -29,7 +29,9 @@ Rails.application.routes.draw do
 
   resource :tracker, only: [ :show ]
   namespace :tracker do
-    resources :time_entries, only: [ :create, :update, :destroy ]
+    resources :time_entries, only: [ :create, :update, :destroy ] do
+      resource :duplicate, only: [ :create ], module: :time_entries
+    end
   end
 
   namespace :reports do
