@@ -1,6 +1,7 @@
 class Tracker::TimeEntriesController < ApplicationController
   before_action :set_time_entry, only: %i[ update destroy ]
-  before_action :ensure_user, unless: :can_administrate_or_manage?, only: %i[ create update destroy ]
+  before_action :ensure_user, unless: :can_administrate_or_manage?, only: %i[ create update ]
+  before_action :ensure_permission_for_destroy, only: :destroy
 
   def create
     @time_entry = TimeEntry.new(time_entry_params)
@@ -61,5 +62,13 @@ class Tracker::TimeEntriesController < ApplicationController
       else
         params.expect(time_entry: [ :user_id, :project_id, :date, :duration, :description ])
       end
+    end
+
+    def ensure_permission_for_destroy
+      return if Current.user.can_administrate?
+
+      return if Current.user.can_manage_project?(@time_entry.project_id)
+
+      head :forbidden unless @time_entry.user.current?
     end
 end

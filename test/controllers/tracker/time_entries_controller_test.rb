@@ -126,14 +126,18 @@ class Tracker::TimeEntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "memeber can destroy its own time entries" do
-    time_entry = TimeEntry.create!(date: "2021-05-01", description: "Worked on the project", duration: "03:34", user: users(:franco))
+    user = users(:franco)
 
-    sign_in users(:franco)
+    time_entry = TimeEntry.create!(date: "2021-05-01", description: "Worked on the project", duration: "03:34", user: user)
+    project_time_entry = TimeEntry.create!(date: "2021-05-01", description: "test", duration: "02:00", user: user, project: user.projects.first)
 
-    assert TimeEntry.count, 1
+    sign_in user
 
-    assert_difference("TimeEntry.count", 0) do
+    assert TimeEntry.count, 2
+
+    assert_difference("TimeEntry.count", -2) do
       delete tracker_time_entry_url(time_entry)
+      delete tracker_time_entry_url(project_time_entry)
     end
   end
 end
