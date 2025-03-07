@@ -166,14 +166,17 @@ class Reports::DetailedsTest < ApplicationSystemTestCase
 
     initial_window_count = windows.length
 
-    click_on "Open PDF Report"
+    pdf_report_window = window_opened_by do
+      click_on "Open PDF Report"
+    end
 
     assert_equal initial_window_count + 1, windows.length
 
-    # Switch to newly opened window
-    within_window(windows.last) do
+    within_window(pdf_report_window) do
       assert_match(/\.pdf/, current_url)
     end
+
+    pdf_report_window.close
   end
 
   test "add a new time entry for other user" do
