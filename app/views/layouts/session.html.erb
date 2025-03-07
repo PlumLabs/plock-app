@@ -14,8 +14,13 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
+    <%= favicon_link_tag "favicon.ico", rel: "shortcut icon" %>
+    <%= favicon_link_tag "favicon-32x32.png", rel: "icon", type: "image/png", sizes: "32x32" %>
+    <%= favicon_link_tag "favicon-16x16.png", rel: "icon", type: "image/png", sizes: "16x16" %>
+    <%= favicon_link_tag "apple-touch-icon.png", rel: "apple-touch-icon", sizes: "180x180" %>
+    <%= favicon_link_tag "android-chrome-192x192.png", rel: "icon", type: "image/png", sizes: "192x192" %>
+    <%= favicon_link_tag "android-chrome-512x512.png", rel: "icon", type: "image/png", sizes: "512x512" %>
+
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
