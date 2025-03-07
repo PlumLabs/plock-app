@@ -6,9 +6,7 @@ class MobileSystemTestCase < ActionDispatch::SystemTestCase
 
   Capybara.enable_aria_label = true
 
-  driven_by :selenium, using: :headless_chrome, screen_size: WINDOW_SIZE do |options|
-    options.add_argument "--disable-search-engine-choice-screen"
-  end
+  driven_by :selenium, using: :headless_chrome, screen_size: WINDOW_SIZE
 
   # https://github.com/rails/rails/blob/31c060c38225d36a73b5d4787cccc0cb7e1c944a/actionpack/lib/action_dispatch/system_test_case.rb#L69
   # As screen_size is ignored on headless_chrome with selenium, we need to resize the window manually
