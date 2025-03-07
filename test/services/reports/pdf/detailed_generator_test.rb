@@ -86,6 +86,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
     @generator.generate
     pdf_file = File.read(@output_file)
     text_analysis = PDF::Inspector::Text.analyze(pdf_file)
+    entry_date = (Date.current.beginning_of_month + 1.day).strftime("%d/%m/%Y")
 
     array_text = text_analysis.strings
     text = array_text.join(" ")
@@ -96,7 +97,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
     # Time entries with project
     assert_includes(array_text, "Project: www site")
     assert_includes(array_text, "0h 20m")
-    assert_includes(text, "02/01/2025 Alan Plum Test 00:20")
+    assert_includes(text, "#{entry_date} Alan Plum Test 00:20")
   end
 
   test "the report includes grouped projects when user is an admin" do
@@ -109,6 +110,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
 
     pdf_file = File.read(@output_file)
     text_analysis = PDF::Inspector::Text.analyze(pdf_file)
+    entry_date = (Date.current.beginning_of_month + 1.day).strftime("%d/%m/%Y")
 
     array_text = text_analysis.strings
     text = array_text.join(" ")
@@ -116,12 +118,12 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
     # Time entries without project
     assert_includes(array_text, "Project: N/A")
     assert_includes(array_text, "1h 10m")
-    assert_includes(text, "02/01/2025 Alan Plum Test 00:20")
-    assert_includes(text, "02/01/2025 Grace Plum Test 00:50")
+    assert_includes(text, "#{entry_date} Alan Plum Test 00:20")
+    assert_includes(text, "#{entry_date} Grace Plum Test 00:50")
 
     # Time entries with project
     assert_includes(array_text, "Project: www site")
     assert_includes(array_text, "0h 20m")
-    assert_includes(text, "02/01/2025 Alan Plum Test 00:20")
+    assert_includes(text, "#{entry_date} Alan Plum Test 00:20")
   end
 end
