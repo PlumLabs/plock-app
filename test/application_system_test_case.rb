@@ -6,5 +6,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   Capybara.enable_aria_label = true
 
-  driven_by :selenium, using: :headless_chrome
+  driven_by :selenium, using: :chrome, screen_size: WINDOW_SIZE do |options|
+    options.add_argument "--disable-search-engine-choice-screen"
+  end
 end
