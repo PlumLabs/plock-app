@@ -2,7 +2,7 @@
 
 * Rails 8.x
 * Ruby 3.x
-* Tailwind 3.x
+* Tailwind 4.x
 * Sqlite
 
 ## Getting Started
