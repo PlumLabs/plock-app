@@ -1,0 +1,93 @@
+<%
+  duration_group_by_user = project.time_entries.joins(:user).group(:user_id, "users.first_name").order(sum_duration_minutes: :desc).sum(:duration_minutes)
+  max_minutes = duration_group_by_user.first.last.to_f.nonzero? || 1
+  total = project.total_minutes_tracked.to_f.nonzero? || 1
+%>
+
+<% colors = %w[
+  #6366f1  #10b981  #fbbf24  #ec4899
+  #3b82f6  #8b5cf6  #f472b6  #34d399
+  #059669  #65a30d  #bef264  #eab308
+  #f97316  #ea580c  #dc2626  #ef4444
+  #9333ea  #d946ef  #14b8a6  #0d9488
+] %>
+
+<div class="mt-6 border-gray-100">
+  <dl class="divide-y divide-gray-100">
+    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Total time tracked</dt>
+      <dd class="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <span class="grow"><%= minutes_to_hours project.total_minutes_tracked %></span>
+      </dd>
+    </div>
+
+    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Top Contributors</dt>
+      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
+          <% duration_group_by_user.each do |(user_id, first_name), minutes| %>
+            <% width = (minutes / max_minutes * 100).round %>
+            <li class="py-4 pr-5 pl-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex gap-2">
+                  <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
+                  <span class="font-medium truncate"><%= first_name %></span>
+                </div>
+
+                <span class="font-medium"><%= minutes_to_hours(minutes) %></span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded">
+                <div class="bg-indigo-600 h-2 rounded" style="width: <%= width %>%;"></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </dd>
+    </div>
+
+    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Project Total</dt>
+      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+
+        <%# build conic-gradient stops %>
+        <% stops = [] %>
+        <% cum = 0.0 %>
+        <% duration_group_by_user.each_with_index do |(_user, mins), i| %>
+          <% pct   = mins.to_f / total * 100 %>
+          <% start = cum %>
+          <% fin   = cum + pct %>
+          <% stops << "#{colors[i % colors.size]} #{start.round(2)}% #{fin.round(2)}%" %>
+          <% cum += pct %>
+        <% end %>
+
+        <!-- pie -->
+        <div class="w-48 h-48 rounded-full mx-auto"
+          style="background: conic-gradient(<%= stops.join(", ") %>)">
+        </div>
+
+        <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
+          <% duration_group_by_user.each_with_index do |(user, minutes), i| %>
+            <% percent = minutes.to_f * 100.0 / total %>
+            <% bg_color = colors[i % colors.size] %>
+            <li class="py-4 pr-5 pl-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex gap-2">
+                  <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="<%=  bg_color %>" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
+                  <span class="font-medium truncate"><%= user[1] %></span>
+                </div>
+                <span class="font-medium"><%= percent.round(2) %>%</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded">
+                <div class="bg-indigo-600 h-2 rounded" style="width: <%= percent %>%; background-color: <%= bg_color %>;"></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </dd>
+    </div>
+  </dl>
+</div>
