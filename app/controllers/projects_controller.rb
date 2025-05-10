@@ -9,6 +9,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @all_contributions = project_all_contributors
+    @top_contributors = project_top_contributors
   end
 
   def new
@@ -98,5 +100,29 @@ class ProjectsController < ApplicationController
       return scope if query_params.dig(:name_or_clients_name_cont).blank?
 
       scope.left_joins(:client).where("projects.name LIKE :q or clients.name LIKE :q", q: "%#{query_params.dig(:name_or_clients_name_cont)}%")
+    end
+
+    def project_top_contributors
+      month_range = ..Date.today
+
+        if params[:start_month].present?
+          month = Date.strptime(params[:start_month], "%Y-%m").beginning_of_month
+          month_range = month..month.end_of_month
+        end
+
+      @project.time_entries
+              .joins(:user)
+              .group(:user_id, "users.first_name")
+              .where(time_entries: { date: month_range })
+              .order(sum_duration_minutes: :desc)
+              .sum(:duration_minutes)
+    end
+
+    def project_all_contributors
+      @project.time_entries
+              .joins(:user)
+              .group(:user_id, "users.first_name")
+              .order(sum_duration_minutes: :desc)
+              .sum(:duration_minutes)
     end
 end
