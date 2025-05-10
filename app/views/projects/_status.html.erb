@@ -4,14 +4,6 @@
   total = project.total_minutes_tracked.to_f.nonzero? || 1
 %>
 
-<% colors = %w[
-  #6366f1  #10b981  #fbbf24  #ec4899
-  #3b82f6  #8b5cf6  #f472b6  #34d399
-  #059669  #65a30d  #bef264  #eab308
-  #f97316  #ea580c  #dc2626  #ef4444
-  #9333ea  #d946ef  #14b8a6  #0d9488
-] %>
-
 <div class="mt-6 border-gray-100">
   <dl class="divide-y divide-gray-100">
     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -58,7 +50,7 @@
           <% pct   = mins.to_f / total * 100 %>
           <% start = cum %>
           <% fin   = cum + pct %>
-          <% stops << "#{colors[i % colors.size]} #{start.round(2)}% #{fin.round(2)}%" %>
+          <% stops << "#{pie_chart_colors[i % pie_chart_colors.size]} #{start.round(2)}% #{fin.round(2)}%" %>
           <% cum += pct %>
         <% end %>
 
@@ -70,7 +62,7 @@
         <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
           <% duration_group_by_user.each_with_index do |(user, minutes), i| %>
             <% percent = minutes.to_f * 100.0 / total %>
-            <% bg_color = colors[i % colors.size] %>
+            <% bg_color = pie_chart_colors[i % pie_chart_colors.size] %>
             <li class="py-4 pr-5 pl-4">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex gap-2">
