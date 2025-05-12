@@ -1,0 +1,124 @@
+<div class="mt-6 border-gray-100">
+  <dl class="divide-y divide-gray-100">
+    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Total time tracked</dt>
+      <dd class="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <span class="grow"><%= minutes_to_hours project.total_minutes_tracked %></span>
+      </dd>
+    </div>
+
+    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Top Contributors</dt>
+      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+
+        <%= turbo_frame_tag "top_contribution", class: "group" do %>
+          <div class="pb-4 flex justify-end">
+            <%= form_with url: project, method: :get do |f| %>
+              <%= f.label :start_month, "Period", class: "text-sm/6 font-medium text-gray-900" %>
+              <%= f.month_field :start_month, value: params[:start_month], min: project.created_at, max: Date.today, class: "rounded-md border-0 py-1.5 pl-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 text-sm/6" %>
+              <%= f.submit "Filter", class: "rounded-md px-3 py-2 text-sm font-semibold shadow-2xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+            <% end %>
+          </div>
+
+          <div class="hidden group-aria-busy:block flex justify-center py-4">
+            <svg class="motion-reduce:hidden animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+
+          <% if top_contributors.empty? %>
+            <div class="text-center py-4 group-area-busy:hidden">
+              <svg class="mx-auto size-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <h3 class="mt-2 text-sm font-semibold text-gray-900">No entries</h3>
+
+              <% if params[:start_month].present? %>
+                <p class="mt-1 text-sm text-gray-500">Reset the filter</p>
+                <div class="mt-6">
+                  <%= link_to "Reset", project, class: "sm:text-sm/6 rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-2xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <ul role="list" class="group-area-busy:hidden">
+            <% max_minutes = top_contributors.first&.last.to_f.nonzero? || 1 %>
+            <% top_contributors.each do |(user_id, first_name), minutes| %>
+              <% width = (minutes / max_minutes * 100).round %>
+              <li class="py-4 pr-5 pl-4">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex gap-2">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                    <span class="font-medium truncate"><%= first_name %></span>
+                  </div>
+
+                  <span class="font-medium"><%= minutes_to_hours(minutes) %></span>
+                </div>
+                <div class="w-full bg-gray-200 h-2 rounded">
+                  <div class="bg-indigo-600 h-2 rounded" style="width: <%= width %>%;"></div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </dd>
+    </div>
+
+    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Project Total</dt>
+      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+
+        <% if all_contributions.empty? %>
+          <div class="text-center py-4">
+            <svg class="mx-auto size-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-semibold text-gray-900">No entries</h3>
+          </div>
+        <% end %>
+
+        <% total = project.total_minutes_tracked.to_f.nonzero? || 1 %>
+        <%# build conic-gradient stops %>
+        <% stops = [] %>
+        <% cum = 0.0 %>
+        <% all_contributions.each_with_index do |(_user, mins), i| %>
+          <% pct   = mins.to_f / total * 100 %>
+          <% start = cum %>
+          <% fin   = cum + pct %>
+          <% stops << "#{pie_chart_colors[i % pie_chart_colors.size]} #{start.round(2)}% #{fin.round(2)}%" %>
+          <% cum += pct %>
+        <% end %>
+
+        <!-- pie -->
+        <div class="w-48 h-48 rounded-full mx-auto"
+          style="background: conic-gradient(<%= stops.join(", ") %>)">
+        </div>
+
+        <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200 mt-4">
+          <% all_contributions.each_with_index do |(user, minutes), i| %>
+            <% percent = minutes.to_f * 100.0 / total %>
+            <% bg_color = pie_chart_colors[i % pie_chart_colors.size] %>
+            <li class="py-4 pr-5 pl-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex gap-2">
+                  <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="<%=  bg_color %>" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
+                  <span class="font-medium truncate"><%= user[1] %></span>
+                </div>
+                <span class="font-medium"><%= percent.round(2) %>%</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded">
+                <div class="bg-indigo-600 h-2 rounded" style="width: <%= percent %>%; background-color: <%= bg_color %>;"></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </dd>
+    </div>
+  </dl>
+</div>

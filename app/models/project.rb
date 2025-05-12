@@ -12,4 +12,8 @@ class Project < ApplicationRecord
   def disable!
     update!(disabled_at: Time.zone.now)
   end
+
+  def total_minutes_tracked
+    time_entries.sum(:duration_minutes)
+  end
 end

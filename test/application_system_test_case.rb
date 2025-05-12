@@ -6,5 +6,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   Capybara.enable_aria_label = true
 
-  driven_by :selenium, using: :headless_chrome
+  driven_by :selenium, using: :headless_chrome do |options|
+    options.add_argument("--guest")
+  end
 end
