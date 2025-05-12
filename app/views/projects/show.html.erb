@@ -63,7 +63,10 @@
             </div>
 
             <div class="hidden py-4 px-4 border-l border-b border-r" data-tabs-target="panel">
-              <%= render "status", project: @project %>
+              <%= render "status",
+                         project: @project,
+                         top_contributors: @top_contributors,
+                         all_contributions: @all_contributions %>
             </div>
 
             <div class="hidden py-4 px-4 border-l border-b border-r" data-tabs-target="panel">

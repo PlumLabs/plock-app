@@ -214,4 +214,87 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a", { text: /Previous/, count: 0 }
     assert_select "a", { text: /Next/, count: 0 }
   end
+
+  test "projects top contributors are filter by month" do
+  end
+
+  test "project shows top contributors and allow to filter" do
+    last_month = 1.month.ago.to_date.strftime("%Y-%m")
+    5.times do
+      TimeEntry.create!(
+        user: @project_manager,
+        project: @project,
+        duration_minutes: 100,
+        description: "test",
+        date: Date.today
+      )
+
+      TimeEntry.create!(
+        user: @project_member,
+        project: @project,
+        duration_minutes: 10,
+        description: "test",
+        date: 1.month.ago.to_date
+      )
+    end
+
+    sign_in @project_manager
+    get project_url(@project, anchor: "status")
+
+    assert_dom "#top_contribution" do |elements|
+      text_elements = elements.first.text
+      # Assert for Franco (project manager) - 500 minutes total
+      assert_match /Franco/, text_elements
+      assert_match /8h 20m/, text_elements
+
+      # Assert for Alan (project member) - 50 minutes total
+      assert_match /Alan/, text_elements
+      assert_match /50m/, text_elements
+
+      assert text_elements.index("Franco") < text_elements.index("Alan"), "Franco should be listed before Alan as a top contributor"
+    end
+
+    # Test filtering by month
+    get project_url(@project, start_month: last_month, anchor: "status")
+    assert_response :success
+
+    assert_dom "#top_contribution" do |elements|
+      text_elements = elements.first.text
+
+      assert_no_match /Franco/, text_elements
+      assert_match /Alan/, text_elements
+      assert_match /50m/, text_elements #
+    end
+  end
+
+  test "project shows % all contributions" do
+    5.times do
+      TimeEntry.create!(
+        user: @project_manager,
+        project: @project,
+        duration_minutes: 100,
+        description: "test",
+        date: Date.today
+      )
+
+      TimeEntry.create!(
+        user: @project_member,
+        project: @project,
+        duration_minutes: 10,
+        description: "test",
+        date: Date.today
+      )
+    end
+
+    sign_in @project_manager
+    get project_url(@project, anchor: "status")
+
+    # Assert for Franco (project manager) - 500 minutes total
+    assert_match /Franco/, @response.body
+    assert_match /90.91/, @response.body
+
+    # Assert for Alan (project member) - 50 minutes total
+    assert_match /Alan/, @response.body
+    assert_match /9.09/, @response.body
+  end
 end
