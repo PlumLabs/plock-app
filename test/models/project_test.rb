@@ -27,4 +27,15 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert_equal 1, Project.archive.count
   end
+
+  test "#total_minutes_tracked returns sum of time entry durations" do
+    project = projects(:one)
+    user = users(:edu)
+
+    TimeEntry.create!(project: project, user: user, duration_minutes: 30, date: Date.today, description: "Test entry 1")
+    TimeEntry.create!(project: project, user: user, duration_minutes: 15, date: Date.today, description: "Test entry 2")
+    TimeEntry.create!(user: user, duration_minutes: 15, date: Date.today, description: "Test entry 3")
+
+    assert_equal 45, project.total_minutes_tracked
+  end
 end
