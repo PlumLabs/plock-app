@@ -215,9 +215,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a", { text: /Next/, count: 0 }
   end
 
-  test "projects top contributors are filter by month" do
-  end
-
   test "project shows top contributors and allow to filter" do
     last_month = 1.month.ago.to_date.strftime("%Y-%m")
     5.times do
