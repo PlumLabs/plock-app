@@ -1,5 +1,5 @@
 class Reports::Pdf::DetailedGenerator
-  SYSTEM_FILE_NAME = "tmp/report.pdf".freeze
+  SYSTEM_FILE_NAME = Rails.root.join("tmp", "report.pdf").to_s.freeze
 
   delegate :name, to: :file_name_generator
 
@@ -8,8 +8,8 @@ class Reports::Pdf::DetailedGenerator
     @file_name_generator = Reports::FileNameGenerator.new(filter)
   end
 
-  def generate
-    Prawn::Document.generate(SYSTEM_FILE_NAME) do |pdf|
+  def generate(output_path = SYSTEM_FILE_NAME)
+    Prawn::Document.generate(output_path) do |pdf|
       add_styles(pdf)
       add_header(pdf)
       add_summary(pdf)
