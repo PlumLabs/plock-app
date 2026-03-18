@@ -1,7 +1,7 @@
 # README
 
-* Rails 8.x
-* Ruby 3.x
+* Rails 8.1.x
+* Ruby 4.x
 * Tailwind 4.x
 * Sqlite
 
@@ -26,4 +26,4 @@ bin/rails test:system
 
 ## Deploy
 
-Deploy the app yourself using tools like Kamal or any other deployment service.
+Deploy the app yourself using tools like ONCE, Kamal or any other deployment service.
