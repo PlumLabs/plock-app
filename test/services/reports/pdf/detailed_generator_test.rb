@@ -46,7 +46,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
     )
 
     @generator = Reports::Pdf::DetailedGenerator.new(filter)
-    @output_file = Reports::Pdf::DetailedGenerator::SYSTEM_FILE_NAME
+    @output_file = Rails.root.join("tmp", "report_test_#{Process.pid}.pdf").to_s
   end
 
   teardown do
@@ -54,7 +54,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
   end
 
   test "generates a PDF file" do
-    @generator.generate
+    @generator.generate(@output_file)
     assert File.exist?(@output_file), "PDF file was not generated"
   end
 
@@ -69,7 +69,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
   end
 
   test "the report includes a summarize and footer" do
-    @generator.generate
+    @generator.generate(@output_file)
     pdf_file = File.read(@output_file)
     text_analysis = PDF::Inspector::Text.analyze(pdf_file)
 
@@ -83,7 +83,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
   end
 
   test "the report includes manager projects" do
-    @generator.generate
+    @generator.generate(@output_file)
     pdf_file = File.read(@output_file)
     text_analysis = PDF::Inspector::Text.analyze(pdf_file)
     entry_date = (Date.current.beginning_of_month + 1.day).strftime("%d/%m/%Y")
@@ -106,7 +106,7 @@ class Reports::Pdf::DetailedGeneratorTest < ActiveSupport::TestCase
       end_date: Date.current.end_of_month,
       current_user: users(:edu)
     )
-    Reports::Pdf::DetailedGenerator.new(filter).generate
+    Reports::Pdf::DetailedGenerator.new(filter).generate(@output_file)
 
     pdf_file = File.read(@output_file)
     text_analysis = PDF::Inspector::Text.analyze(pdf_file)
