@@ -25,6 +25,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # CGI was removed from standard library in Ruby 4.0
 gem "cgi"
+# tsort will be removed from default gems in Ruby 4.1
+gem "tsort"
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"

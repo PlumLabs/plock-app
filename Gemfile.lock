@@ -106,7 +106,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     dotenv (3.1.8)
-    drb (2.2.1)
+    drb (2.2.3)
     ed25519 (1.4.0)
     erubi (1.13.1)
     et-orbi (1.2.11)
@@ -369,6 +369,7 @@ GEM
     thruster (0.1.13-x86_64-darwin)
     thruster (0.1.13-x86_64-linux)
     timeout (0.4.3)
+    tsort (0.2.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
     turbo-rails (2.0.13)
@@ -437,6 +438,7 @@ DEPENDENCIES
   stimulus-rails
   tailwindcss-rails (~> 4.0)
   thruster
+  tsort
   turbo-rails
   tzinfo-data
   web-console
