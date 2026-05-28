@@ -8,9 +8,11 @@ A vanilla Rails 8 time tracking and project management app.
 
 Plock is a small, self-hostable time tracker app for small companies with teams. Track hours against clients and projects, and export polished PDF reports. Built as vanilla Rails 8 with as few external dependencies as possible — easy to read, easy to deploy and easy to extend.
 
-## Screenshots
-
-<!-- TODO: add screenshots to docs/images/ and link them here -->
+<p align="center">
+  <video src="./plock-demo-1.mp4" controls muted playsinline width="80%">
+    Your browser does not support embedded videos.
+  </video>
+</p>
 
 ## Features
 
