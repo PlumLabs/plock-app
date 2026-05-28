@@ -37,3 +37,7 @@
 !/app/assets/builds/.keep
 
 .devnotes
+/docs
+
+# Claude Code — personal/local settings only
+.claude/settings.local.json

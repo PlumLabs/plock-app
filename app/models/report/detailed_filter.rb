@@ -12,8 +12,6 @@ class Report::DetailedFilter
   alias_attribute :mobile_project_ids, :project_ids
   alias_attribute :mobile_client_ids, :client_ids
 
-  attr_reader :current_user
-
   def initialize(attributes = {})
     @current_user = attributes.delete(:current_user)
     super(attributes)
