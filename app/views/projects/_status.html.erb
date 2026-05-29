@@ -15,7 +15,7 @@
           <div class="pb-4 flex justify-end">
             <%= form_with url: project, method: :get do |f| %>
               <%= f.label :start_month, "Period", class: "text-sm/6 font-medium text-gray-900" %>
-              <%= f.month_field :start_month, value: params[:start_month], min: project.created_at, max: Date.today, class: "rounded-md border-0 py-1.5 pl-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 text-sm/6" %>
+              <%= f.month_field :start_month, value: params[:start_month], min: project.created_at, max: Date.current, class: "rounded-md border-0 py-1.5 pl-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 text-sm/6" %>
               <%= f.submit "Filter", class: "rounded-md px-3 py-2 text-sm font-semibold shadow-2xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
             <% end %>
           </div>

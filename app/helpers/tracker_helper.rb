@@ -6,7 +6,7 @@ module TrackerHelper
   end
 
   def human_date_format(date)
-    if date == Date.today
+    if date == Date.current
       "Today"
     elsif date == Date.yesterday
       "Yesterday"
