@@ -2,8 +2,8 @@ class Report::DetailedFilter
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :start_date, :date, default: -> { Date.today.beginning_of_month }
-  attribute :end_date, :date, default: -> { Date.today.end_of_month }
+  attribute :start_date, :date, default: -> { Date.current.beginning_of_month }
+  attribute :end_date, :date, default: -> { Date.current.end_of_month }
   attribute :user_ids, array: true, default: []
   attribute :project_ids, array: true, default: []
   attribute :client_ids, array: true, default: []

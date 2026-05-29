@@ -103,7 +103,7 @@ class ProjectsController < ApplicationController
     end
 
     def project_top_contributors
-      month_range = ..Date.today
+      month_range = ..Date.current
 
         if params[:start_month].present?
           month = Date.strptime(params[:start_month], "%Y-%m").beginning_of_month

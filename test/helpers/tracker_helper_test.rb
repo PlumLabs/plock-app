@@ -7,7 +7,7 @@ class TrackerHelperTest < ActionView::TestCase
   end
 
   test "#human_date_format returns a human version of a date" do
-    assert_equal "Today", human_date_format(Date.today)
+    assert_equal "Today", human_date_format(Date.current)
     assert_equal "Yesterday", human_date_format(Date.yesterday)
     assert_equal "January 01, 2021", human_date_format(Date.new(2021, 1, 1))
   end
