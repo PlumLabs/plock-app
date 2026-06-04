@@ -1,0 +1,13 @@
+<% system ||= local_assigns[:message] %>
+<details id="ai_message_<%= system.id %>" class="ml-11 group">
+  <summary class="cursor-pointer text-xs text-gray-500 hover:text-gray-700 font-mono inline-flex items-center gap-1.5">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-3.5">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-11.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+    </svg>
+    <span>System message</span>
+    <span class="text-gray-400">·</span>
+    <span class="text-gray-400 group-open:hidden">show</span>
+    <span class="text-gray-400 hidden group-open:inline">hide</span>
+  </summary>
+  <pre class="mt-2 whitespace-pre-wrap overflow-x-auto rounded-md bg-gray-50 ring-1 ring-inset ring-gray-200 px-3 py-2 text-xs text-gray-700"><%= system.content.presence || "(empty)" %></pre>
+</details>

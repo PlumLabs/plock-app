@@ -2,4 +2,9 @@ class ApplicationController < ActionController::Base
   include Authentication, Authorization, Pagination
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
+
+  def available_chat_models
+    RubyLLM.models.chat_models.all
+           .sort_by { |model| [ model.provider.to_s, model.name.to_s ] }
+  end
 end

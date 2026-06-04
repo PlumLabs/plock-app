@@ -1,0 +1,13 @@
+<% user ||= local_assigns[:message] %>
+<div id="ai_message_<%= user.id %>" class="flex gap-3 items-start">
+  <div class="shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-700 text-xs font-semibold">
+    U
+  </div>
+  <div class="min-w-0 flex-1">
+    <div class="flex items-baseline gap-2">
+      <span class="text-sm font-semibold text-gray-900">You</span>
+      <span class="text-xs text-gray-500"><%= user.created_at&.strftime("%I:%M %p") %></span>
+    </div>
+    <div id="ai_message_<%= user.id %>_content" class="mt-1 whitespace-pre-wrap text-sm text-gray-800"><%= user.content %></div>
+  </div>
+</div>

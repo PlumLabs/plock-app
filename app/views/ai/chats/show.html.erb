@@ -1,0 +1,40 @@
+<%= turbo_frame_tag "ai_chats_main" do %>
+  <%= turbo_stream_from "ai_chat_#{@ai_chat.id}" %>
+
+  <div class="flex h-[calc(100vh-7rem)] flex-col lg:h-[calc(100vh-5rem)]">
+    <div class="flex items-center gap-3 border-b border-gray-200 py-2">
+      <h3 class="min-w-0 flex-1 truncate text-sm font-semibold text-gray-900">
+        <%= @ai_chat.title.presence || "Chat ##{@ai_chat.id}" %>
+      </h3>
+
+      <span class="hidden sm:inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+        Model: <%= @ai_chat.ai_model&.label || default_model_display_name %>
+      </span>
+
+      <details class="relative sm:hidden">
+        <summary class="cursor-pointer list-none rounded-md p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Chat options">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5">
+            <path d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm0 5.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm0 5.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+          </svg>
+        </summary>
+        <div class="absolute right-0 z-10 mt-2 w-56 rounded-md bg-white p-3 text-xs text-gray-700 shadow-lg ring-1 ring-gray-200">
+          <div class="font-medium text-gray-500">Model</div>
+          <div class="mt-1 break-words"><%= @ai_chat.ai_model&.label || default_model_display_name %></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="mt-6 flex-1 overflow-y-auto" data-controller="ai--chat" data-ai--chat-target="aiMessages">
+      <div id="ai_messages" class="space-y-6 px-2 py-4">
+        <% @ai_chat.ai_messages.for_display.each do |ai_message| %>
+          <%= render ai_message %>
+        <% end %>
+
+        <div id="ai_errors" class="empty:hidden flex items-start gap-3 rounded-lg bg-red-50 ring-1 ring-red-200 px-4 py-3 text-sm text-red-800"></div>
+        <div id="ai_transient_errors" class="empty:hidden flex items-start gap-3 rounded-lg bg-yellow-50 ring-1 ring-yellow-200 px-4 py-3 text-sm text-yellow-800"></div>
+      </div>
+    </div>
+
+    <%= render "ai/messages/form", ai_chat: @ai_chat, ai_message: @ai_message %>
+  </div>
+<% end %>
