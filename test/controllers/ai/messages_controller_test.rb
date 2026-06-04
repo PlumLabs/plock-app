@@ -11,6 +11,16 @@ class Ai::MessagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "missing content does not create a message" do
+    sign_in users(:edu)
+
+    chat = Ai::Chat.create!(user: users(:edu))
+
+    assert_no_enqueued_jobs only: Ai::ChatResponseJob do
+      post ai_chat_messages_url(chat), params: { ai_message: { content: "" } }
+    end
+  end
+
   test "non-administrator users cannot create a message" do
     sign_in users(:franco)
 

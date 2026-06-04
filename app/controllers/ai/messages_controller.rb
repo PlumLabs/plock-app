@@ -4,6 +4,7 @@ class Ai::MessagesController < ApplicationController
 
   def create
     content = params.dig(:ai_message, :content)
+
     if content.present?
       Ai::ChatResponseJob.perform_later(@ai_chat.id, content)
 
@@ -11,6 +12,8 @@ class Ai::MessagesController < ApplicationController
         format.turbo_stream
         format.html { redirect_to @ai_chat }
       end
+    else
+      head :unprocessable_entity
     end
   end
 
