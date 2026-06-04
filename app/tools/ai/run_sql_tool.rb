@@ -57,9 +57,8 @@ class Ai::RunSqlTool < RubyLLM::Tool
 
   param :query,
         type: :string,
-        desc: "A single SELECT statement. Must include LIMIT. " \
-              "Read-only: write statements (INSERT/UPDATE/DELETE/DROP) " \
-              "are rejected by the database itself."
+        desc: "A single read-only SELECT (or WITH … SELECT); " \
+              "rejected before execution if it isn't. LIMIT optional."
 
   def execute(query:)
     rows = Ai::SqlSandbox.run(query)
