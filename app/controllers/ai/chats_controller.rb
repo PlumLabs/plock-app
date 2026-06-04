@@ -15,11 +15,14 @@ class Ai::ChatsController < ApplicationController
 
   def create
     prompt = params.dig(:ai_chat, :prompt)
+
     if prompt.present?
       @ai_chat = Current.user.ai_chats.create!(model: params.dig(:ai_chat, :model).presence)
       Ai::ChatResponseJob.perform_later(@ai_chat.id, prompt)
 
       redirect_to @ai_chat, notice: "Ai::chat was successfully created."
+    else
+      head :unprocessable_entity
     end
   end
 

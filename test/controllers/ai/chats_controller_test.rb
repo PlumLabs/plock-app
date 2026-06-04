@@ -36,6 +36,13 @@ class Ai::ChatsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "missing prompt does not create a chat" do
+    sign_in users(:edu)
+    assert_no_difference "Ai::Chat.count" do
+      post ai_chats_url, params: { ai_chat: { prompt: "" } }
+    end
+  end
+
   test "non-administrator users cannot create a chat" do
     sign_in users(:franco)
 
