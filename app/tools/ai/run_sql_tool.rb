@@ -8,8 +8,9 @@ class Ai::RunSqlTool < RubyLLM::Tool
     - Soft delete: exclude rows where `disabled_at IS NOT NULL` from
       `users`, `clients`, and `projects`. (`time_entries` has no `disabled_at`.)
     - Time math: durations are in `time_entries.duration_minutes`.
-      Hours = minutes / 60.0. Do NOT round in SQL — round in the final
-      Markdown answer to 2 decimals.
+      Hours = minutes / 60.0. Round the final output column to 2 decimals
+      with `ROUND(value, 2)` (as in the examples below). Do NOT round
+      intermediate values that feed further aggregation.
     - Joins: a user is associated with a project via `project_assignments`,
       not directly. Time entries link a user to a project through
       `time_entries.user_id` and `time_entries.project_id` (which can be NULL
