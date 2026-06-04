@@ -1,4 +1,6 @@
 class Ai::ModelsController < ApplicationController
+  before_action :ensure_can_administrate
+
   def index
     @ai_models = available_chat_models
   end
