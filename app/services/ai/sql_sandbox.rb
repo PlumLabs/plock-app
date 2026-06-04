@@ -1,7 +1,7 @@
 class Ai::SqlSandbox
   class ForbiddenStatement < StandardError; end
 
-  MAX_ROWS = 1_000
+  MAX_ROWS = 1_000.freeze
 
   FORBIDDEN_KEYWORDS = %w[
     INSERT UPDATE DELETE DROP ALTER CREATE TRUNCATE
@@ -12,8 +12,11 @@ class Ai::SqlSandbox
     /\bsessions\b/i,
     /\bai_chats\b/i,
     /\bai_messages\b/i,
+    /\bai_models\b/i,
+    /\bai_tool_calls\b/i,
     /\bpassword_digest\b/i,
-    /\bemail_address\b/i
+    /\bemail_address\b/i,
+    /\bemail\b/i
   ].freeze
 
   def self.run(sql)
