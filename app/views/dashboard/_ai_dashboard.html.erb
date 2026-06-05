@@ -8,8 +8,12 @@
     Recent chats
   </label>
 
-  <aside class="hidden peer-checked:flex lg:flex flex-col overflow-y-auto border-b border-gray-200 pb-3 lg:w-72 lg:shrink-0 lg:border-b-0 lg:border-r lg:pr-4 lg:pb-0">
-    <%= turbo_frame_tag "ai_chats_sidebar", src: ai_chats_path, loading: :lazy do %>
+  <aside
+    class="hidden peer-checked:flex lg:flex flex-col overflow-y-auto border-b border-gray-200 pb-3 lg:w-72 lg:shrink-0 lg:border-b-0 lg:border-r lg:pr-4 lg:pb-0"
+    data-controller="ai--chat-sidebar"
+    data-ai--chat-sidebar-url-value="<%= ai_chats_path %>">
+    <%= turbo_frame_tag "ai_chats_sidebar", src: ai_chats_path, loading: :lazy,
+                        data: { "ai--chat-sidebar-target": "frame" } do %>
       <p class="text-sm text-gray-500 p-2">Loading chats…</p>
     <% end %>
   </aside>

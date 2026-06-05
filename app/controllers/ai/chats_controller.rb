@@ -5,6 +5,7 @@ class Ai::ChatsController < ApplicationController
 
   def index
     @ai_chats = Current.user.ai_chats.order(updated_at: :desc).limit(25)
+    @active_chat_id = params[:active]
   end
 
   def new

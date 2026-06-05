@@ -1,28 +1,39 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="ai--chat-sidebar"
+//
+// Reloads the sidebar list whenever the URL changes (clicking +, sending the
+// first message that creates a chat, opening a chat, or back/forward), passing
+// the active chat id so the server can render the list fresh and highlighted.
 export default class extends Controller {
-  static targets = [ "link" ]
-  static classes = [ "active" ]
+  static targets = [ "frame" ]
+  static values = { url: String }
 
-  connect() {}
+  connect() {
+    this.refresh = this.refresh.bind(this)
+    this.lastPath = window.location.pathname
 
-  select(event) {
-    this.activate(event.currentTarget)
+    document.addEventListener("turbo:frame-load", this.refresh)
+    document.addEventListener("turbo:load", this.refresh)
+    window.addEventListener("popstate", this.refresh)
   }
 
-  activate(activeLink) {
-    this.linkTargets.forEach((link) => {
-      const isActive = link === activeLink
+  disconnect() {
+    document.removeEventListener("turbo:frame-load", this.refresh)
+    document.removeEventListener("turbo:load", this.refresh)
+    window.removeEventListener("popstate", this.refresh)
+  }
 
-      link.classList.toggle(this.activeClass, isActive)
+  refresh() {
+    const path = window.location.pathname
+    if (path === this.lastPath) return // URL didn't actually change
+    this.lastPath = path
 
-      // aria-current for accessibility
-      if (isActive) {
-        link.setAttribute("aria-current", "page")
-      } else {
-        link.removeAttribute("aria-current")
-      }
-    })
+    const match = path.match(/\/ai\/chats\/(\d+)/)
+    const active = match ? `?active=${match[1]}` : ""
+
+    // Assigning src re-fetches the frame; the guard above prevents the
+    // resulting turbo:frame-load from triggering an infinite reload.
+    this.frameTarget.src = `${this.urlValue}${active}`
   }
 }

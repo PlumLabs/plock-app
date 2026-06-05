@@ -1,19 +1,11 @@
 <%= turbo_frame_tag "ai_chats_sidebar" do %>
-  <div
-    class="flex flex-col"
-    data-controller="ai--chat-sidebar"
-    data-ai--chat-sidebar-active-class="bg-indigo-100 text-indigo-700 font-medium">
+  <div class="flex flex-col">
     <div class="flex items-center justify-between py-2 pl-2 pr-1">
       <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Recent chats</h2>
       <%= link_to new_ai_chat_path,
                   class: "rounded-md p-1 text-gray-500 hover:bg-gray-100 hover:text-indigo-600",
                   title: "New chat",
-                  data: {
-                    turbo_frame: "ai_chats_main",
-                    turbo_action: "advance",
-                    "ai--chat-sidebar-target": "link",
-                    action: "ai--chat-sidebar#select"
-                  } do %>
+                  data: { turbo_frame: "ai_chats_main", turbo_action: "advance" } do %>
         <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
         </svg>
@@ -23,15 +15,13 @@
     <% if @ai_chats.any? %>
       <ul class="flex flex-col gap-0.5">
         <% @ai_chats.each do |ai_chat| %>
+          <% active = @active_chat_id.to_s == ai_chat.id.to_s %>
           <li>
             <%= link_to ai_chat_path(ai_chat),
-                        class: "flex items-center justify-between gap-2 rounded-md px-2 py-2 hover:bg-gray-100",
-                        data: {
-                          turbo_frame: "ai_chats_main",
-                          turbo_action: "advance",
-                          "ai--chat-sidebar-target": "link",
-                          action: "ai--chat-sidebar#select"
-                        } do %>
+                        class: ["flex items-center justify-between gap-2 rounded-md px-2 py-2 hover:bg-gray-100",
+                                { "bg-indigo-100 text-indigo-700 font-medium": active }],
+                        "aria-current": (active ? "page" : nil),
+                        data: { turbo_frame: "ai_chats_main", turbo_action: "advance" } do %>
               <span class="min-w-0 flex-1 truncate text-sm text-gray-800">
                 <%= ai_chat.title.presence || "Chat ##{ai_chat.id}" %>
               </span>
