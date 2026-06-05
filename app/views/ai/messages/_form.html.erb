@@ -1,11 +1,11 @@
 <div class="mt-4 shrink-0" id="new-message-form">
-  <%= form_with(model: ai_message, url: ai_chat_messages_path(@ai_chat), id: "new_ai_message", class: "relative") do |form| %>
-    <% if ai_chat.errors.any? %>
+  <%= form_with(model: ai_message, url: ai_chat_messages_path(ai_chat), id: "new_ai_message", class: "relative") do |form| %>
+    <% if ai_message.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-        <h2><%= pluralize(ai_chat.errors.count, "error") %> prohibited this ai chat from being saved:</h2>
+        <h2><%= pluralize(ai_message.errors.count, "error") %> prohibited this ai message from being saved:</h2>
 
         <ul class="list-disc ml-6">
-          <% ai_chat.errors.each do |error| %>
+          <% ai_message.errors.each do |error| %>
             <li><%= error.full_message %></li>
           <% end %>
         </ul>
@@ -23,7 +23,7 @@
                         autofocus: true,
                         class: [
                           "block w-full resize-none rounded-2xl border-0 bg-transparent px-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0 sm:text-sm/6",
-                          {"border-red-400 focus:outline-red-600": ai_chat.errors[:content].any?}
+                          {"border-red-400 focus:outline-red-600": ai_message.errors[:content].any?}
                         ] %>
 
 
