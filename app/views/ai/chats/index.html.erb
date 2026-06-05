@@ -13,12 +13,21 @@
     </div>
 
     <% if @ai_chats.any? %>
-      <ul class="flex flex-col gap-0.5">
+      <ul
+        class="flex flex-col gap-0.5"
+        data-controller="ai--chat-sidebar"
+        data-ai--chat-sidebar-active-class="bg-indigo-100 text-indigo-700 font-medium"
+      >
         <% @ai_chats.each do |ai_chat| %>
           <li>
             <%= link_to ai_chat_path(ai_chat),
                         class: "flex items-center justify-between gap-2 rounded-md px-2 py-2 hover:bg-gray-100",
-                        data: { turbo_frame: "ai_chats_main", turbo_action: "advance" } do %>
+                        data: {
+                          turbo_frame: "ai_chats_main",
+                          turbo_action: "advance",
+                           "ai--chat-sidebar-target": "link",
+                          action: "ai--chat-sidebar#select"
+                        } do %>
               <span class="min-w-0 flex-1 truncate text-sm text-gray-800">
                 <%= ai_chat.title.presence || "Chat ##{ai_chat.id}" %>
               </span>
