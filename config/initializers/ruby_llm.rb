@@ -1,8 +1,8 @@
 RubyLLM.configure do |config|
-  # Ollama (local).
-  config.ollama_api_base = "http://localhost:11434/v1"
-  config.ollama_api_key = "fake-ollama-key-for-dev-and-test"  # Ollama ignores the value; the header just has to be present.
-  config.default_model = "gpt-oss:20b"
+  # Ollama (local by default).
+  config.ollama_api_base = ENV.fetch("OLLAMA_API_BASE", "http://localhost:11434/v1")
+  config.ollama_api_key  = ENV.fetch("OLLAMA_API_KEY", "fake-ollama-key-for-dev-and-test")
+  config.default_model   = ENV.fetch("RUBYLLM_DEFAULT_MODEL", "gpt-oss:20b")
 
   # Use the new association-based acts_as API (recommended)
   config.use_new_acts_as = true
