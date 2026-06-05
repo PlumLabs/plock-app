@@ -9,7 +9,7 @@
       <span class="text-xs text-gray-500"><%= assistant.created_at&.strftime("%I:%M %p") %></span>
     </div>
     <div id="ai_message_<%= assistant.id %>_content" class="mt-1 whitespace-pre-wrap text-sm text-gray-800">
-      <% if assistant.content.empty? %>
+      <% if assistant.content.blank? %>
         <div class="inline-flex items-center gap-1 rounded-md bg-gray-50 px-3">
           <span class="size-2 rounded-full bg-gray-400 animate-bounce [animation-delay:0ms]"></span>
           <span class="size-2 rounded-full bg-gray-400 animate-bounce [animation-delay:150ms]"></span>
