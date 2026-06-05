@@ -54,3 +54,8 @@ production:
     <<: *default
     database: storage/production_cable.sqlite3
     migrations_paths: db/cable_migrate
+  ai_readonly:
+    <<: *default
+    database: storage/production.sqlite3
+    readonly: true
+    replica: true
