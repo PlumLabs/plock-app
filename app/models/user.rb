@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :project_assignments, dependent: :destroy
   has_many :projects, through: :project_assignments
   has_many :time_entries, dependent: :destroy
+  has_many :ai_chats, class_name: "Ai::Chat", dependent: :destroy
 
   scope :active, -> { where(disabled_at: nil) }
   scope :archive, -> { where.not(disabled_at: nil) }

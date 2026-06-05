@@ -62,12 +62,15 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "pdf-inspector"
+  gem "minitest-mock"
 end
 
 # UI
 gem "tailwindcss-rails", "~> 4.4"
 
-
 # Pdf
 gem "prawn"
 gem "prawn-table"
+
+# AI
+gem "ruby_llm"

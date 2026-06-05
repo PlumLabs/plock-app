@@ -1,5 +1,5 @@
 # Admin User
-User.find_or_create_by!(email_address: "edu@plum.com.ar") do |user|
+admin = User.find_or_create_by!(email_address: "edu@plum.com.ar") do |user|
   user.password = "123456"
   user.first_name = "Eduardo"
   user.last_name = "Depetris"
@@ -82,4 +82,26 @@ User.all.sample(10).each do |user|
     description: Faker::Lorem.sentence(word_count: rand(4..14)),
     date: Faker::Date.between(from: 3.months.ago, to: Date.today)
   )
+end
+
+# Ai::Chats
+# Run this to load all models from RubyLLM's bundled catalog
+# Rake::Task["ruby_llm:load_models"].invoke
+
+# Local Ollama models aren't in RubyLLM's bundled catalog, so register the
+# default model explicitly.
+ai_model = Ai::Model.find_or_create_by!(model_id: RubyLLM.config.default_model, provider: "ollama") do |model|
+  model.name = RubyLLM.config.default_model
+  model.family = "ollama"
+  model.modalities = { input: %w[text], output: %w[text] }
+  model.capabilities = %w[streaming function_calling structured_output]
+end
+
+25.times do
+  updated_at = Faker::Date.between(from: 3.months.ago, to: Date.today)
+  title = Faker::Lorem.sentence(word_count: rand(3..6))
+
+  chat = admin.ai_chats.create!(model: ai_model, title: title, created_at: updated_at, updated_at: updated_at)
+  chat.ai_messages.create!(role: "user",      content: "Hours per client this month?", ai_model: ai_model)
+  chat.ai_messages.create!(role: "assistant", content: "Acme: 42.5h\nGlobex: 18.0h",   ai_model: ai_model)
 end

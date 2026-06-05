@@ -1,0 +1,16 @@
+<% default_model = RubyLLM.config.default_model %>
+
+ollama_default:
+  model_id: <%= default_model %>
+  name: <%= default_model %>
+  provider: ollama
+  family: ollama
+  modalities:
+    input:
+      - text
+    output:
+      - text
+  capabilities:
+    - streaming
+    - function_calling
+    - structured_output

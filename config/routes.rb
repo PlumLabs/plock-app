@@ -37,4 +37,15 @@ Rails.application.routes.draw do
   namespace :reports do
     resource :detailed, only: [ :show ]
   end
+
+  namespace :ai do
+    resources :models, only: [ :index, :show ] do
+      collection do
+        post :refresh
+      end
+    end
+    resources :chats do
+      resources :messages, only: [ :create ]
+    end
+  end
 end

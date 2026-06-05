@@ -1,0 +1,26 @@
+<div class="flex h-[calc(100vh-7rem)] flex-col lg:h-[calc(100vh-5rem)] lg:flex-row lg:gap-4">
+  <input type="checkbox" id="sidebar-toggle" class="peer sr-only">
+
+  <label for="sidebar-toggle" class="lg:hidden flex items-center gap-2 cursor-pointer border-b border-gray-200 py-2 text-sm font-semibold text-gray-900">
+    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+    </svg>
+    Recent chats
+  </label>
+
+  <aside
+    class="hidden peer-checked:flex lg:flex flex-col overflow-y-auto border-b border-gray-200 pb-3 lg:w-72 lg:shrink-0 lg:border-b-0 lg:border-r lg:pr-4 lg:pb-0"
+    data-controller="ai--chat-sidebar"
+    data-ai--chat-sidebar-url-value="<%= ai_chats_path %>">
+    <%= turbo_frame_tag "ai_chats_sidebar", src: ai_chats_path, loading: :lazy,
+                        data: { "ai--chat-sidebar-target": "frame" } do %>
+      <p class="text-sm text-gray-500 p-2">Loading chats…</p>
+    <% end %>
+  </aside>
+
+  <section class="flex-1 min-w-0 overflow-y-auto">
+    <%= turbo_frame_tag "ai_chats_main", src: new_ai_chat_path, loading: :lazy do %>
+      <p class="p-4 text-sm text-gray-500">Loading composer…</p>
+    <% end %>
+  </section>
+</div>
