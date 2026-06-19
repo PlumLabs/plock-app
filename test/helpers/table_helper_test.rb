@@ -10,7 +10,7 @@ class TableHelperTest < ActionView::TestCase
     params[:q] = { name_eq: "Plum" }
 
     result = filter_link_to("Plum", :clients_path, { name_eq: "Plum" })
-    assert_includes result, "text-indigo-600"
+    assert_includes result, "text-primary"
   end
 
   test "filter_link_to includes additional classes" do

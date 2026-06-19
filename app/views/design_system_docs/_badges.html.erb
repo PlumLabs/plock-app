@@ -1,0 +1,17 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-lg font-semibold text-fg-default">Badges</h2>
+    <p class="mt-1 text-sm text-fg-muted">Small status labels. Combine the base <code>.badge</code> with a variant.</p>
+  </div>
+
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Badge variants",
+    code: ds_code(:badges)
+  } do %>
+    <span class="badge badge-success">Success</span>
+    <span class="badge badge-danger">Danger</span>
+    <span class="badge badge-warning">Warning</span>
+    <span class="badge badge-brand">Brand</span>
+    <span class="badge badge-neutral">Neutral</span>
+  <% end %>
+</div>

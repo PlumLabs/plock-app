@@ -2,11 +2,15 @@
   <%= form_with(model: [:tracker, time_entry], class: "group w-full") do |form| %>
     <%= form.hidden_field :user_id if local_assigns[:user_collection].blank? %>
 
-    <% duration_error_class = time_entry.errors[:duration_minutes].any? ? "outline outline-1 -outline-offset-1 outline-red-300" : "" %>
-    <% member_error_class = time_entry.errors[:user].any? ? "outline outline-1 -outline-offset-1 outline-red-300" : "" %>
-    <% edit_input_classes = "text-gray-900 rounded-md border-0 shadow-2xs sm:shadow-none	hover:shadow-2xs ring-1 sm:ring-0 hover:ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600" %>
-    <% new_input_classses = "text-gray-900 rounded-md border-0 shadow-2xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600" %>
-    <% input_classes = time_entry.new_record? ? new_input_classses : edit_input_classes %>
+    <% normal_ring     = "ring-secondary-border focus:ring-primary" %>
+    <% error_ring      = "ring-danger focus:ring-danger-emphasis" %>
+    <% edit_input_base = "bg-surface px-3 text-fg-default rounded-md border-0 shadow-2xs sm:shadow-none hover:shadow-2xs ring-1 sm:ring-0 hover:ring-1 ring-inset placeholder:text-fg-placeholder focus:ring-2 focus:ring-inset" %>
+    <% new_input_base  = "bg-surface px-3 text-fg-default rounded-md border-0 shadow-2xs ring-1 ring-inset placeholder:text-fg-placeholder focus:ring-2 focus:ring-inset" %>
+    <% input_base      = time_entry.new_record? ? new_input_base : edit_input_base %>
+    <% input_classes   = "#{input_base} #{normal_ring}" %>
+    <% select_base     = time_entry.new_record? ? "form-select" : "form-select sm:shadow-none sm:ring-0 hover:shadow-2xs hover:ring-1" %>
+    <% duration_ring   = time_entry.errors[:duration_minutes].any? ? error_ring : normal_ring %>
+    <% member_ring     = time_entry.errors[:user].any? ? error_ring : normal_ring %>
 
     <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
 
@@ -30,7 +34,7 @@
                 include_blank: true
               },
               {
-                class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes} #{member_error_class}"
+                class: "#{select_base} w-full md:w-32 xl:w-64 #{member_ring}"
               }
         %>
       </div>
@@ -65,7 +69,7 @@
                   include_blank: true
                 },
                 {
-                  class: "w-full md:w-32 xl:w-64 block py-1.5 pl-3 pr-10 sm:text-sm/6 #{input_classes}",
+                  class: "#{select_base} w-full md:w-32 xl:w-64 #{member_ring}",
                   required: true
                 }
           %>
@@ -87,7 +91,7 @@
                 aria: { label: "Duration" },
                 placeholder: "hh:mm",
                 required: true,
-                class: "w-full sm:w-16 py-1.5 sm:text-sm/6 #{input_classes} #{duration_error_class}"
+                class: "w-full sm:w-16 py-1.5 sm:text-sm/6 #{input_base} #{duration_ring}"
           %>
         </div>
       </div>
@@ -96,7 +100,7 @@
         <%= form.time_select :duration_mobile,
               {},
               {
-                class: "w-full rounded-md border-0 py-1.5 text-gray-900 shadow-2xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm #{duration_error_class}",
+                class: "form-input #{duration_ring}",
                 aria: { label: "Duration Mobile" }
               }
         %>
@@ -108,7 +112,7 @@
             <a
               href="#"
               onclick="location.reload(); return false;"
-              class="w-full sm:w-auto text-sm rounded-md px-3 py-2 font-semibold shadow-2xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 text-center block sm:inline-block"
+              class="btn-secondary w-full sm:w-auto text-center block sm:inline-block"
             >
                Reset
             </a>
@@ -117,7 +121,7 @@
 
         <div class="mt-2 sm:mt-0">
           <%= form.button type: :submit,
-                class: "hidden sm:block w-full sm:w-auto sm:inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-2xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                class: "btn-icon-primary hidden sm:inline-flex",
                 title: "Add time" do %>
             <svg class="h-5 w-5 group-aria-busy:hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
@@ -130,26 +134,23 @@
 
           <%= form.button type: :submit,
                 value: "mobile",
-                class: "block sm:hidden w-full sm:w-auto inline-flex items-center justify-center rounded-md sm:rounded-full px-3.5 py-2.5 sm:p-2 bg-indigo-600 text-white shadow-2xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                class: "btn-primary block sm:hidden w-full justify-center px-3.5 py-2.5",
                 title: "Add time" do %>
-            <svg class="h-5 w-5 group-aria-busy:hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-            </svg>
             <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span class="block sm:hidden group-aria-busy:hidden">Add Entry</span>
+            <span class="group-aria-busy:hidden">Add Entry</span>
           <% end %>
         </div>
       <% end %>
 
       <% unless time_entry.new_record? %>
         <%= form.button type: :submit,
-              class: "hidden sm:block mt-2 sm:mt-0 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50",
+              class: "btn-secondary hidden sm:block mt-2 sm:mt-0",
               title: "Update time" do %>
           <span class="group-aria-busy:hidden">Update</span>
-          <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-indigo-600 mx-4" fill="none" viewBox="0 0 24 24">
+          <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-primary mx-4" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
@@ -157,10 +158,10 @@
 
         <%= form.button type: :submit,
               value: "mobile",
-              class: "block sm:hidden mt-2 sm:mt-0 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-2xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2",
+              class: "btn-secondary block sm:hidden mt-2 sm:mt-0 flex justify-center gap-2",
               title: "Update time" do %>
           <span class="group-aria-busy:hidden">Update</span>
-          <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24">
+          <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
@@ -171,14 +172,24 @@
 
   <% unless time_entry.new_record? %>
     <%= button_to tracker_time_entry_duplicate_path(time_entry),
-      class: "group mt-2 sm:mt-0 hover:text-indigo-600 w-full sm:ml-2",
-      title: "Duplicate",
+      class: "btn-icon-secondary items-center justify-center mt-2 sm:mt-0 sm:ml-2 group hidden sm:inline-flex",
+      aria: { label: "Duplicate" },
       form: { class: "flex sm:items-center sm:space-x-2 group" } do %>
-      <svg class="h-5 w-5 hidden sm:block group-aria-busy:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+      <svg class="h-5 w-5 group-aria-busy:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
       </svg>
-      <span class="block sm:hidden group-aria-busy:hidden text-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-2xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Duplicate</span>
-      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-indigo-600 w-full" fill="none" viewBox="0 0 24 24">
+      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    <% end %>
+
+    <%= button_to tracker_time_entry_duplicate_path(time_entry),
+      class: "btn-secondary mt-2 sm:mt-0 w-full justify-center group sm:hidden",
+      aria: { label: "Duplicate" },
+      form: { class: "sm:hidden group" } do %>
+      <span class="group-aria-busy:hidden">Duplicate</span>
+      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
@@ -186,18 +197,33 @@
 
     <%= button_to tracker_time_entry_path(time_entry),
       method: :delete,
-      class: "group mt-2 sm:mt-0 hover:text-red-600 w-full",
+      class: "btn-icon-secondary items-center justify-center mt-2 sm:mt-0 group hidden sm:inline-flex",
       data: {
         turbo_confirm: "Do you want to archive?",
         turbo_method: :delete,
       },
-      title: "Delete",
+      aria: { label: "Delete" },
       form: { class: "flex sm:items-center sm:space-x-2 group" } do %>
-      <svg class="h-5 w-5 hidden sm:block group-aria-busy:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+      <svg class="h-5 w-5 group-aria-busy:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21a47.872 47.872 0 0 0 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a47.872 47.872 0 0 0-3.478-.397m-12 .562a47.872 47.872 0 0 1 1.022-.165m0 0a47.872 47.872 0 0 1 3.478-.397m7.5 0V4.75c0-1.18-.91-2.164-2.09-2.201a49.848 49.848 0 0 0-3.32 0C9.91 2.586 9 3.571 9 4.75v.916m7.5 0a47.872 47.872 0 0 0-7.5 0" />
       </svg>
-      <span class="block sm:hidden group-aria-busy:hidden text-center text-red-600 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-2xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Delete</span>
-      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5 text-indigo-600 w-full" fill="none" viewBox="0 0 24 24">
+      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    <% end %>
+
+    <%= button_to tracker_time_entry_path(time_entry),
+      method: :delete,
+      class: "btn-danger mt-2 sm:mt-0 w-full justify-center group sm:hidden",
+      data: {
+        turbo_confirm: "Do you want to archive?",
+        turbo_method: :delete,
+      },
+      aria: { label: "Delete" },
+      form: { class: "sm:hidden group" } do %>
+      <span class="group-aria-busy:hidden">Delete</span>
+      <svg class="hidden group-aria-busy:block motion-reduce:hidden animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
@@ -206,13 +232,13 @@
 </div>
 
 <% if time_entry.errors[:duration_minutes].any? %>
-  <%= render "alerts/error", title: time_entry.errors[:duration_minutes].join, position_class: "fixed bottom-4 right-4" %>
+  <%= render "alerts/flash", type: :error, title: time_entry.errors[:duration_minutes].join, position_class: "fixed bottom-4 right-4" %>
 <% end %>
 
 <% if time_entry.errors[:user].any? %>
-  <%= render "alerts/error", title: time_entry.errors.full_messages_for(:user).join(", "), position_class: "fixed bottom-4 right-4" %>
+  <%= render "alerts/flash", type: :error, title: time_entry.errors.full_messages_for(:user).join(", "), position_class: "fixed bottom-4 right-4" %>
 <% end %>
 
 <% if local_assigns[:updated] %>
-  <%= render "alerts/success", title: "Successfully Updated!", position_class: "fixed top-4 right-4" %>
+  <%= render "alerts/flash", type: :success, title: "Successfully Updated!", position_class: "fixed top-4 right-4" %>
 <% end %>

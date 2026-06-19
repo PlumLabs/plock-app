@@ -2,8 +2,8 @@ module NavigationHelper
   def nav_link_to(name, path, options = {}, &block)
     classes = options[:class] || ""
     active = current_page?(path) || request.path.start_with?(path)
-    active_classes = "bg-gray-50 text-indigo-600"
-    default_classes = "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+    active_classes = "bg-secondary-hover text-primary-light"
+    default_classes = "text-fg-default hover:text-primary-light hover:bg-secondary-hover"
 
     link_classes = "#{classes} #{active ? active_classes : default_classes}"
 

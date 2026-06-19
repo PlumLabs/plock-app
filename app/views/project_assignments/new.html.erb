@@ -13,7 +13,7 @@
             class: "relative mt-2 rounded-md shadow-2xs") do |form|
         %>
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+            <svg class="h-5 w-5 text-fg-placeholder" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
               <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
             </svg>
           </div>
@@ -26,21 +26,21 @@
                   turbo_permanent: true
 
                 },
-                class: "block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6",
+                class: "form-input pl-10",
                 placeholder: "Search Users")
           %>
         <% end %>
       </div>
 
       <div class="px-4 py-5 sm:p-6">
-        <ul role="list" class="divide-y divide-gray-100">
+        <ul role="list" class="divide-y divide-border-subtle">
           <% @users.each do |user| %>
             <li id=<%= dom_id user %> class="flex items-center justify-between gap-x-6 py-5" data-test-id=<%= user.id %>>
               <div class="min-w-0">
                 <div class="flex items-start gap-x-3">
-                  <p class="text-sm/6 font-semibold text-gray-900"><%= user.name %></p>
+                  <p class="text-sm/6 font-semibold text-fg-default"><%= user.name %></p>
                 </div>
-                <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+                <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-fg-muted">
                   <p class="whitespace-nowrap"><%= user.email_address %></p>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                               method: :post,
                               params: { project_assignment: { user_id: user.id } },
                               data: { turbo_frame: "_top" },
-                              class: "rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-2xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50" do %>
+                              class: "btn-secondary px-2.5 py-1.5" do %>
                   Add to project
                 <% end %>
               </div>

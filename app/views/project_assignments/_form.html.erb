@@ -1,16 +1,16 @@
 <%= form_with(model: [project, project_assignment], data: { turbo_frame: "_top" }) do |form| %>
   <div class="space-y-12">
-    <div class="border-b border-gray-900/10 pb-12">
+    <div class="border-b border-border pb-12">
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-4">
-          <p class="block text-sm/6 font-medium text-gray-900">Name</p>
+          <p class="form-label">Name</p>
           <div class="mt-2">
             <%= project_assignment.user_name %>
           </div>
         </div>
 
         <div class="sm:col-span-4">
-          <p for="user_last_name" class="block text-sm/6 font-medium text-gray-900">Email</p>
+          <p for="user_last_name" class="form-label">Email</p>
           <div class="mt-2">
             <%= project_assignment.user_email_address %>
           </div>
@@ -18,14 +18,14 @@
       </div>
     </div>
 
-    <div class="border-b border-gray-900/10 pb-12">
-      <p class="mt-1 text-sm/6 text-gray-600">⚠️ Manager role can do everything</p>
+    <div class="border-b border-border pb-12">
+      <p class="mt-1 text-sm/6 text-fg-muted">⚠️ Manager role can do everything</p>
 
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-3">
-          <%= form.label :role, class: "block text-sm/6 font-medium text-gray-900" %>
+          <%= form.label :role, class: "form-label" %>
           <div class="mt-2">
-            <%= form.select :role, ProjectAssignment.roles.keys.map { |role| [role.titleize, role] }, {}, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-2xs ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm/6" %>
+            <%= form.select :role, ProjectAssignment.roles.keys.map { |role| [role.titleize, role] }, {}, class: "form-select sm:max-w-xs" %>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
   </div>
 
   <div class="mt-6 flex items-center justify-end gap-x-6">
-    <%= link_to "Cancel", :back, class: "text-sm/6 font-semibold text-gray-900" %>
-    <%= form.submit class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-2xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+    <%= link_to "Cancel", :back, class: "text-sm/6 font-semibold text-fg-default" %>
+    <%= form.submit class: "btn-primary" %>
   </div>
 <% end %>

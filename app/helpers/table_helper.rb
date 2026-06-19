@@ -7,7 +7,7 @@ module TableHelper
 
     classes = options[:class] || ""
     active = q_params[query.keys.first] == query.values.first.to_s
-    active_classes = "text-indigo-600" if active
+    active_classes = "text-primary" if active
     link_classes = "#{classes} #{active_classes}".strip
 
     data = options[:data] || {}

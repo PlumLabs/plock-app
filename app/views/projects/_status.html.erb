@@ -1,22 +1,22 @@
-<div class="mt-6 border-gray-100">
-  <dl class="divide-y divide-gray-100">
+<div class="mt-6 border-border-subtle">
+  <dl class="divide-y divide-border-subtle">
     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt class="text-sm/6 font-medium text-gray-900">Total time tracked</dt>
-      <dd class="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+      <dt class="text-sm/6 font-medium text-fg-default">Total time tracked</dt>
+      <dd class="mt-1 flex text-sm/6 text-fg-default sm:col-span-2 sm:mt-0">
         <span class="grow"><%= minutes_to_hours project.total_minutes_tracked %></span>
       </dd>
     </div>
 
     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt class="text-sm/6 font-medium text-gray-900">Top Contributors</dt>
-      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+      <dt class="text-sm/6 font-medium text-fg-default">Top Contributors</dt>
+      <dd class="mt-1 text-sm/6 text-fg-default sm:col-span-2 sm:mt-0">
 
         <%= turbo_frame_tag "top_contribution", class: "group" do %>
           <div class="pb-4 flex justify-end">
             <%= form_with url: project, method: :get do |f| %>
-              <%= f.label :start_month, "Period", class: "text-sm/6 font-medium text-gray-900" %>
-              <%= f.month_field :start_month, value: params[:start_month], min: project.created_at, max: Date.current, class: "rounded-md border-0 py-1.5 pl-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 text-sm/6" %>
-              <%= f.submit "Filter", class: "rounded-md px-3 py-2 text-sm font-semibold shadow-2xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+              <%= f.label :start_month, "Period", class: "text-sm/6 font-medium text-fg-default" %>
+              <%= f.month_field :start_month, value: params[:start_month], min: project.created_at, max: Date.current, class: "form-input pl-3 inline-block w-auto" %>
+              <%= f.submit "Filter", class: "btn-secondary" %>
             <% end %>
           </div>
 
@@ -29,15 +29,15 @@
 
           <% if top_contributors.empty? %>
             <div class="text-center py-4 group-area-busy:hidden">
-              <svg class="mx-auto size-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <svg class="mx-auto size-12 text-fg-placeholder" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
-              <h3 class="mt-2 text-sm font-semibold text-gray-900">No entries</h3>
+              <h3 class="mt-2 text-sm font-semibold text-fg-default">No entries</h3>
 
               <% if params[:start_month].present? %>
-                <p class="mt-1 text-sm text-gray-500">Reset the filter</p>
+                <p class="mt-1 text-sm text-fg-muted">Reset the filter</p>
                 <div class="mt-6">
-                  <%= link_to "Reset", project, class: "sm:text-sm/6 rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-2xs bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+                  <%= link_to "Reset", project, class: "btn-secondary" %>
                 </div>
               <% end %>
             </div>
@@ -58,8 +58,8 @@
 
                   <span class="font-medium"><%= minutes_to_hours(minutes) %></span>
                 </div>
-                <div class="w-full bg-gray-200 h-2 rounded">
-                  <div class="bg-indigo-600 h-2 rounded" style="width: <%= width %>%;"></div>
+                <div class="w-full bg-border h-2 rounded">
+                  <div class="bg-primary h-2 rounded" style="width: <%= width %>%;"></div>
                 </div>
               </li>
             <% end %>
@@ -69,15 +69,15 @@
     </div>
 
     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt class="text-sm/6 font-medium text-gray-900">Project Total</dt>
-      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+      <dt class="text-sm/6 font-medium text-fg-default">Project Total</dt>
+      <dd class="mt-1 text-sm/6 text-fg-default sm:col-span-2 sm:mt-0">
 
         <% if all_contributions.empty? %>
           <div class="text-center py-4">
-            <svg class="mx-auto size-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <svg class="mx-auto size-12 text-fg-placeholder" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-            <h3 class="mt-2 text-sm font-semibold text-gray-900">No entries</h3>
+            <h3 class="mt-2 text-sm font-semibold text-fg-default">No entries</h3>
           </div>
         <% end %>
 
@@ -98,7 +98,7 @@
           style="background: conic-gradient(<%= stops.join(", ") %>)">
         </div>
 
-        <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200 mt-4">
+        <ul role="list" class="divide-y divide-border-subtle rounded-md border border-border mt-4">
           <% all_contributions.each_with_index do |(user, minutes), i| %>
             <% percent = minutes.to_f * 100.0 / total %>
             <% bg_color = pie_chart_colors[i % pie_chart_colors.size] %>
@@ -112,8 +112,8 @@
                 </div>
                 <span class="font-medium"><%= percent.round(2) %>%</span>
               </div>
-              <div class="w-full bg-gray-200 h-2 rounded">
-                <div class="bg-indigo-600 h-2 rounded" style="width: <%= percent %>%; background-color: <%= bg_color %>;"></div>
+              <div class="w-full bg-border h-2 rounded">
+                <div class="bg-primary h-2 rounded" style="width: <%= percent %>%; background-color: <%= bg_color %>;"></div>
               </div>
             </li>
           <% end %>

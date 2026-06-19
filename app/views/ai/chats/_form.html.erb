@@ -2,7 +2,7 @@
   <% turbo_frame_target = local_assigns[:turbo_frame] || "_top" %>
   <%= form_with(model: ai_chat, url: ai_chats_path, class: "relative", data: { turbo_frame: turbo_frame_target, turbo_action: "advance" }) do |form| %>
     <% if ai_chat.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <div id="error_explanation" class="bg-danger-subtle text-danger px-3 py-2 font-medium rounded-md mt-3">
         <h2><%= pluralize(ai_chat.errors.count, "error") %> prohibited this ai chat from being saved:</h2>
 
         <ul class="list-disc ml-6">
@@ -14,14 +14,14 @@
     <% end %>
 
     <div class="my-5">
-      <%= form.label :model, "Select AI model:", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.label :model, "Select AI model:", class: "form-label" %>
       <%= form.select :model,
           options_for_select(@chat_models.map { |model| [model.label, model.id] }.unshift([default_model_display_name, nil]), @selected_model),
           {},
-          class: ["mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-base text-gray-900 shadow-xs focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 sm:text-sm/6", {"border-gray-300": ai_chat.errors[:model].none?, "border-red-400 focus:border-red-500 focus:ring-red-500/20": ai_chat.errors[:model].any?}] %>
+          class: ["mt-2 block w-full rounded-2xl border bg-surface px-4 py-3 text-base text-fg-default shadow-xs focus:border-primary-light focus:outline-none sm:text-sm/6", {"border-gray-300": ai_chat.errors[:model].none?, "border-danger focus:border-danger-emphasis": ai_chat.errors[:model].any?}] %>
     </div>
 
-    <div class="rounded-2xl border border-gray-300 bg-white shadow-xs focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20">
+    <div class="rounded-2xl border border-gray-300 bg-surface shadow-xs focus-within:border-primary-light">
       <%= form.label :prompt, "Ask a question", class: "sr-only" %>
       <%= form.textarea :prompt,
                         rows: 2,
@@ -31,8 +31,8 @@
                         title: "Please enter more than just whitespace.",
                         autofocus: true,
                         class: [
-                          "block w-full resize-none rounded-2xl border-0 bg-transparent px-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0 sm:text-sm/6",
-                          {"border-red-400 focus:outline-red-600": ai_chat.errors[:prompt].any?}
+                          "block w-full resize-none rounded-2xl border-0 bg-transparent px-4 py-3 text-base text-fg-default placeholder:text-fg-placeholder focus:outline-none focus:ring-0 sm:text-sm/6",
+                          {"border-danger focus:outline-danger": ai_chat.errors[:prompt].any?}
                         ] %>
 
 
@@ -45,7 +45,7 @@
 
     <div class="absolute inset-x-0 bottom-0 flex justify-end py-2 pr-2 pl-3">
       <div class="shrink-0">
-        <%= form.button type: "submit", class: "cursor-pointer inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" do %>
+        <%= form.button type: "submit", class: "btn-primary" do %>
           Start Chat
           <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="ml-1.5 -mr-0.5 size-4">
             <path d="M3.105 2.289a.75.75 0 0 0-.826.95l1.414 4.925A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.289Z" />

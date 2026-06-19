@@ -48,4 +48,8 @@ Rails.application.routes.draw do
       resources :messages, only: [ :create ]
     end
   end
+
+  if Rails.env.development?
+    resources :design_system_docs, only: [ :index ]
+  end
 end

@@ -1,0 +1,45 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-lg font-semibold text-fg-default">Overlays</h2>
+    <p class="mt-1 text-sm text-fg-muted">Dropdown listbox and slide-over drawer.</p>
+  </div>
+
+  <%# Dropdown — fully self-contained (trigger lives inside its own Stimulus controller) %>
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Dropdown",
+    description: "Click to toggle. Pass the options as the block content.",
+    code: ds_code(:dropdown)
+  } do %>
+    <div class="w-full max-w-xs">
+      <%= render layout: "dropdowns/select", locals: { placeholder: "Choose a client" } do %>
+        <a href="#" class="block px-3 py-2 text-sm text-fg-default hover:bg-secondary-hover">Acme Inc.</a>
+        <a href="#" class="block px-3 py-2 text-sm text-fg-default hover:bg-secondary-hover">Globex</a>
+        <a href="#" class="block px-3 py-2 text-sm text-fg-default hover:bg-secondary-hover">Initech</a>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Drawer — in the app it is loaded into a Turbo Frame, so it is shown by navigation
+      rather than a button. We show a static preview of its panel here to avoid hijacking
+      the page, plus the real usage snippet. %>
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Drawer (slide-over)",
+    description: "Slides in from the right. In the app it is rendered into a Turbo Frame (see project_assignments/new). Static preview of the panel shown below.",
+    code: ds_code(:drawer)
+  } do %>
+    <div class="w-full max-w-md overflow-hidden rounded-lg bg-surface shadow-xl ring-1 ring-border">
+      <div class="flex items-start justify-between px-4 py-6 sm:px-6">
+        <h2 class="text-base font-semibold text-fg-default">Add member</h2>
+        <button type="button" class="rounded-md bg-surface text-fg-placeholder hover:text-fg-muted">
+          <span class="sr-only">Close panel</span>
+          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="px-4 pb-6 sm:px-6">
+        <p class="text-sm text-fg-muted">Drawer body content goes here.</p>
+      </div>
+    </div>
+  <% end %>
+</div>
