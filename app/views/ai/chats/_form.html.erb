@@ -18,10 +18,10 @@
       <%= form.select :model,
           options_for_select(@chat_models.map { |model| [model.label, model.id] }.unshift([default_model_display_name, nil]), @selected_model),
           {},
-          class: ["mt-2 block w-full rounded-2xl border bg-surface px-4 py-3 text-base text-fg-default shadow-xs focus:border-primary-light focus:outline-none sm:text-sm/6", {"border-gray-300": ai_chat.errors[:model].none?, "border-danger focus:border-danger-emphasis": ai_chat.errors[:model].any?}] %>
+          class: ["mt-2 block w-full rounded-2xl border bg-surface px-4 py-3 text-base text-fg-default shadow-xs focus:border-primary-light focus:outline-none sm:text-sm/6", {"border-border": ai_chat.errors[:model].none?, "border-danger focus:border-danger-emphasis": ai_chat.errors[:model].any?}] %>
     </div>
 
-    <div class="rounded-2xl border border-gray-300 bg-surface shadow-xs focus-within:border-primary-light">
+    <div class="rounded-2xl border border-border bg-surface shadow-xs focus-within:border-primary-light">
       <%= form.label :prompt, "Ask a question", class: "sr-only" %>
       <%= form.textarea :prompt,
                         rows: 2,

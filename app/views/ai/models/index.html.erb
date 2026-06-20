@@ -15,7 +15,7 @@
 
   <div id="ai_models" class="mt-5 overflow-x-auto">
     <% if @ai_models.any? %>
-      <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+      <table class="min-w-full divide-y divide-border border border-border">
         <thead class="bg-surface-tint">
           <tr>
             <th class="px-3 py-2 text-left text-sm font-semibold text-fg-default">Provider</th>
@@ -25,7 +25,7 @@
             <th class="px-3 py-2 text-left text-sm font-semibold text-fg-default"></th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200 bg-surface">
+        <tbody class="divide-y divide-border bg-surface">
           <% @ai_models.each do |model_info| %>
             <%= render "ai/models/model",
               model: model_info %>
