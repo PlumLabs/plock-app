@@ -20,7 +20,11 @@ export default class extends Controller {
     this.renderIcons()
   }
 
-  disconnect() {}
+  disconnect() {
+    if (this.media && this.onMediaChange) {
+      this.media.removeEventListener("change", this.onMediaChange)
+    }
+  }
 
   toggle() {
     const next = this.resolved === "dark" ? "light" : "dark"
