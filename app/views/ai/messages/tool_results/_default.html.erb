@@ -6,15 +6,15 @@
     error_message: error_message %>
 <% else %>
   <details id="ai_tool_result_<%= tool.id %>" class="ml-11 group">
-    <summary class="cursor-pointer text-xs text-gray-500 hover:text-gray-700 font-mono inline-flex items-center gap-1.5">
+    <summary class="cursor-pointer text-xs text-fg-muted hover:text-fg-default font-mono inline-flex items-center gap-1.5">
       <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-3.5">
         <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
       </svg>
       <span>Tool result</span>
-      <span class="text-gray-400">·</span>
-      <span class="text-gray-400 group-open:hidden">show output</span>
-      <span class="text-gray-400 hidden group-open:inline">hide</span>
+      <span class="text-fg-placeholder">·</span>
+      <span class="text-fg-placeholder group-open:hidden">show output</span>
+      <span class="text-fg-placeholder hidden group-open:inline">hide</span>
     </summary>
-    <pre class="mt-2 whitespace-pre-wrap overflow-x-auto rounded-md bg-gray-50 ring-1 ring-inset ring-gray-200 px-3 py-2 text-xs text-gray-700"><%= tool.content.presence || "(no output)" %></pre>
+    <pre class="mt-2 whitespace-pre-wrap overflow-x-auto rounded-md bg-surface-tint ring-1 ring-inset ring-border px-3 py-2 text-xs text-fg-default"><%= tool.content.presence || "(no output)" %></pre>
   </details>
 <% end %>

@@ -1,0 +1,24 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-lg font-semibold text-fg-default">Alerts</h2>
+    <p class="mt-1 text-sm text-fg-muted">
+      Flash notifications via <code>alerts/_flash</code>. They animate in on connect and auto-dismiss after 5s
+      (so the live previews below will fade out). In the app they render into the global
+      <code>#alert-area</code>, typically from <code>content_for :alert</code>.
+    </p>
+  </div>
+
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Success flash",
+    code: ds_code(:alert_success)
+  } do %>
+    <%= render "alerts/flash", type: :success, title: "Saved!", description: "Your changes were saved." %>
+  <% end %>
+
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Error flash",
+    code: ds_code(:alert_error)
+  } do %>
+    <%= render "alerts/flash", type: :error, title: "Something went wrong", description: "Please try again." %>
+  <% end %>
+</div>

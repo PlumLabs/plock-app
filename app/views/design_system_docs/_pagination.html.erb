@@ -1,0 +1,25 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-lg font-semibold text-fg-default">Pagination</h2>
+    <p class="mt-1 text-sm text-fg-muted">
+      Renders <code>pagination/_simple</code>. Returns nothing when <code>total_pages &le; 1</code>.
+      Pass the paging locals (usually produced by the Pagination concern).
+    </p>
+  </div>
+
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Previous / Next pager",
+    code: ds_code(:pagination)
+  } do %>
+    <div class="w-full">
+      <%= render "pagination/simple",
+            controller: :design_system_docs,
+            action: :index,
+            total_pages: 5,
+            page_no: 2,
+            per_page: 20,
+            total_count: 100,
+            paginate_offset: 20 %>
+    </div>
+  <% end %>
+</div>

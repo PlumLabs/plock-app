@@ -1,0 +1,78 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-lg font-semibold text-fg-default">Foundations</h2>
+    <p class="mt-1 text-sm text-fg-muted">
+      Semantic color tokens and typography. Always reference tokens
+      (<code class="rounded bg-surface-tint px-1">bg-primary</code>, <code class="rounded bg-surface-tint px-1">text-fg-muted</code>)
+      rather than raw palette colors — they adapt automatically in dark mode.
+    </p>
+  </div>
+
+  <%# Color tokens — name => underlying light-mode value (see app/assets/tailwind/application.css) %>
+  <% color_groups = {
+    "Brand" => {
+      "primary" => "indigo-600",
+      "primary-light" => "indigo-500",
+      "primary-subtle" => "indigo-50",
+      "primary-emphasis" => "indigo-700"
+    },
+    "Status" => {
+      "success" => "green-600",
+      "success-subtle" => "green-50",
+      "success-emphasis" => "green-700",
+      "danger" => "red-600",
+      "danger-subtle" => "red-50",
+      "danger-solid" => "red-500",
+      "danger-emphasis" => "red-700",
+      "warning" => "yellow-600",
+      "warning-subtle" => "yellow-50",
+      "warning-emphasis" => "yellow-800"
+    },
+    "Surface" => {
+      "surface" => "white",
+      "surface-elevated" => "white",
+      "surface-tint" => "gray-50"
+    },
+    "Foreground (text)" => {
+      "fg-default" => "gray-900",
+      "fg-muted" => "gray-500",
+      "fg-placeholder" => "gray-400"
+    },
+    "Border" => {
+      "border" => "gray-200",
+      "border-subtle" => "gray-100"
+    }
+  } %>
+
+  <% color_groups.each do |group, tokens| %>
+    <div>
+      <h3 class="mb-3 text-sm font-semibold text-fg-default"><%= group %></h3>
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <% tokens.each do |token, value| %>
+          <div class="rounded-lg border border-border bg-surface p-2">
+            <%# Paint from the CSS variable directly: the swatch class is built
+                dynamically, which Tailwind's JIT can't see, so a `bg-#{token}`
+                utility may not exist. The --color-* vars are always in :root. %>
+            <div class="h-12 w-full rounded-md border border-border-subtle" style="background-color: var(--color-<%= token %>);"></div>
+            <p class="mt-2 text-xs font-medium text-fg-default">bg-<%= token %></p>
+            <p class="text-xs text-fg-muted"><%= value %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Typography %>
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Typography",
+    description: "Font is InterVariable. Headings and body text use foreground tokens.",
+    code: ds_code(:typography)
+  } do %>
+    <div class="space-y-2">
+      <h1 class="text-2xl font-bold text-fg-default">Heading — text-2xl font-bold</h1>
+      <h2 class="text-lg font-semibold text-fg-default">Subheading — text-lg font-semibold</h2>
+      <p class="text-sm text-fg-default">Body text uses <code>text-fg-default</code>.</p>
+      <p class="text-sm text-fg-muted">Secondary / muted text uses <code>text-fg-muted</code>.</p>
+    </div>
+  <% end %>
+</div>

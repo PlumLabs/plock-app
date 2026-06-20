@@ -1,0 +1,35 @@
+<div class="space-y-6">
+  <div>
+    <h2 class="text-lg font-semibold text-fg-default">Buttons</h2>
+    <p class="mt-1 text-sm text-fg-muted">Component classes defined in the components layer of application.css.</p>
+  </div>
+
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Text buttons",
+    code: ds_code(:buttons_text)
+  } do %>
+    <button type="button" class="btn-primary">Primary</button>
+    <button type="button" class="btn-secondary">Secondary</button>
+    <button type="button" class="btn-danger">Danger</button>
+    <button type="button" class="btn-danger-solid">Danger solid</button>
+  <% end %>
+
+  <%= render layout: "design_system_docs/example", locals: {
+    title: "Icon buttons",
+    description: "Circular buttons for single-icon actions.",
+    code: ds_code(:buttons_icon)
+  } do %>
+    <button type="button" class="btn-icon-primary">
+      <span class="sr-only">Add</span>
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    </button>
+    <button type="button" class="btn-icon-secondary">
+      <span class="sr-only">Add</span>
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    </button>
+  <% end %>
+</div>

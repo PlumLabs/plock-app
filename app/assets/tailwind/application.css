@@ -1,16 +1,5 @@
 @import 'tailwindcss';
 
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  }
-}
-
-*/
-
-@plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @plugin '@tailwindcss/aspect-ratio';
 
@@ -28,10 +17,137 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-border, currentColor);
   }
 }
 
 @theme {
-  --font-sans: InterVariable, sans-serif;
+   --font-sans: InterVariable, sans-serif;
+
+  /* Brand */
+  --color-primary:              var(--color-indigo-600);
+  --color-primary-light:        var(--color-indigo-500);
+  --color-primary-subtle:       light-dark(var(--color-indigo-50), var(--color-indigo-950));
+  --color-primary-emphasis:     light-dark(var(--color-indigo-700), var(--color-indigo-300));
+
+  /* Secondary (interactive surfaces) */
+  --color-secondary-text:       light-dark(var(--color-gray-900), var(--color-white));
+  --color-secondary-border:     light-dark(var(--color-gray-300), var(--color-gray-600));
+  --color-secondary-hover:      light-dark(var(--color-gray-50), var(--color-gray-800));
+
+  /* Semantic status */
+  --color-success:              var(--color-green-600);
+  --color-success-subtle:       light-dark(var(--color-green-50), var(--color-green-950));
+  --color-success-emphasis:     light-dark(var(--color-green-700), var(--color-green-300));
+
+  --color-danger:               var(--color-red-600);
+  --color-danger-subtle:        light-dark(var(--color-red-50), var(--color-red-950));
+  --color-danger-hover:         var(--color-red-100);
+  --color-danger-solid:         var(--color-red-500);
+  --color-danger-emphasis:      light-dark(var(--color-red-700), var(--color-red-300));
+
+  --color-warning:              var(--color-yellow-600);
+  --color-warning-subtle:       light-dark(var(--color-yellow-50), var(--color-yellow-950));
+  --color-warning-emphasis:     light-dark(var(--color-yellow-800), var(--color-yellow-300));
+
+  /* Surface */
+  --color-surface:              light-dark(var(--color-white), var(--color-gray-900));
+  --color-surface-elevated:     light-dark(var(--color-white), var(--color-gray-800));
+  --color-surface-tint:         light-dark(var(--color-gray-50), var(--color-gray-800));
+
+  /* Text (fg = foreground) */
+  --color-fg-default:           light-dark(var(--color-gray-900), var(--color-white));
+  --color-fg-muted:             light-dark(var(--color-gray-500), var(--color-gray-400));
+  --color-fg-placeholder:       light-dark(var(--color-gray-400), var(--color-gray-600));
+
+  /* Border */
+  --color-border:               light-dark(var(--color-gray-200), var(--color-gray-700));
+  --color-border-subtle:        light-dark(var(--color-gray-100), var(--color-gray-800));
+}
+
+/* Theme switch.
+   `color-scheme` decides what every light-dark() above resolves to, and also
+   themes browser-native UI (scrollbars, date pickers, form controls).
+     - :root defaults to `light dark` → follows the OS, no JS needed.
+     - The design system toggle sets <html data-theme="…"> to force a theme. */
+@layer base {
+  :root                     { color-scheme: light dark; }
+  :root[data-theme="dark"]  { color-scheme: dark; }
+  :root[data-theme="light"] { color-scheme: light; }
+}
+
+@layer components {
+  /* Buttons */
+
+  .btn-primary {
+    @apply inline-flex cursor-pointer items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-2xs hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
+  }
+
+  .btn-secondary {
+    @apply inline-flex cursor-pointer items-center rounded-md bg-surface px-3 py-2 text-sm font-semibold text-secondary-text shadow-2xs ring-1 ring-inset ring-secondary-border hover:bg-secondary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
+  }
+
+  .btn-danger {
+    @apply inline-flex cursor-pointer items-center rounded-md bg-danger-subtle px-3 py-2 text-sm font-semibold text-danger shadow-2xs hover:bg-danger-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger;
+  }
+
+  .btn-danger-solid {
+    @apply inline-flex cursor-pointer items-center rounded-md bg-danger-solid px-3 py-2 text-sm font-semibold text-white shadow-2xs hover:bg-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger;
+  }
+
+  .btn-icon-primary {
+    @apply inline-flex cursor-pointer rounded-full bg-primary p-2 text-white shadow-2xs hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary;
+  }
+
+  .btn-icon-secondary {
+    @apply inline-flex cursor-pointer rounded-full bg-surface p-2 text-secondary-text ring-1 ring-inset ring-secondary-border shadow-2xs hover:bg-secondary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600;
+  }
+
+  /* Form inputs */
+
+  .form-label {
+    @apply block text-sm/6 font-medium text-fg-default;
+  }
+
+  .form-input {
+    @apply block w-full rounded-md border-0 bg-surface px-3 py-1.5 text-fg-default shadow-2xs ring-1 ring-inset ring-secondary-border placeholder:text-fg-placeholder focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm/6;
+  }
+
+  .form-select {
+    @apply block w-full appearance-none rounded-md border-0 bg-surface py-1.5 pl-3 pr-10 text-fg-default ring-1 ring-inset ring-secondary-border focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm/6;
+    /* Lighter arrow stroke in dark mode, chosen by color-scheme via light-dark(). */
+    background-image: light-dark(
+      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='oklch(55.1%25 0.027 264.364)' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"),
+      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='oklch(70.7%25 0.022 261.325)' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")
+    );
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+  }
+
+  /* Badges */
+
+  .badge {
+    @apply inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset;
+  }
+
+  .badge-success {
+    @apply bg-success-subtle text-success-emphasis ring-success/20;
+  }
+
+  .badge-danger {
+    @apply bg-danger-subtle text-danger-emphasis ring-danger/10;
+  }
+
+  .badge-warning {
+    @apply bg-warning-subtle text-warning-emphasis ring-warning/20;
+  }
+
+  .badge-brand {
+    @apply bg-primary-subtle text-primary-emphasis ring-primary-emphasis/10;
+  }
+
+  .badge-neutral {
+    @apply bg-surface-tint text-fg-muted ring-border;
+  }
 }

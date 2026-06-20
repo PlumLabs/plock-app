@@ -36,6 +36,7 @@ bin/brakeman --no-pager                  # Security scan
 - **Soft delete:** set `disabled_at` instead of destroying. Respect existing scopes.
 - **Migrations:** generate with `bin/rails g migration`. Never edit existing migrations. Commit the updated `schema.rb`.
 - **Tests:** new models and services require unit tests.
+- **Views:** use Tailwind utility classes and components defined on `app/assets/stylesheets/application.css`. Follow the design system defined in the `app/views/design_system_docs/index.html.erb` file.
 
 ## Boundaries
 

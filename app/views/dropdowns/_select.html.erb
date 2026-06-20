@@ -1,20 +1,20 @@
 <div class="relative" data-controller="dropdown">
   <button
     type="button"
-    class="w-full grid cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+    class="w-full grid cursor-default grid-cols-1 rounded-md bg-surface py-1.5 pl-3 pr-2 text-left text-fg-default outline outline-1 -outline-offset-1 outline-secondary-border focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6"
     aria-haspopup="listbox"
     aria-expanded="true"
   aria-labelledby="listbox-label"
     data-action="click->dropdown#toggle click@window->dropdown#hide"
   >
     <span class="col-start-1 row-start-1 truncate pr-6"><%= local_assigns[:placeholder]  %></span>
-    <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+    <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-fg-muted sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
       <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
     </svg>
   </button>
 
   <div
-    class="hidden absolute z-10 mt-1 min-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm min-w-80"
+    class="hidden absolute z-10 mt-1 min-h-60 w-full overflow-auto rounded-md bg-surface py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm min-w-80"
     tabindex="-1"
     role="listbox"
     data-dropdown-target="menu"

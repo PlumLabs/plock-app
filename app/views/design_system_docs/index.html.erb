@@ -1,0 +1,44 @@
+<% content_for :title, "Design System" %>
+
+<div class="mx-auto max-w-4xl space-y-16">
+  <header>
+    <h1 class="text-2xl font-bold text-fg-default">Design System</h1>
+    <p class="mt-2 text-sm text-fg-muted">
+      A live catalog of every component and token in the app, rendered with the real CSS and partials —
+      so it never goes stale. Use these as the source of truth when building new pages: copy the snippet,
+      reuse the partial, lean on the semantic tokens instead of hard-coded colors.
+    </p>
+    <p class="mt-2 text-sm text-fg-muted">
+      Theming follows your OS appearance (<code class="rounded bg-surface-tint px-1">prefers-color-scheme</code>).
+      Toggle light/dark at the system level to preview both themes. This page is only available in development.
+    </p>
+  </header>
+
+  <section id="foundations" class="scroll-mt-8">
+    <%= render "design_system_docs/foundations" %>
+  </section>
+
+  <section id="buttons" class="scroll-mt-8">
+    <%= render "design_system_docs/buttons" %>
+  </section>
+
+  <section id="badges" class="scroll-mt-8">
+    <%= render "design_system_docs/badges" %>
+  </section>
+
+  <section id="forms" class="scroll-mt-8">
+    <%= render "design_system_docs/forms" %>
+  </section>
+
+  <section id="alerts" class="scroll-mt-8">
+    <%= render "design_system_docs/alerts" %>
+  </section>
+
+  <section id="overlays" class="scroll-mt-8">
+    <%= render "design_system_docs/overlays" %>
+  </section>
+
+  <section id="pagination" class="scroll-mt-8">
+    <%= render "design_system_docs/pagination" %>
+  </section>
+</div>

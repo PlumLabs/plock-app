@@ -1,12 +1,12 @@
 <details id="ai_tool_call_<%= tool_call.id %>" class="ml-11 group">
-  <summary class="cursor-pointer text-xs text-gray-500 hover:text-gray-700 font-mono inline-flex items-center gap-1.5">
+  <summary class="cursor-pointer text-xs text-fg-muted hover:text-fg-default font-mono inline-flex items-center gap-1.5">
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-3.5">
       <path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 0 1 0 1.06L2.56 10l3.72 3.72a.75.75 0 1 1-1.06 1.06L.97 10.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Zm7.44 0a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L17.44 10l-3.72-3.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
     </svg>
     <span>Called <%= tool_call.name %></span>
-    <span class="text-gray-400">·</span>
-    <span class="text-gray-400 group-open:hidden">show args</span>
-    <span class="text-gray-400 hidden group-open:inline">hide</span>
+    <span class="text-fg-placeholder">·</span>
+    <span class="text-fg-placeholder group-open:hidden">show args</span>
+    <span class="text-fg-placeholder hidden group-open:inline">hide</span>
   </summary>
-  <pre class="mt-2 whitespace-pre-wrap overflow-x-auto rounded-md bg-gray-50 ring-1 ring-inset ring-gray-200 px-3 py-2 text-xs text-gray-700"><%= tool_call.arguments.map { |k, v| "#{k}: #{v.inspect}" }.join(", ") %></pre>
+  <pre class="mt-2 whitespace-pre-wrap overflow-x-auto rounded-md bg-surface-tint ring-1 ring-inset ring-border px-3 py-2 text-xs text-fg-default"><%= tool_call.arguments.map { |k, v| "#{k}: #{v.inspect}" }.join(", ") %></pre>
 </details>

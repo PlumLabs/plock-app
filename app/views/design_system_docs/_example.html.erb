@@ -1,0 +1,29 @@
+<%# Reusable showcase wrapper: live preview on top, copy-paste snippet below. %>
+<%# Render with `render layout: "design_system_docs/example"` plus a block for the live preview. %>
+<%# Locals: title (String), description (String, optional), code (String, optional). %>
+<div class="overflow-hidden rounded-lg border border-border bg-surface">
+  <div class="border-b border-border-subtle px-5 py-4">
+    <h3 class="text-sm font-semibold text-fg-default"><%= title %></h3>
+    <% if local_assigns[:description].present? %>
+      <p class="mt-1 text-sm text-fg-muted"><%= description %></p>
+    <% end %>
+  </div>
+
+  <%# Live preview rendered with the real classes / partials %>
+  <div class="flex flex-wrap items-center gap-4 bg-surface-tint p-6">
+    <%= yield %>
+  </div>
+
+  <% if local_assigns[:code].present? %>
+    <div class="relative border-t border-border-subtle" data-controller="clipboard" data-clipboard-text-value="<%= code %>">
+      <button
+        type="button"
+        data-action="clipboard#copy"
+        class="absolute right-3 top-3 rounded-md bg-surface px-2 py-1 text-xs font-medium text-fg-muted ring-1 ring-inset ring-border hover:bg-secondary-hover"
+      >
+        Copy
+      </button>
+      <pre class="overflow-x-auto px-5 py-4 text-xs leading-relaxed text-fg-default"><code><%= code %></code></pre>
+    </div>
+  <% end %>
+</div>
