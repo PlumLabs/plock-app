@@ -7,7 +7,7 @@ class NavigationHelperTest < ActionView::TestCase
     end
 
     result = nav_link_to("Link Text", "/current_page", class: "additional-class")
-    assert_includes result, "bg-secondary-hover text-primary"
+    assert_includes result, "bg-secondary-hover text-primary-light"
   end
 
   test "nav_link_to includes default classes when not on current page" do
