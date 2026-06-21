@@ -36,6 +36,21 @@ module DesignSystemDocsHelper
       </select>
     HTML
 
+    form_checkboxes: <<~HTML,
+      <label class="flex items-center gap-2">
+        <input class="form-checkbox" type="checkbox"> Unchecked
+      </label>
+      <label class="flex items-center gap-2">
+        <input class="form-checkbox" type="checkbox" checked> Checked
+      </label>
+      <label class="flex items-center gap-2">
+        <input class="form-checkbox" type="checkbox" disabled> Disabled
+      </label>
+      <label class="flex items-center gap-2">
+        <input class="form-checkbox" type="checkbox" disabled checked> Disabled checked
+      </label>
+    HTML
+
     form_error_summary: <<~HTML,
       <%= render "alerts/error_summary", errors: @record.errors.full_messages %>
     HTML
