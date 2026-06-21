@@ -30,6 +30,27 @@
   <% end %>
 
   <%= render layout: "design_system_docs/example", locals: {
+    title: "Checkboxes",
+    description: "Use form-checkbox on any checkbox input. Handles unchecked, checked, indeterminate, and disabled states.",
+    code: ds_code(:form_checkboxes)
+  } do %>
+    <div class="space-y-3">
+      <label class="flex items-center gap-2 text-sm text-fg-default">
+        <input class="form-checkbox" type="checkbox"> Unchecked
+      </label>
+      <label class="flex items-center gap-2 text-sm text-fg-default">
+        <input class="form-checkbox" type="checkbox" checked> Checked
+      </label>
+      <label class="flex items-center gap-2 text-sm text-fg-default">
+        <input class="form-checkbox" type="checkbox" disabled> Disabled
+      </label>
+      <label class="flex items-center gap-2 text-sm text-fg-default">
+        <input class="form-checkbox" type="checkbox" disabled checked> Disabled checked
+      </label>
+    </div>
+  <% end %>
+
+  <%= render layout: "design_system_docs/example", locals: {
     title: "Error summary",
     description: "Renders alerts/_error_summary with a list of messages.",
     code: ds_code(:form_error_summary)
