@@ -63,6 +63,7 @@ group :test do
   gem "selenium-webdriver"
   gem "pdf-inspector"
   gem "minitest-mock"
+  gem "simplecov", require: false
 end
 
 # UI
