@@ -3,7 +3,7 @@
 A vanilla Rails 8 time tracking and project management app.
 
 [![CI](https://github.com/PlumLabs/plock-app/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/PlumLabs/plock-app/actions/workflows/ci.yml)
-![coverage](https://raw.githubusercontent.com/PlumLabs/plock-app/main/coverage_badge.svg)
+![coverage](https://raw.githubusercontent.com/PlumLabs/plock-app/badges/coverage_badge.svg)
 
 ## What is Plock?
 
